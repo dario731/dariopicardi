@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/home/Hero.astro';
-import Statement from '@components/editorial/Statement.astro';
 import Stats from '@components/editorial/Stats.astro';
 import StageScroller from '@components/cinematic/StageScroller.astro';
 import Instinct from '@components/home/Instinct.astro';
@@ -22,15 +21,14 @@ const jsonLd = [webPageLd({ name: h.seo.title, description: h.seo.description, p
 
 <BaseLayout title={h.seo.title} description={h.seo.description} path="/" pageType="home" type="profile" {jsonLd}>
   <Hero copy={h.hero} />
-  <Statement id="positioning" ground="ivory" size="t-2" eyebrow={h.positioning.eyebrow} title={h.positioning.statement} body={h.positioning.body} />
-  <section class="jhead g-notte" aria-labelledby="journey-title">
+  <section class="jhead g-ivory" aria-labelledby="journey-title">
     <div class="container jhead__inner">
       <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{h.journey.eyebrow}</p>
       <div data-reveal><Title as="h2" id="journey-title" class="t-1" text={h.journey.title} /></div>
     </div>
   </section>
   <StageScroller id="journey" eyebrow={h.journey.eyebrow} stages={homeStages('en')} />
-  <Stats id="proof" ground="lino" eyebrow={h.proof.eyebrow} title={h.proof.title} body={h.proof.body} />
+  <Stats id="proof" ground="ivory" eyebrow={h.proof.eyebrow} title={h.proof.title} body={h.proof.body} />
   <Instinct copy={h.instinct} />
   <Framework copy={h.framework} />
   <BizStyleIntro copy={h.bizStyle} />
@@ -39,6 +37,6 @@ const jsonLd = [webPageLd({ name: h.seo.title, description: h.seo.description, p
 </BaseLayout>
 
 <style>
-  .jhead { padding-top: var(--section); padding-bottom: var(--s-8); }
+  .jhead { padding-top: var(--section-sm); padding-bottom: var(--s-7); border-top: 1px solid var(--line); }
   .jhead__inner { display: grid; gap: var(--s-5); max-width: 52rem; }
 </style>

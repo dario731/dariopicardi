@@ -50,7 +50,7 @@ export const en = {
     hero: {
       eyebrow: 'Dario Picardi',
       title: 'Born in Italy.|Shaped by the world.|Building from Miami.',
-      lede: 'Dario Picardi is an international executive, entrepreneur, investor, and founder of BIZ & STYLE — a Miami-based business ecosystem connecting commerce, advisory, investment, real estate, and luxury.',
+      lede: 'International executive, entrepreneur and investor. Founder and President of BIZ & STYLE, the Miami-based ecosystem connecting commerce, advisory, investment, real estate and luxury.',
       primary: { label: 'Discover the Story', href: '/story' },
       secondary: { label: 'Explore BIZ & STYLE', href: '/biz-and-style' },
       portraitAlt: 'Dario Picardi, Founder and President of BIZ & STYLE',

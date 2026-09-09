@@ -15,7 +15,7 @@ const jsonLd = [webPageLd({ name: b.seo.title, description: b.seo.description, p
 
 <BaseLayout title={`${b.seo.title}`} description={b.seo.description} {path} pageType="biz-style" {jsonLd}>
   <EditorialHero eyebrow={b.hero.eyebrow} title={b.hero.title} lede={b.hero.lede} crumbs={[{ name: 'BIZ & STYLE', path }]} secondary={{ label: b.hero.external.label, href: b.hero.external.href, name: 'biz_style_external' }}>
-    <p class="bs-wordmark" data-reveal><img src="/brand/bizandstyle-white.svg" alt="BIZ & STYLE — Business. Wealth. Lifestyle." width="220" height="49" loading="eager" decoding="async" /></p>
+    <p class="bs-wordmark" data-reveal><img src="/brand/bizandstyle-black.svg" alt="BIZ & STYLE — Business. Wealth. Lifestyle." width="220" height="49" loading="eager" decoding="async" /></p>
   </EditorialHero>
 
   <section class="section g-ivory" id="why" aria-labelledby="why-title">
@@ -48,7 +48,7 @@ const jsonLd = [webPageLd({ name: b.seo.title, description: b.seo.description, p
     </div>
   </section>
 
-  <section class="section g-notte" id="divisions" aria-labelledby="div-title">
+  <section class="section g-lino" id="divisions" aria-labelledby="div-title">
     <div class="container">
       <div class="section-head">
         <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{b.divisions.eyebrow}</p>
@@ -101,7 +101,7 @@ const jsonLd = [webPageLd({ name: b.seo.title, description: b.seo.description, p
     </div>
   </section>
 
-  <CtaBand ground="notte" title={b.closing.title} body={b.closing.body} primary={{ ...b.closing.primary, name: 'biz_style_external' }} secondary={{ ...b.closing.secondary, name: 'connect' }} />
+  <CtaBand ground="lino" title={b.closing.title} body={b.closing.body} primary={{ ...b.closing.primary, name: 'biz_style_external' }} secondary={{ ...b.closing.secondary, name: 'connect' }} />
 </BaseLayout>
 
 <style>
@@ -117,7 +117,7 @@ const jsonLd = [webPageLd({ name: b.seo.title, description: b.seo.description, p
   .div { display: grid; gap: var(--s-3); padding: var(--s-6) 0; border-bottom: 1px solid var(--line); align-content: start; }
   .div__name { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.05; }
   .div__line { color: var(--accent); }
-  .div__body { color: var(--sabbia); max-width: 34rem; }
+  .div__body { color: var(--fg-muted); max-width: 34rem; }
   .ij { display: grid; gap: var(--s-6); }
   .ij__stage { position: relative; display: grid; gap: var(--s-3); padding: var(--s-6); border: 1px solid var(--line); background: var(--surface); }
   .ij__n { color: var(--accent); font-size: 1.2rem; }

@@ -1,60 +1,60 @@
 ---
 /**
- * Hero — the central creative line, set large in the serif, beside a
- * monochrome portrait. No skyline video, no counters, no noise.
+ * Hero — white ground, one enormous typographic statement that rises line by
+ * line on load, a crisp portrait, two actions. Nothing else.
  */
 import { Picture } from 'astro:assets';
-import Title from '@components/ui/Title.astro';
 import Arrow from '@components/ui/Arrow.astro';
 import portrait from '@assets/images/portrait-dario-bw-tmp.jpg';
 import type { Copy } from '@i18n/index';
 interface Props { copy: Copy['home']['hero'] }
 const { copy } = Astro.props;
+const lines = copy.title.split('|').map((l) => l.trim());
 ---
 
-<section class="hero g-notte" id="hero" aria-labelledby="hero-title">
+<section class="hero g-ivory" id="hero" aria-labelledby="hero-title">
   <div class="container hero__grid">
     <div class="hero__text">
-      <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.eyebrow}</p>
-      <div data-reveal><Title as="h1" id="hero-title" class="t-display hero__title" text={copy.title} /></div>
-      <p class="lede hero__lede" data-reveal>{copy.lede}</p>
-      <div class="hero__actions" data-reveal>
-        <a class="btn btn--accent" href={copy.primary.href} data-track="cta_click" data-track-cta-name="discover_story" data-track-cta-location="hero">{copy.primary.label}<Arrow /></a>
+      <p class="eyebrow eyebrow--rule eyebrow--accent hero__eyebrow">{copy.eyebrow}</p>
+      <h1 id="hero-title" class="t-display hero__title">
+        {lines.map((l, i) => <span class="hero__mask"><span class="hero__line" style={`--i:${i}`}>{l}</span></span>)}
+      </h1>
+      <p class="lede hero__lede">{copy.lede}</p>
+      <div class="hero__actions">
+        <a class="btn" href={copy.primary.href} data-track="cta_click" data-track-cta-name="discover_story" data-track-cta-location="hero">{copy.primary.label}<Arrow /></a>
         <a class="link" href={copy.secondary.href} data-track="cta_click" data-track-cta-name="explore_biz_style" data-track-cta-location="hero">{copy.secondary.label}<Arrow /></a>
       </div>
     </div>
-    <figure class="hero__fig" data-reveal>
-      <div class="media media--4x5 media--mono mask hero__media">
-        <Picture src={portrait} alt={copy.portraitAlt} widths={[480, 819]} sizes="(min-width: 1024px) 38vw, 90vw" formats={['avif', 'webp']} loading="eager" fetchpriority="high" decoding="async" />
+    <figure class="hero__fig">
+      <div class="media media--4x5 media--mono hero__media">
+        <Picture src={portrait} alt={copy.portraitAlt} widths={[480, 819]} sizes="(min-width: 1024px) 34vw, 90vw" formats={['avif', 'webp']} loading="eager" fetchpriority="high" decoding="async" />
       </div>
-      <figcaption class="num hero__cap">Miami Beach · Portrait FOUNDER-01 (placeholder — editorial session pending)</figcaption>
+      <figcaption class="num hero__cap">Miami Beach · FOUNDER-01 placeholder — editorial portrait pending</figcaption>
     </figure>
   </div>
-  <a class="hero__scroll num" href="#positioning" aria-label="Scroll to the next section">
-    <span>{copy.scroll}</span>
-    <span class="hero__scroll-line" aria-hidden="true"></span>
-  </a>
 </section>
 
 <style>
-  .hero { position: relative; min-height: 100svh; display: grid; align-items: center; padding-top: clamp(6.5rem, 14vh, 9rem); padding-bottom: clamp(5rem, 10vh, 7rem); overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 50% at 80% 20%, rgba(165, 131, 79, 0.10), transparent 70%); pointer-events: none; }
-  .hero__grid { position: relative; display: grid; gap: var(--s-8); align-items: center; }
-  .hero__text { display: grid; gap: var(--s-6); }
-  .hero__title { max-width: 12ch; }
-  .hero__lede { color: var(--sabbia); max-width: 34rem; }
-  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); }
-  .hero__fig { display: grid; gap: var(--s-3); max-width: 30rem; }
-  .hero__media { position: relative; }
-  .hero__media::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(196, 165, 117, 0.25); pointer-events: none; }
+  .hero { min-height: 100svh; display: grid; align-items: center; padding-top: clamp(6rem, 13vh, 8rem); padding-bottom: clamp(3rem, 8vh, 5rem); }
+  .hero__grid { display: grid; gap: var(--s-7); align-items: end; }
+  .hero__text { display: grid; gap: var(--s-5); }
+  .hero__eyebrow { animation: fade var(--dur-3) var(--ease-out) both; }
+  .hero__title { max-width: 13ch; }
+  .hero__mask { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+  .hero__line { display: block; transform: translateY(110%); animation: rise 640ms var(--ease-out) both; animation-delay: calc(80ms + var(--i) * 90ms); }
+  .hero__lede { color: var(--fg-muted); max-width: 32rem; animation: fade var(--dur-3) var(--ease-out) both; animation-delay: 380ms; }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); animation: fade var(--dur-3) var(--ease-out) both; animation-delay: 460ms; }
+  .hero__fig { display: grid; gap: var(--s-3); max-width: 26rem; animation: fade 700ms var(--ease-out) both; animation-delay: 200ms; }
+  .hero__media { transform: scale(1.03); animation: settle 900ms var(--ease-out) both; animation-delay: 200ms; }
   .hero__cap { text-transform: uppercase; }
-  .hero__scroll { position: absolute; left: var(--gutter); bottom: 1.75rem; display: none; align-items: center; gap: 0.8rem; text-transform: uppercase; }
-  .hero__scroll-line { display: block; width: 3.5rem; height: 1px; background: var(--bronzo-2); transform-origin: left; animation: scrollline 2.4s var(--ease-in-out) infinite; }
-  @keyframes scrollline { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
+  @keyframes rise { to { transform: none; } }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes settle { to { transform: none; } }
   @media (min-width: 1024px) {
-    .hero__grid { grid-template-columns: 7fr 5fr; column-gap: calc(var(--gutter) * 2); }
+    .hero__grid { grid-template-columns: 8fr 4fr; column-gap: calc(var(--gutter) * 2); }
     .hero__fig { justify-self: end; width: 100%; }
-    .hero__scroll { display: inline-flex; }
   }
-  @media (prefers-reduced-motion: reduce) { .hero__scroll-line { animation: none; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__line, .hero__eyebrow, .hero__lede, .hero__actions, .hero__fig, .hero__media { animation: none; transform: none; opacity: 1; }
+  }
 </style>

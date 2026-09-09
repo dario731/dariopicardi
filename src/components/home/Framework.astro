@@ -13,7 +13,7 @@ const { copy } = Astro.props;
 const words = (await getCollection('framework')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<section class="fw section g-notte" id="framework" aria-labelledby="framework-title" data-framework>
+<section class="fw section g-ivory" id="framework" aria-labelledby="framework-title" data-framework>
   <div class="container">
     <div class="fw__head">
       <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.eyebrow}</p>
@@ -79,7 +79,7 @@ const words = (await getCollection('framework')).sort((a, b) => a.data.order - b
     select(0);
     if (reducedMotion()) return;
     let timer: number | undefined;
-    const start = () => { stop(); timer = window.setInterval(() => { if (!interacted && !document.hidden) select(index + 1); }, 3800); };
+    const start = () => { stop(); timer = window.setInterval(() => { if (!interacted && !document.hidden) select(index + 1); }, 2600); };
     const stop = () => { if (timer) window.clearInterval(timer); timer = undefined; };
     const stage = root.querySelector('.fw__stage');
     if (stage) {
@@ -94,19 +94,19 @@ const words = (await getCollection('framework')).sort((a, b) => a.data.order - b
 
 <style>
   .fw__head { display: grid; gap: var(--s-5); max-width: 56rem; margin-bottom: clamp(3rem, 7vw, 5rem); }
-  .fw__sentence { font-size: clamp(1.15rem, 1.8vw, 1.5rem); line-height: 1.5; color: var(--pietra); max-width: 44rem; }
+  .fw__sentence { font-size: clamp(1.15rem, 1.8vw, 1.5rem); line-height: 1.5; color: var(--fg-muted); max-width: 44rem; }
   .fw__frag { transition: color var(--dur-2); }
-  .fw__frag.is-on { color: var(--avorio); }
+  .fw__frag.is-on { color: var(--fg); }
   .fw__stage { display: grid; gap: var(--s-7); border-top: 1px solid var(--line); padding-top: var(--s-6); }
   .fw__tabs { display: grid; gap: 0; }
-  .fw__tab { display: flex; align-items: baseline; gap: 1rem; width: 100%; text-align: left; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.1; color: var(--pietra); transition: color var(--dur-2), padding-left var(--dur-2) var(--ease-out); }
-  .fw__tab:hover { color: var(--sabbia); }
-  .fw__tab[aria-selected='true'] { color: var(--avorio); padding-left: 0.4rem; }
+  .fw__tab { display: flex; align-items: baseline; gap: 1rem; width: 100%; text-align: left; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.1; color: var(--fg-muted); transition: color var(--dur-2), padding-left var(--dur-2) var(--ease-out); }
+  .fw__tab:hover { color: var(--fg); }
+  .fw__tab[aria-selected='true'] { color: var(--fg); padding-left: 0.4rem; }
   .fw__tab[aria-selected='true'] .fw__word { border-bottom: 1px solid var(--accent); }
   .fw__panels { min-height: 12rem; }
   .fw__panel { display: grid; gap: var(--s-4); animation: fwin var(--dur-2) var(--ease-out); }
-  .fw__line { color: var(--avorio); }
-  .fw__body { color: var(--sabbia); max-width: 34rem; font-size: 1.05rem; }
+  .fw__line { color: var(--fg); }
+  .fw__body { color: var(--fg-muted); max-width: 34rem; font-size: 1.05rem; }
   .fw__foot { margin-top: var(--s-7); }
   @keyframes fwin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (min-width: 900px) {

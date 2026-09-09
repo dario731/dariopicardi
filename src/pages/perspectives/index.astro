@@ -20,5 +20,5 @@ const jsonLd = [collectionPageLd({ name: copy.seo.title, description: copy.seo.d
 <BaseLayout title={`${copy.seo.title}`} description={copy.seo.description} {path} pageType="perspectives" {jsonLd}>
   <EditorialHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lede={copy.hero.lede} crumbs={[{ name: 'Perspectives', path }]} compact />
   <Index {cards} {categories} {copy} totalPublished={all.length} page={{ current: pg.current, total: pg.total, prev: pg.prev, next: pg.next, base: '/perspectives' }} />
-  <CtaBand ground="notte" title={copy.cta.title} primary={{ label: copy.cta.label, href: copy.cta.href, name: 'connect' }} />
+  <CtaBand ground="lino" title={copy.cta.title} primary={{ label: copy.cta.label, href: copy.cta.href, name: 'connect' }} />
 </BaseLayout>

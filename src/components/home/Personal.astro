@@ -9,7 +9,7 @@ interface Props { copy: Copy['home']['personal'] }
 const { copy } = Astro.props;
 ---
 
-<section class="per section g-notte" id="personal" aria-labelledby="personal-title">
+<section class="per section g-ivory" id="personal" aria-labelledby="personal-title">
   <div class="container per__grid">
     <div class="per__media" data-reveal>
       <ImageNarrative image={sea} alt={copy.imageAlt} ratio="4x5" treatment="warm" note="At sea · Miami" sizes="(min-width: 1024px) 42vw, 100vw" widths={[480, 768, 1080, 1600]} />
@@ -26,7 +26,7 @@ const { copy } = Astro.props;
 <style>
   .per__grid { display: grid; gap: var(--s-8); align-items: center; }
   .per__text { display: grid; gap: var(--s-5); }
-  .per__lede { color: var(--sabbia); }
+  .per__lede { color: var(--fg-muted); }
   .per__text .link { justify-self: start; }
   @media (min-width: 1024px) {
     .per__grid { grid-template-columns: 5fr 7fr; column-gap: calc(var(--gutter) * 2.5); }

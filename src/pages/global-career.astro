@@ -76,13 +76,13 @@ const jsonLd = [webPageLd({ name: c.seo.title, description: c.seo.description, p
     </div>
   </section>
   <Stats id="career-proof" ground="lino" homeOnly={false} />
-  <CtaBand ground="notte" title={c.closing.title} primary={{ ...c.closing.cta, name: 'biz_style_page' }} secondary={{ ...c.closing.secondary, name: 'connect' }} />
+  <CtaBand ground="lino" title={c.closing.title} primary={{ ...c.closing.cta, name: 'biz_style_page' }} secondary={{ ...c.closing.secondary, name: 'connect' }} />
 </BaseLayout>
 
 <style>
   .phases { margin-top: var(--s-4); }
   .phases ol { display: grid; border-top: 1px solid var(--line); }
-  .phases li { display: flex; align-items: baseline; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.92rem; }
+  .phases li { display: flex; align-items: baseline; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); color: var(--fg-muted); font-size: 0.92rem; }
   .phases__n { color: var(--accent); font-size: 1.3rem; min-width: 2ch; }
   .sel { display: grid; border-top: 1px solid var(--line); }
   .sel__item { display: grid; gap: 0.5rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }

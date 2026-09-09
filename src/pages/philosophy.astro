@@ -39,7 +39,7 @@ const jsonLd = [webPageLd({ name: p.seo.title, description: p.seo.description, p
     </div>
   </section>
 
-  <section class="section g-notte" id="passion" aria-labelledby="passion-title">
+  <section class="section g-lino" id="passion" aria-labelledby="passion-title">
     <div class="container passion">
       <p class="eyebrow eyebrow--rule eyebrow--accent" id="passion-title" data-reveal>{p.passion.eyebrow}</p>
       <PullQuote text={p.passion.quote} class="passion__quote" />
@@ -52,8 +52,8 @@ const jsonLd = [webPageLd({ name: p.seo.title, description: p.seo.description, p
 
 <style>
   .pr-toc { display: grid; margin-top: var(--s-5); border-top: 1px solid var(--line); }
-  .pr-toc a { display: flex; align-items: baseline; gap: 0.9rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.92rem; transition: color var(--dur-1); }
-  .pr-toc a:hover { color: var(--avorio); }
+  .pr-toc a { display: flex; align-items: baseline; gap: 0.9rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); color: var(--fg-muted); font-size: 0.92rem; transition: color var(--dur-1); }
+  .pr-toc a:hover { color: var(--fg); }
   .pr { display: grid; }
   .pr__item { display: grid; gap: var(--s-4); padding: clamp(2.5rem, 6vw, 4.5rem) 0; border-top: 1px solid var(--line); scroll-margin-top: 6rem; }
   .pr__n { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 0.9; color: var(--accent); }
@@ -61,7 +61,7 @@ const jsonLd = [webPageLd({ name: p.seo.title, description: p.seo.description, p
   .pr__line { color: var(--fg); }
   .passion { display: grid; gap: var(--s-6); max-width: 60rem; }
   .passion__quote { max-width: 40ch; }
-  .passion__body { color: var(--sabbia); }
+  .passion__body { color: var(--fg-muted); }
   @media (min-width: 720px) { .pr-toc { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-6); } }
   @media (min-width: 900px) { .pr__item { grid-template-columns: 9rem 1fr; column-gap: var(--s-7); } }
 </style>

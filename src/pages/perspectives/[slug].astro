@@ -41,7 +41,7 @@ const jsonLd = [
 
 <BaseLayout {title} {description} {path} pageType="perspective" type="article" image={ogAbs} noindex={entry.data.seo.noindex} publishedTime={entry.data.publishDate.toISOString()} modifiedTime={entry.data.updatedDate?.toISOString()} {jsonLd} bodyClass="is-article">
   <article class="art" data-article data-slug={entry.id} data-category={category?.id}>
-    <header class="art__head g-notte">
+    <header class="art__head g-ivory">
       <div class="container container--narrow art__head-inner">
         <Breadcrumbs items={[{ name: 'Perspectives', path: '/perspectives' }, ...(category ? [{ name: category.data.name, path: `/perspectives/category/${category.id}` }] : [])]} />
         <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{category?.data.name}</p>
@@ -86,7 +86,7 @@ const jsonLd = [
       </section>
     )}
   </article>
-  <CtaBand ground="notte" title={copy.cta.title} primary={{ label: copy.cta.label, href: copy.cta.href, name: 'connect' }} />
+  <CtaBand ground="lino" title={copy.cta.title} primary={{ label: copy.cta.label, href: copy.cta.href, name: 'connect' }} />
 </BaseLayout>
 
 <script>
@@ -116,7 +116,7 @@ const jsonLd = [
 <style>
   .art__head { padding-top: clamp(7rem, 14vh, 9.5rem); padding-bottom: var(--s-8); }
   .art__head-inner { display: grid; gap: var(--s-5); }
-  .art__excerpt { color: var(--sabbia); }
+  .art__excerpt { color: var(--fg-muted); }
   .art__meta { display: flex; flex-wrap: wrap; gap: 0.6rem; text-transform: none; letter-spacing: 0.08em; }
   .art__hero { margin-top: var(--s-8); }
   .art__body { padding-block: var(--section-sm); }
