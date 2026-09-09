@@ -1,0 +1,48 @@
+---
+/**
+ * PlacesList — the map as a list: every verified place with its role and what
+ * happened there. The accessible, no-JS counterpart of the cinematic frame.
+ */
+import { getCollection } from 'astro:content';
+import Title from '@components/ui/Title.astro';
+import type { Copy } from '@i18n/index';
+interface Props { copy: Copy['career']['map'] }
+const { copy } = Astro.props;
+const order = { base: 0, hub: 1, affiliate: 2, roots: 3, education: 4 } as const;
+const places = (await getCollection('places')).map((p) => p.data).sort((a, b) => order[a.role] - order[b.role] || a.name.localeCompare(b.name));
+const roleLabel = Object.fromEntries(copy.legend.map((l) => [l.id, l.label])) as Record<string, string>;
+roleLabel.education = roleLabel.roots;
+---
+
+<section class="pl section g-lino" id="map" aria-labelledby="map-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.eyebrow}</p>
+      <div data-reveal><Title as="h2" id="map-title" class="t-1" text={copy.title} /></div>
+      <p class="lede muted" data-reveal>{copy.body}</p>
+    </div>
+    <ul class="pl__grid" role="list" data-reveal-group>
+      {places.map((p) => (
+        <li class:list={['pl__item', `pl__item--${p.role}`]}>
+          <p class="pl__head"><span class="pl__dot" aria-hidden="true"></span><span class="pl__name serif">{p.name}</span><span class="num">{p.country}</span></p>
+          <p class="pl__role num">{roleLabel[p.role]}</p>
+          <p class="pl__note small muted">{p.note}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .pl__grid { display: grid; border-top: 1px solid var(--line); }
+  .pl__item { display: grid; gap: 0.35rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .pl__head { display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
+  .pl__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--fumo); align-self: center; }
+  .pl__item--base .pl__dot, .pl__item--roots .pl__dot, .pl__item--education .pl__dot { background: var(--accent); }
+  .pl__item--base .pl__dot { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--accent); }
+  .pl__name { font-size: 1.35rem; }
+  .pl__role { text-transform: uppercase; }
+  .pl__note { max-width: 56ch; }
+  @media (min-width: 720px) { .pl__grid { grid-template-columns: 1fr 1fr; column-gap: var(--s-7); } }
+  @media (min-width: 1100px) { .pl__grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

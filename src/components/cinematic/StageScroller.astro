@@ -1,0 +1,322 @@
+---
+/**
+ * StageScroller — the signature interaction.
+ *
+ * A sticky, full-viewport "frame" holds a world map. As the reader scrolls,
+ * the camera travels across the map (viewBox interpolation), routes draw
+ * between the places of each stage, and each stage's copy enters like a
+ * scene — you are not scrolling a page, you are moving through stations of a
+ * journey: Italy → the markets → Miami.
+ *
+ * - One rAF-throttled scroll listener; no library.
+ * - Text is real DOM in reading order (all stages are in the accessibility tree).
+ * - Reduced motion or no JS: stages render stacked, map static, nothing hidden.
+ * - Mobile: same engine, text over a dimmed frame, image below the copy.
+ */
+import { getCollection } from 'astro:content';
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import { WORLD_PATH, WORLD_W, WORLD_H } from '@lib/world-path';
+
+export interface Stage {
+  id: string;
+  n: string;
+  eyebrow?: string;
+  title: string;
+  line: string;
+  /** Place ids to light up in this stage. */
+  places?: string[];
+  /** Route legs [from, to] drawn during this stage. */
+  route?: [string, string][];
+  /** Camera: centre on a place (or lat/lng) at a zoom (1 = whole world width). */
+  camera: { place?: string; lat?: number; lng?: number; zoom: number };
+  image?: { src: ImageMetadata; alt: string; note?: string };
+  placeholder?: string;
+  more?: { href: string; label: string };
+}
+
+interface Props {
+  id: string;
+  stages: Stage[];
+  eyebrow?: string;
+  /** Accessible name for the map. */
+  mapLabel?: string;
+}
+const { id, stages, eyebrow, mapLabel = 'World map following the journey from Italy across global markets to Miami' } = Astro.props;
+
+const placeList = (await getCollection('places')).map((p) => p.data);
+const LAT_MAX = 84, LAT_MIN = -58;
+const px = (lng: number) => ((lng + 180) / 360) * WORLD_W;
+const py = (lat: number) => ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * WORLD_H;
+const pts = Object.fromEntries(placeList.map((p) => [p.id, { ...p, x: +px(p.lng).toFixed(1), y: +py(p.lat).toFixed(1) }]));
+const arc = (a: { x: number; y: number }, b: { x: number; y: number }, lift = 0.16) => {
+  const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const sign = dx >= 0 ? -1 : 1;
+  const cx = mx + dy * lift * sign, cy = my - dx * lift * sign;
+  return `M${a.x} ${a.y} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${b.x} ${b.y}`;
+};
+const ASPECT = 9 / 16;
+const cameraFor = (s: Stage) => {
+  const c = s.camera.place ? pts[s.camera.place] : { x: px(s.camera.lng ?? 0), y: py(s.camera.lat ?? 0) };
+  const w = WORLD_W / s.camera.zoom;
+  const h = w * ASPECT;
+  return [+(c.x - w / 2).toFixed(1), +(c.y - h * 0.5).toFixed(1), +w.toFixed(1), +h.toFixed(1)];
+};
+const legs = stages.flatMap((s, si) => (s.route ?? []).map(([a, b], li) => ({ id: `${a}-${b}-${si}-${li}`, stage: si, d: arc(pts[a], pts[b]) })));
+const usedPlaceIds = new Set(stages.flatMap((s) => [...(s.places ?? []), ...(s.route ?? []).flat(), s.camera.place ?? '']).filter(Boolean));
+const config = { cameras: stages.map(cameraFor), stagePlaces: stages.map((s) => s.places ?? []), n: stages.length };
+---
+
+<section class="st g-notte" id={id} data-stages style={`--n:${stages.length}`} aria-label={eyebrow}>
+  <div class="st__view">
+    <div class="st__frame" aria-hidden="true">
+      <svg class="st__svg" viewBox={config.cameras[0].join(' ')} preserveAspectRatio="xMidYMid slice" data-svg>
+        <defs>
+          <radialGradient id={`${id}-glow`} cx="50%" cy="50%" r="60%"><stop offset="0" stop-color="#1e4c63" stop-opacity="0.35" /><stop offset="1" stop-color="#1e4c63" stop-opacity="0" /></radialGradient>
+        </defs>
+        <rect x="-2000" y="-2000" width="5000" height="5000" fill={`url(#${id}-glow)`} />
+        <path class="st__land" d={WORLD_PATH} />
+        <g class="st__legs">
+          {legs.map((l) => <path class="st__leg" d={l.d} data-leg data-stage={l.stage} pathLength="1" />)}
+        </g>
+        <g class="st__pts">
+          {[...usedPlaceIds].map((pid) => {
+            const p = pts[pid];
+            if (!p) return null;
+            return (
+              <g class="st__pt" data-pt={pid} transform={`translate(${p.x} ${p.y})`}>
+                <circle class="st__ring" r="1" />
+                <circle class="st__dot" r="1" />
+                <text class="st__label" data-label>{p.name}</text>
+              </g>
+            );
+          })}
+        </g>
+        <circle class="st__marker" r="1" data-marker />
+      </svg>
+      <div class="st__vignette"></div>
+      <div class="st__grain"></div>
+    </div>
+
+    <ol class="st__stages" role="list">
+      {stages.map((s, i) => (
+        <li class:list={['st__stage', { 'is-active': i === 0 }]} data-stage-panel={i} id={`${id}-${s.id}`}>
+          <div class="container st__grid">
+            <div class="st__copy">
+              <p class="st__n num"><span>{s.n}</span><span class="st__sep" aria-hidden="true"></span><span>{String(i + 1).padStart(2, '0')} / {String(stages.length).padStart(2, '0')}</span></p>
+              {s.eyebrow && <p class="eyebrow eyebrow--rule eyebrow--accent">{s.eyebrow}</p>}
+              <Title as="h2" class="t-1 st__title" text={s.title} />
+              <p class="st__line lede">{s.line}</p>
+              {s.more && <a class="link st__more" href={s.more.href} data-track="navigation_click" data-track-cta-name={`stage_${s.id}`}>{s.more.label}<Arrow /></a>}
+            </div>
+            {(s.image || s.placeholder) && (
+              <div class="st__media">
+                {s.image ? (
+                  <figure class="st__fig media media--4x5 media--warm">
+                    <Picture src={s.image.src} alt={s.image.alt} widths={[480, 768, 1080]} sizes="(min-width: 1024px) 32vw, 60vw" formats={['avif', 'webp']} loading="lazy" decoding="async" />
+                    {s.image.note && <figcaption class="media-note">{s.image.note}</figcaption>}
+                  </figure>
+                ) : (
+                  <div class="st__fig media media--4x5 placeholder" role="img" aria-label={s.placeholder}><span><strong>Photograph</strong>{s.placeholder}</span></div>
+                )}
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <nav class="st__nav" aria-label="Stages">
+      <ol role="list">
+        {stages.map((s, i) => (
+          <li><button type="button" class:list={['st__dotbtn', { 'is-active': i === 0 }]} data-goto={i} aria-label={`Go to stage ${i + 1}: ${s.title.replace(/<[^>]+>|\|/g, ' ')}`}><span></span></button></li>
+        ))}
+      </ol>
+    </nav>
+    <p class="st__hint num" aria-hidden="true"><span>Scroll</span><span class="st__hint-line"></span></p>
+  </div>
+  <p class="sr-only">{mapLabel}. Places on the map: {[...usedPlaceIds].map((pid) => pts[pid]?.name).filter(Boolean).join(', ')}.</p>
+  <script type="application/json" data-stage-config set:html={JSON.stringify(config)} />
+</section>
+
+<script>
+  import { reducedMotion } from '@lib/reveal';
+
+  function initStages() {
+    document.querySelectorAll<HTMLElement>('[data-stages]').forEach((root) => {
+      if (root.dataset.bound) return;
+      root.dataset.bound = '1';
+      const cfg = JSON.parse(root.querySelector('[data-stage-config]')!.textContent || '{}') as { cameras: number[][]; stagePlaces: string[][]; n: number };
+      const svg = root.querySelector<SVGSVGElement>('[data-svg]')!;
+      const view = root.querySelector<HTMLElement>('.st__view')!;
+      const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-stage-panel]'));
+      const legs = Array.from(root.querySelectorAll<SVGPathElement>('[data-leg]'));
+      const pts = Array.from(root.querySelectorAll<SVGGElement>('[data-pt]'));
+      const marker = root.querySelector<SVGCircleElement>('[data-marker]')!;
+      const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-goto]'));
+      const n = cfg.n;
+      const rm = reducedMotion();
+
+      const setActive = (k: number) => {
+        panels.forEach((p, i) => p.classList.toggle('is-active', i === k));
+        dots.forEach((d, i) => { d.classList.toggle('is-active', i === k); d.setAttribute('aria-current', i === k ? 'step' : 'false'); });
+        const lit = new Set(cfg.stagePlaces[k]);
+        pts.forEach((g) => g.classList.toggle('is-lit', lit.has(g.dataset.pt ?? '')));
+      };
+
+      // Scale map glyphs so they keep a constant on-screen size at any zoom.
+      const applyScale = (w: number) => {
+        const k = w / 1000;
+        svg.style.setProperty('--k', String(k));
+        pts.forEach((g) => {
+          const ring = g.querySelector<SVGCircleElement>('.st__ring')!, dot = g.querySelector<SVGCircleElement>('.st__dot')!, label = g.querySelector<SVGTextElement>('[data-label]')!;
+          ring.setAttribute('r', String(9 * k)); dot.setAttribute('r', String(3.2 * k));
+          label.setAttribute('font-size', String(12 * k)); label.setAttribute('x', String(12 * k)); label.setAttribute('y', String(4.5 * k));
+        });
+        marker.setAttribute('r', String(4 * k));
+      };
+
+      if (rm || !('requestAnimationFrame' in window)) {
+        root.classList.add('is-static');
+        legs.forEach((l) => l.style.strokeDashoffset = '0');
+        pts.forEach((g) => g.classList.add('is-lit'));
+        const c = cfg.cameras[Math.min(1, n - 1)];
+        svg.setAttribute('viewBox', c.join(' '));
+        applyScale(c[2]);
+        return;
+      }
+
+      const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+      const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+      let ticking = false, lastK = -1;
+
+      const render = () => {
+        ticking = false;
+        const r = root.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const total = r.height - vh;
+        const p = Math.min(1, Math.max(0, -r.top / Math.max(1, total)));
+        // The section is (n + 0.4) viewports tall, so scrollable travel is (n - 0.6) viewports:
+        // one per stage, plus a 0.4 tail so the last stage fades in and holds before the frame releases.
+        const pos = Math.min(n - 0.6, p * (n - 0.6));
+        const k = Math.min(n - 1, Math.floor(pos));
+        const t = pos - k;                  // local progress within stage k
+        // Camera: hold for the first 45% of a stage, then travel to the next.
+        const travel = ease(Math.min(1, Math.max(0, (t - 0.45) / 0.55)));
+        const a = cfg.cameras[k], b = cfg.cameras[Math.min(n - 1, k + 1)];
+        const vb = [lerp(a[0], b[0], travel), lerp(a[1], b[1], travel), lerp(a[2], b[2], travel), lerp(a[3], b[3], travel)];
+        svg.setAttribute('viewBox', vb.map((v) => v.toFixed(2)).join(' '));
+        applyScale(vb[2]);
+        // Legs: stage k's legs draw during its first 60%; earlier legs complete; later hidden.
+        let tip: SVGPathElement | null = null, tipT = 0;
+        legs.forEach((l) => {
+          const s = Number(l.dataset.stage);
+          let d = 1;
+          if (s < k) d = 0; else if (s > k) d = 1; else { const lt = Math.min(1, t / 0.6); d = 1 - lt; if (lt < 1) { tip = l; tipT = lt; } }
+          l.style.strokeDashoffset = String(d);
+        });
+        if (tip) {
+          const path = tip as SVGPathElement;
+          const len = path.getTotalLength();
+          const pt = path.getPointAtLength(len * tipT);
+          marker.setAttribute('cx', String(pt.x)); marker.setAttribute('cy', String(pt.y));
+          marker.style.opacity = '1';
+        } else marker.style.opacity = '0';
+        // Panels: fade/slide with local progress.
+        panels.forEach((panel, i) => {
+          let o = 0, y = 24;
+          if (i === k) { o = t < 0.12 ? t / 0.12 : t > 0.82 ? 1 - (t - 0.82) / 0.18 : 1; y = t < 0.12 ? 24 * (1 - t / 0.12) : t > 0.82 ? -24 * ((t - 0.82) / 0.18) : 0; }
+          if (i === 0 && k === 0 && t < 0.12) { o = 1; y = 0; }            // first stage is visible the moment the frame pins
+          if (k === n - 1 && i === k && t > 0.82) { o = 1; y = 0; }        // last stage stays until the frame releases
+          panel.style.setProperty('--o', o.toFixed(3));
+          panel.style.setProperty('--y', `${y.toFixed(1)}px`);
+        });
+        if (k !== lastK) { setActive(k); lastK = k; }
+        root.classList.toggle('is-pinned', r.top <= 0 && r.bottom >= vh);
+      };
+      // rAF is paused in hidden/background tabs; render directly there so state never goes stale.
+      const onScroll = () => {
+        if (document.hidden) { render(); return; }
+        if (!ticking) { ticking = true; requestAnimationFrame(render); }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      dots.forEach((d) => d.addEventListener('click', () => {
+        const i = Number(d.dataset.goto);
+        const top = root.getBoundingClientRect().top + window.scrollY;
+        const total = root.offsetHeight - window.innerHeight;
+        window.scrollTo({ top: top + (total * (i + 0.2)) / (n - 0.6) + 1, behavior: 'smooth' });
+      }));
+      render();
+      void view;
+    });
+  }
+  initStages();
+  document.addEventListener('astro:page-load', initStages);
+</script>
+
+<style>
+  .st { position: relative; height: calc(var(--n) * 100svh + 40svh); }
+  .st__view { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  .st__frame { position: absolute; inset: 0; }
+  .st__svg { width: 100%; height: 100%; display: block; }
+  .st__land { fill: #262219; stroke: #443d31; stroke-width: 0.8; vector-effect: non-scaling-stroke; }
+  .st__leg { fill: none; stroke: var(--bronzo-2); stroke-width: 1.4; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0.9; }
+  .st__ring { fill: none; stroke: var(--bronzo-2); stroke-width: 0.8; vector-effect: non-scaling-stroke; opacity: 0; transition: opacity var(--dur-2); }
+  .st__dot { fill: var(--pietra); transition: fill var(--dur-2); }
+  .st__label { fill: var(--pietra); font-family: var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.55; transition: opacity var(--dur-2), fill var(--dur-2); paint-order: stroke; stroke: #0c0b0a; stroke-width: 3px; stroke-linejoin: round; }
+  .st__pt.is-lit .st__dot { fill: var(--bronzo-2); }
+  .st__pt.is-lit .st__ring { opacity: 0.8; animation: stpulse 3s var(--ease-in-out) infinite; transform-origin: center; transform-box: fill-box; }
+  .st__pt.is-lit .st__label { opacity: 1; fill: var(--avorio); }
+  .st__marker { fill: var(--avorio); opacity: 0; }
+  @keyframes stpulse { 0% { transform: scale(0.5); opacity: 0.9; } 100% { transform: scale(1.8); opacity: 0; } }
+  .st__vignette { position: absolute; inset: 0; background: radial-gradient(120% 90% at 35% 50%, transparent 35%, rgba(12, 11, 10, 0.6) 78%, rgba(12, 11, 10, 0.92) 100%), linear-gradient(to right, rgba(12, 11, 10, 0.8) 0%, rgba(12, 11, 10, 0.4) 42%, rgba(12, 11, 10, 0.05) 100%); pointer-events: none; }
+  .st__grain { position: absolute; inset: 0; pointer-events: none; opacity: 0.06; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+  .st__stages { position: absolute; inset: 0; }
+  .st__stage { position: absolute; inset: 0; display: grid; align-items: center; opacity: var(--o, 0); transform: translateY(var(--y, 24px)); pointer-events: none; will-change: opacity, transform; }
+  .st__stage.is-active { pointer-events: auto; }
+  .st__grid { display: grid; gap: var(--s-6); align-items: center; }
+  .st__copy { display: grid; gap: var(--s-4); max-width: 40rem; }
+  .st__n { display: inline-flex; align-items: center; gap: 0.8rem; color: var(--bronzo-2); }
+  .st__sep { width: 2rem; height: 1px; background: var(--bronzo-2); opacity: 0.6; }
+  .st__title { max-width: 14ch; }
+  .st__line { color: var(--sabbia); max-width: 34rem; }
+  .st__more { justify-self: start; margin-top: var(--s-2); }
+  .st__media { display: none; }
+  .st__fig { max-width: 22rem; box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8); }
+
+  .st__nav { position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%); }
+  .st__nav ol { display: grid; gap: 0.6rem; }
+  .st__dotbtn { width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; }
+  .st__dotbtn span { width: 6px; height: 6px; border-radius: 50%; background: var(--pietra); transition: transform var(--dur-2) var(--ease-out), background var(--dur-2); }
+  .st__dotbtn.is-active span { background: var(--bronzo-2); transform: scale(1.7); }
+  .st__hint { position: absolute; left: var(--gutter); bottom: 1.5rem; display: inline-flex; align-items: center; gap: 0.8rem; text-transform: uppercase; color: var(--pietra); }
+  .st__hint-line { width: 3rem; height: 1px; background: var(--bronzo-2); transform-origin: left; animation: sthint 2.4s var(--ease-in-out) infinite; }
+  @keyframes sthint { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
+
+  @media (min-width: 900px) {
+    .st__grid { grid-template-columns: 7fr 5fr; column-gap: calc(var(--gutter) * 2); }
+    .st__media { display: block; justify-self: end; }
+  }
+  @media (max-width: 899px) {
+    .st__copy { max-width: none; padding-bottom: 3rem; }
+    .st__nav { right: 0.75rem; }
+    .st__hint { display: none; }
+  }
+
+  /* Static mode: reduced motion or no JS — stacked stages, nothing hidden. */
+  html.no-js .st, .st.is-static { height: auto; }
+  html.no-js .st__view, .st.is-static .st__view { position: relative; height: auto; overflow: visible; }
+  html.no-js .st__frame, .st.is-static .st__frame { position: relative; height: 60svh; }
+  html.no-js .st__stages, .st.is-static .st__stages { position: relative; display: grid; }
+  html.no-js .st__stage, .st.is-static .st__stage { position: relative; opacity: 1; transform: none; padding-block: var(--section-sm); border-top: 1px solid var(--line); pointer-events: auto; }
+  html.no-js .st__leg, .st.is-static .st__leg { stroke-dashoffset: 0; }
+  html.no-js .st__nav, .st.is-static .st__nav, html.no-js .st__hint, .st.is-static .st__hint { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .st__pt.is-lit .st__ring, .st__hint-line { animation: none; }
+  }
+</style>

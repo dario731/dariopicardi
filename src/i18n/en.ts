@@ -69,6 +69,14 @@ export const en = {
     journey: {
       eyebrow: 'The journey',
       title: 'Discipline became experience.|Experience became enterprise.|Enterprise is becoming <em>impact.</em>',
+      stages: [
+        { id: 'roots', n: 'Italy', title: 'The <em>Roots.</em>', line: 'Born in the south of Italy. Family, discipline, an appreciation for things done properly — and the desire to build something that lasts.', more: { href: '/story#roots', label: 'Read the chapter' } },
+        { id: 'instinct', n: 'Calabria', title: 'The Merchant <em>Instinct.</em>', line: 'Commerce was never simply an industry. It was an instinct: recognizing value, connecting supply with demand, turning an idea into a result.', more: { href: '/story#instinct', label: 'Read the chapter' } },
+        { id: 'discipline', n: 'Calabria · Valencia', title: 'The <em>Discipline.</em>', line: 'A perfect final score at school. Two degrees in Management, both summa cum laude. Not trophies — evidence of how he works.', more: { href: '/story#discipline', label: 'Read the chapter' } },
+        { id: 'executive', n: 'Milan · New York · São Paulo · Dubai · Singapore', title: 'The Global <em>Executive.</em>', line: 'Fifteen years entering markets, not visiting them: brands led across two continents, an international division built from zero to more than ten affiliates.', more: { href: '/global-career', label: 'Explore the career' } },
+        { id: 'entrepreneur', n: 'Miami · 2016', title: 'The Entrepreneur and <em>Investor.</em>', line: 'Arriving in Miami on an executive assignment, he recognized a gap between strategy and execution — and founded BIZ & STYLE to close it.', more: { href: '/biz-and-style', label: 'Explore BIZ & STYLE' } },
+        { id: 'person', n: 'Miami Beach', title: 'The <em>Person.</em>', line: 'Husband, father, friend. The table and the sea are where he brings people together — and where ambition finds its purpose.', more: { href: '/story#family', label: 'The life behind the work' } },
+      ],
       chapters: [
         { n: '01', title: 'The Roots', line: 'Italy: family, discipline, quality, and the desire to build something that lasts.', href: '/story#roots' },
         { n: '02', title: 'The Merchant Instinct', line: 'Commerce was never simply an industry. It was an instinct.', href: '/story#instinct' },
@@ -139,6 +147,18 @@ export const en = {
       lede: 'Not defined by one title, one company or one industry. Nine chapters of a journey from discipline to experience, from experience to enterprise, and from enterprise to impact.',
     },
     chaptersLabel: 'Chapters',
+    stages: [
+      { id: 'roots', n: 'Italy', eyebrow: 'Where the standards come from', title: 'Italian <em>Roots.</em>', line: 'Born in the south of Italy, where values are taught at the table before anywhere else. Family gave stability, duty and a cultural identity that has travelled through fifty countries without fading.' },
+      { id: 'instinct', n: 'Calabria', eyebrow: 'Before it was a profession', title: 'The Merchant <em>Instinct.</em>', line: 'From an early age he was fascinated by the essential movement of business: recognizing value, connecting supply with demand, negotiating, and turning an idea into a concrete result.' },
+      { id: 'discipline', n: 'Università della Calabria · Valencia', eyebrow: 'Preparation, consistency, standards', title: 'Academic <em>Discipline.</em>', line: '100/100 at school. Two degrees in Management, both summa cum laude. An exchange year in Valencia. The record matters for one reason: it shows how he works when nobody is watching.' },
+      { id: 'world', n: 'Milan · New York · São Paulo · London · Dubai · Singapore', eyebrow: 'Fifteen years of operating, not visiting', title: 'The World as a <em>Classroom.</em>', line: 'L’Oréal and Estée Lauder in Italy. Then seven years leading licensed brands across the Americas and Europe, and an international division built from zero to more than ten affiliates.' },
+      { id: 'executive-to-entrepreneur', n: 'Miami · 2016', eyebrow: 'A gap recognized', title: 'From Executive to <em>Entrepreneur.</em>', line: 'Companies had consultants, agencies and providers. Very few partners could connect strategy with real execution. In 2017, BIZ & STYLE was founded in Miami Beach to be that partner.' },
+      { id: 'investor', n: 'Miami · Mexico · Brazil', eyebrow: 'Capital with an operator’s eyes', title: 'Investor and <em>Builder.</em>', line: 'He does not separate investment from execution. The most compelling opportunities are those where capital, expertise, relationships and operating capability work together.' },
+      { id: 'connector', n: 'Calabria ↔ Miami', eyebrow: 'The people who shaped the journey', title: 'Family and <em>Friendship.</em>', line: 'Family provided the foundation. Friendship taught loyalty, trust and perspective. Many of the most productive professional relationships began as genuine human trust — decades ago.' },
+      { id: 'life', n: 'The sea', eyebrow: 'Food, the sea, the world', title: 'The Life Behind the <em>Work.</em>', line: 'Cooking is the most direct way to bring people together. The world never stopped being his teacher. And the sea offers what business rarely does: distance, perspective, the horizon.' },
+      { id: 'family', n: 'Miami Beach', eyebrow: 'The most meaningful chapter', title: 'Fatherhood, Purpose, <em>Legacy.</em>', line: 'With Alfonsina, and with their son Amedeo, family changed the meaning of ambition. Success is no longer only how far he can go, but what he can build, protect, teach, and leave behind.' },
+    ],
+    depth: { eyebrow: 'In depth', title: 'The chapters, in <em>full.</em>', body: 'The complete narrative, for those who want it. Open any chapter.' },
     chapters: [
       {
         id: 'roots',
@@ -282,12 +302,26 @@ export const en = {
       { id: 'leading', n: 'II', title: 'Leading Across Markets', line: 'Executive positions, brands, territories, teams, commercial responsibility and international expansion.' },
       { id: 'building', n: 'III', title: 'Becoming a Builder', line: 'Miami, advisory, entrepreneurship, investment, infrastructure, partnerships and BIZ & STYLE.' },
     ],
+    stages: [
+      { id: 'foundations', n: 'Calabria · Valencia · Milan', eyebrow: 'Learning global excellence', title: 'The <em>Foundations.</em>', line: 'Two degrees summa cum laude, an exchange year in Spain, and the corporate foundation of L’Oréal and The Estée Lauder Companies in Italy.' },
+      { id: 'americas-europe', n: 'Milan → New York → São Paulo → Mexico', eyebrow: 'Leading across markets · 2011–2018', title: 'Americas & <em>Europe.</em>', line: 'Regional Director at Perfume Holding: licensed fragrance brands — Ferrari among them — built into a regional business across two continents, with the operators that handle the world’s prestige brands.' },
+      { id: 'international-division', n: 'New York → London → Dubai → India → Caribbean → Uruguay', eyebrow: 'Leading across markets · 2019–2024', title: 'An International Division, <em>from zero.</em>', line: 'SVP & Managing Director at The PCA Companies: an international division built from nothing to more than ten affiliates in five years, positioned with global travel-retail operators at TFWA Cannes.' },
+      { id: 'miami', n: 'Miami · 2016 → 2017', eyebrow: 'Becoming a builder', title: 'Miami, and a <em>gap.</em>', line: 'Arriving on one of the final executive assignments, he recognized what companies lacked: a partner able to connect strategy with execution. BIZ & STYLE was founded in Miami Beach in 2017.' },
+      { id: 'builder', n: 'Miami · Mexico · Brazil', eyebrow: 'Becoming a builder · today', title: 'Entrepreneur and <em>investor.</em>', line: 'Three divisions, three operating bases, a network of more than 200 partners — and capital deployed with an operator’s eyes, alongside the people he builds with.' },
+    ],
+    selected: { eyebrow: 'Selected experience', title: 'Four roles. Two continents. <em>One method.</em>', items: [
+      { years: '2009 – 2011', role: 'Business Analyst · Business Manager', org: 'L’Oréal · The Estée Lauder Companies', where: 'Italy' },
+      { years: '2011 – 2018', role: 'Regional Director, Americas & Europe', org: 'Perfume Holding', where: 'Europe · the Americas' },
+      { years: '2019 – 2024', role: 'SVP & Managing Director, International Division', org: 'The PCA Companies', where: 'New York · international' },
+      { years: '2017 – today', role: 'Founder & President', org: 'BIZ & STYLE', where: 'Miami Beach · Mexico · Brazil' },
+    ] },
+    record: { eyebrow: 'The full record', title: 'Every milestone, <em>on request.</em>', body: 'The complete timeline — education, roles, responsibilities, results — for those who need the detail.', open: 'Open the full record' },
     timelineLabel: 'Timeline',
     placeholderNote: 'Dates to be confirmed by Dario',
     map: {
       eyebrow: 'Where the experience was built',
       title: 'Operating experience, <em>not tourism.</em>',
-      body: 'Each point is a market entered, an affiliate established, a hub where business was done, or a base from which a region was managed. Select a point to read what happened there.',
+      body: 'Each place is a market entered, an affiliate established, a hub where business was done, or a base from which a region is managed.',
       legend: [
         { id: 'roots', label: 'Roots & education' },
         { id: 'hub', label: 'Business hub' },

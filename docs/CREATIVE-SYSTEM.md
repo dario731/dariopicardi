@@ -2,7 +2,9 @@
 
 ## Concept — “The Route”
 
-One continuous line runs through the site: from Calabria, through the markets where the career was built, to Miami. It is the signature interaction on the homepage (a route line that draws as the reader scrolls through six chapters) and the structure of the Global Career page (a timeline tied to a world map whose arcs converge on Miami). Everything else is typography, photography, rules and space.
+One continuous journey runs through the site: from Calabria, through the markets where the career was built, to Miami. The signature interaction is the **stage frame** (`components/cinematic/StageScroller.astro`): a full-viewport world map pinned to the screen while the reader scrolls. The camera travels across the map — Italy close, then Europe, the Atlantic, the whole world, then Miami close — routes draw between the places of each stage, and each stage's copy enters like a scene. Scrolling is not turning pages of a book; it is moving through stations of the journey. The same engine carries the six stages of the homepage journey, the nine chapters of the Story, and the five phases of the Global Career, so the Italy → world → Miami → Latin America → New York geography is constantly present.
+
+Depth is not lost, it is folded: the full chapter narrative and the complete career record sit in `<details>` accordions below each stage sequence, open on demand. The cinematic layer stays clean; the curriculum is one click away. Everything else is typography, photography, rules and space.
 
 The narrative progression is fixed and appears in the same order everywhere:
 Italian Roots → Merchant Instinct → Academic Discipline → Global Executive → Miami → Entrepreneurship & Investment → BIZ & STYLE → Business, Wealth & Lifestyle → Family, Purpose & Legacy.
@@ -29,8 +31,7 @@ Three grounds alternate down every page (`.g-ivory`, `.g-lino`, `.g-notte`). Col
 ## Motion
 
 - Reveal on entry (opacity + 18px) via one IntersectionObserver; masked image reveal (`.mask`).
-- **Route line** (home): SVG stroke-dashoffset driven by scroll progress; markers fill as the line passes.
-- **Map arcs** (career): draw once on entry; hover/focus highlights a place, tooltip on desktop, list on all devices.
+- **Stage frame** (home, story, career): sticky 100svh frame; one rAF-throttled scroll listener interpolates the SVG `viewBox` (camera), draws route legs by `stroke-dashoffset`, moves a marker along the active leg with `getPointAtLength`, lights the places of the active stage, and cross-fades stage panels. Glyph sizes are rescaled per frame so labels keep a constant on-screen size at any zoom. Dots on the right jump between stages. Static, stacked fallback under reduced motion or without JavaScript; all stage text is always in the accessibility tree.
 - **Framework** (home): accessible tabs that cycle every 3.8s until the reader interacts.
 - Count-up on stats keeps the final value in the DOM.
 - View transitions (fade) between pages.
@@ -46,8 +47,9 @@ Authentic only. Warm, low-saturation grade (`.media--warm`) or monochrome (`.med
 |---|---|
 | Layout | `Header`, `Footer`, `Seo`, `ConsentBanner`, `BaseLayout` |
 | Editorial | `EditorialHero`, `Statement`, `Stats`, `PullQuote`, `ImageNarrative`, `CtaBand`, `Breadcrumbs`, `LegalPage` |
-| Home | `Hero`, `Journey` (route line), `Instinct`, `GlobalStrip`, `Framework`, `BizStyleIntro`, `Personal` |
-| Career | `Timeline`, `GlobalMap`, `Organizations` |
+| Cinematic | `StageScroller` (the stage frame; stage data in `src/data/stages.ts`) |
+| Home | `Hero`, `Instinct`, `GlobalStrip`, `Framework`, `BizStyleIntro`, `Personal` |
+| Career | `Timeline` (inside the “full record” accordion), `PlacesList`, `Organizations` |
 | Perspectives | `Index` (categories, search, pagination, empty state), `ArticleCard`, `Share`, `AuthorCard` |
 | Connect | `ContactForm` |
 | UI | `Title` (line breaks + italics from copy strings), `Arrow` |

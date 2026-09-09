@@ -138,6 +138,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 .grid-2 { display: grid; gap: var(--s-7); }
 @media (min-width: 900px) { .grid-2 { grid-template-columns: 1fr 1fr; column-gap: calc(var(--gutter) * 2); } }
 
+[id] { scroll-margin-top: 5.5rem; }
 .rule { border-top: 1px solid var(--line); }
 .rule--accent { border-top-color: var(--accent); }
 

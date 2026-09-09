@@ -89,6 +89,11 @@ const gtmId = (import.meta.env.PUBLIC_GTM_ID as string | undefined) ?? '';
         if (consent) pushConsent(consent);
         if (gtm && consent === 'granted') loadGtm(gtm);
         track('page_view');
+        // Deep links: after a client-side navigation, scroll to the hash target once layout is ready.
+        if (location.hash) {
+          const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+          if (target) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+        }
       }
       document.addEventListener('astro:page-load', boot);
       window.addEventListener('dp:consent', (e) => {

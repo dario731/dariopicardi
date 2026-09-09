@@ -1,13 +1,15 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
+import StageScroller from '@components/cinematic/StageScroller.astro';
 import Timeline from '@components/career/Timeline.astro';
-import GlobalMap from '@components/career/GlobalMap.astro';
+import PlacesList from '@components/career/PlacesList.astro';
 import Organizations from '@components/career/Organizations.astro';
 import Stats from '@components/editorial/Stats.astro';
 import CtaBand from '@components/editorial/CtaBand.astro';
 import Title from '@components/ui/Title.astro';
 import { getCopy } from '@i18n/index';
+import { careerStages } from '@data/stages';
 import { webPageLd, breadcrumbLd } from '@lib/seo';
 
 const c = getCopy('en').career;
@@ -16,18 +18,52 @@ const jsonLd = [webPageLd({ name: c.seo.title, description: c.seo.description, p
 ---
 
 <BaseLayout title={`${c.seo.title} — Dario Picardi`} description={c.seo.description} {path} pageType="career" {jsonLd}>
-  <EditorialHero eyebrow={c.hero.eyebrow} title={c.hero.title} lede={c.hero.lede} crumbs={[{ name: 'Global Career', path }]}>
+  <EditorialHero eyebrow={c.hero.eyebrow} title={c.hero.title} lede={c.hero.lede} crumbs={[{ name: 'Global Career', path }]} compact>
     <nav class="phases" aria-label="Career phases" data-reveal>
       <ol role="list">
-        {c.phases.map((p) => (
-          <li><a href={`#phase-${p.id}`}><span class="serif phases__n">{p.n}</span><span>{p.title}</span></a></li>
-        ))}
+        {c.phases.map((p) => <li><span class="serif phases__n">{p.n}</span><span>{p.title}</span></li>)}
       </ol>
     </nav>
   </EditorialHero>
-  <Timeline copy={c} />
-  <GlobalMap copy={c.map} />
+
+  <StageScroller id="career-stages" eyebrow={c.hero.eyebrow} stages={careerStages('en')} />
+
+  <section class="section g-ivory" id="selected" aria-labelledby="selected-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{c.selected.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="selected-title" class="t-1" text={c.selected.title} /></div>
+      </div>
+      <ol class="sel" role="list" data-reveal-group>
+        {c.selected.items.map((it) => (
+          <li class="sel__item">
+            <span class="sel__years serif">{it.years}</span>
+            <span class="sel__body">
+              <span class="sel__role serif">{it.role}</span>
+              <span class="sel__org num">{it.org} · {it.where}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+      <details class="record" id="record" data-reveal>
+        <summary class="record__sum">
+          <span class="record__text">
+            <span class="eyebrow eyebrow--accent">{c.record.eyebrow}</span>
+            <span class="record__title serif">{c.record.open}</span>
+            <span class="small muted">{c.record.body}</span>
+          </span>
+          <span class="record__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="record__body">
+          <Timeline copy={c} />
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <PlacesList copy={c.map} />
   <Organizations copy={c.orgs} />
+
   <section class="section g-ivory" id="strengths" aria-labelledby="strengths-title">
     <div class="container">
       <div class="section-head">
@@ -45,12 +81,32 @@ const jsonLd = [webPageLd({ name: c.seo.title, description: c.seo.description, p
 
 <style>
   .phases { margin-top: var(--s-4); }
-  .phases ol { display: grid; gap: 0; border-top: 1px solid var(--line); }
-  .phases a { display: flex; align-items: baseline; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.95rem; transition: color var(--dur-1); }
-  .phases a:hover { color: var(--avorio); }
+  .phases ol { display: grid; border-top: 1px solid var(--line); }
+  .phases li { display: flex; align-items: baseline; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.92rem; }
   .phases__n { color: var(--accent); font-size: 1.3rem; min-width: 2ch; }
+  .sel { display: grid; border-top: 1px solid var(--line); }
+  .sel__item { display: grid; gap: 0.5rem; padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
+  .sel__years { font-size: 1.3rem; color: var(--accent); }
+  .sel__body { display: grid; gap: 0.3rem; }
+  .sel__role { font-size: clamp(1.4rem, 2.4vw, 1.9rem); line-height: 1.15; }
+  .sel__org { text-transform: none; letter-spacing: 0.06em; }
+  .record { margin-top: var(--s-8); border-top: 1px solid var(--accent); border-bottom: 1px solid var(--line); }
+  .record__sum { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--s-5); padding: var(--s-5) 0; cursor: pointer; list-style: none; }
+  .record__sum::-webkit-details-marker { display: none; }
+  .record__text { display: grid; gap: 0.35rem; }
+  .record__title { font-size: clamp(1.4rem, 2.4vw, 2rem); }
+  .record__icon { position: relative; width: 2.6rem; height: 2.6rem; border: 1px solid var(--line); border-radius: 50%; transition: border-color var(--dur-1); }
+  .record__icon::before, .record__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 0.9rem; height: 1px; background: currentColor; transform: translate(-50%, -50%); }
+  .record__icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform var(--dur-2) var(--ease-out); }
+  .record[open] .record__icon::after { transform: translate(-50%, -50%) rotate(0); }
+  .record__sum:hover .record__icon, .record[open] .record__icon { border-color: var(--accent); }
+  .record__body :global(.tl) { padding-top: 0; }
   .strengths { display: grid; border-top: 1px solid var(--line); }
   .strength { display: flex; align-items: baseline; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.15rem, 1.8vw, 1.5rem); }
-  @media (min-width: 720px) { .phases ol { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-6); } .strengths { grid-template-columns: repeat(2, 1fr); column-gap: var(--s-7); } }
+  @media (min-width: 720px) {
+    .phases ol { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-6); }
+    .sel__item { grid-template-columns: 11rem 1fr; column-gap: var(--s-7); }
+    .strengths { grid-template-columns: repeat(2, 1fr); column-gap: var(--s-7); }
+  }
   @media (min-width: 1100px) { .strengths { grid-template-columns: repeat(3, 1fr); } }
 </style>

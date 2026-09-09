@@ -1,14 +1,17 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
+import StageScroller from '@components/cinematic/StageScroller.astro';
 import ImageNarrative from '@components/editorial/ImageNarrative.astro';
 import PullQuote from '@components/editorial/PullQuote.astro';
 import CtaBand from '@components/editorial/CtaBand.astro';
+import Title from '@components/ui/Title.astro';
 import Arrow from '@components/ui/Arrow.astro';
 import sea from '@assets/images/dario-sea-miami.jpg';
 import skyline from '@assets/images/dario-miami-skyline.jpg';
 import portrait from '@assets/images/portrait-dario-tmp.jpg';
 import { getCopy } from '@i18n/index';
+import { storyStages } from '@data/stages';
 import { webPageLd, breadcrumbLd } from '@lib/seo';
 import type { ImageMetadata } from 'astro';
 
@@ -25,72 +28,91 @@ const images: Record<string, { image: ImageMetadata; alt: string; ratio: '4x5' |
 ---
 
 <BaseLayout title={`${s.seo.title} — Dario Picardi`} description={s.seo.description} {path} pageType="story" type="profile" {jsonLd}>
-  <EditorialHero eyebrow={s.hero.eyebrow} title={s.hero.title} lede={s.hero.lede} crumbs={[{ name: 'Story', path }]}>
-    <nav class="toc" aria-label={s.chaptersLabel} data-reveal>
-      <p class="eyebrow">{s.chaptersLabel}</p>
-      <ol class="toc__list" role="list">
-        {s.chapters.map((ch) => <li><a href={`#${ch.id}`}><span class="num">{ch.n}</span><span>{ch.title}</span></a></li>)}
-      </ol>
-    </nav>
+  <EditorialHero eyebrow={s.hero.eyebrow} title={s.hero.title} lede={s.hero.lede} crumbs={[{ name: 'Story', path }]} compact>
+    <p class="toc-hint num" data-reveal><span>Nine stages</span><span class="toc-hint__line" aria-hidden="true"></span><a href="#depth">{s.chaptersLabel} in full</a></p>
   </EditorialHero>
 
-  <div class="chapters">
-    {chapters.map((ch, i) => {
-      const img = images[ch.id];
-      const dark = i % 3 === 2;
-      const flip = i % 2 === 1;
-      return (
-        <section class:list={['ch section', dark ? 'g-notte' : i % 3 === 1 ? 'g-lino' : 'g-ivory']} id={ch.id} aria-labelledby={`${ch.id}-title`}>
-          <div class:list={['container ch__grid', { 'ch__grid--flip': flip }]}>
-            <div class="ch__media">
-              <div class="ch__sticky" data-reveal>
-                {img ? (
-                  <ImageNarrative image={img.image} alt={img.alt} ratio={img.ratio} treatment={img.treatment} note={img.note} sizes="(min-width: 1024px) 40vw, 100vw" />
-                ) : (
-                  <ImageNarrative ratio="4x5" placeholder={ch.placeholder} manifestId={`STORY-${ch.n}`} alt="" />
-                )}
-                {ch.facts && (
-                  <ul class="ch__facts" role="list">
-                    {ch.facts.map((f) => <li>{f}</li>)}
-                  </ul>
-                )}
+  <StageScroller id="stages" eyebrow={s.hero.eyebrow} stages={storyStages('en')} />
+
+  <section class="depth section g-ivory" id="depth" aria-labelledby="depth-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{s.depth.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="depth-title" class="t-1" text={s.depth.title} /></div>
+        <p class="lede muted" data-reveal>{s.depth.body}</p>
+      </div>
+      <div class="depth__list">
+        {chapters.map((ch) => {
+          const img = images[ch.id];
+          return (
+            <details class="dch" id={ch.id} data-reveal>
+              <summary class="dch__sum">
+                <span class="num dch__n">{ch.n}</span>
+                <span class="dch__title serif">{ch.title}</span>
+                <span class="dch__kicker small muted">{ch.kicker}</span>
+                <span class="dch__icon" aria-hidden="true"></span>
+              </summary>
+              <div class="dch__body">
+                <div class="dch__media">
+                  {img ? (
+                    <ImageNarrative image={img.image} alt={img.alt} ratio={img.ratio} treatment={img.treatment} note={img.note} sizes="(min-width: 1024px) 34vw, 100vw" />
+                  ) : (
+                    <ImageNarrative ratio="4x5" placeholder={ch.placeholder} manifestId={`STORY-${ch.n}`} alt="" />
+                  )}
+                  {ch.facts && <ul class="dch__facts" role="list">{ch.facts.map((f) => <li>{f}</li>)}</ul>}
+                </div>
+                <div class="dch__text">
+                  <div class="prose">{ch.paragraphs.map((p, j) => <p class:list={{ 'dch__lead': j === 0 }}>{p}</p>)}</div>
+                  {ch.pull && <PullQuote text={ch.pull} />}
+                  {ch.cta && <p><a class="link" href={ch.cta.href} data-track="navigation_click" data-track-cta-name={ch.id}>{ch.cta.label}<Arrow /></a></p>}
+                </div>
               </div>
-            </div>
-            <div class="ch__text">
-              <p class="ch__n num" data-reveal>Chapter {ch.n}</p>
-              <h2 id={`${ch.id}-title`} class="t-1" data-reveal>{ch.title}</h2>
-              <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{ch.kicker}</p>
-              <div class="prose ch__prose" data-reveal>
-                {ch.paragraphs.map((p, j) => <p class:list={{ 'ch__lead': j === 0 }}>{p}</p>)}
-              </div>
-              {ch.pull && <PullQuote text={ch.pull} />}
-              {ch.cta && <p data-reveal><a class="link" href={ch.cta.href} data-track="navigation_click" data-track-cta-name={ch.id}>{ch.cta.label}<Arrow /></a></p>}
-            </div>
-          </div>
-        </section>
-      );
-    })}
-  </div>
+            </details>
+          );
+        })}
+      </div>
+    </div>
+  </section>
 
   <CtaBand ground="notte" title={s.closing.title} primary={{ ...s.closing.cta, name: 'global_career' }} secondary={{ ...s.closing.secondary, name: 'connect' }} />
 </BaseLayout>
 
+<script>
+  // Open the chapter targeted by the URL hash (deep links from Home).
+  function openHash() {
+    const id = location.hash.slice(1);
+    if (!id) return;
+    const d = document.getElementById(id);
+    if (d instanceof HTMLDetailsElement) { d.open = true; }
+  }
+  openHash();
+  document.addEventListener('astro:page-load', openHash);
+  window.addEventListener('hashchange', openHash);
+</script>
+
 <style>
-  .toc { margin-top: var(--s-5); display: grid; gap: var(--s-4); }
-  .toc__list { display: grid; gap: 0; border-top: 1px solid var(--line); }
-  .toc__list a { display: flex; align-items: baseline; gap: 0.9rem; padding: 0.65rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.95rem; transition: color var(--dur-1); }
-  .toc__list a:hover { color: var(--avorio); }
-  .ch__grid { display: grid; gap: var(--s-7); align-items: start; }
-  .ch__text { display: grid; gap: var(--s-5); }
-  .ch__lead { font-family: var(--font-serif); font-size: calc(var(--fs-lede) * 1.15); line-height: 1.42; }
-  .ch__prose { color: var(--fg); }
-  .ch__facts { display: grid; gap: 0; margin-top: var(--s-4); border-top: 1px solid var(--accent); }
-  .ch__facts li { padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); color: var(--fg-muted); }
-  .ch__n { color: var(--accent); }
-  @media (min-width: 720px) { .toc__list { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-6); } }
+  .toc-hint { display: inline-flex; align-items: center; gap: 0.8rem; margin-top: var(--s-3); text-transform: uppercase; }
+  .toc-hint__line { width: 2rem; height: 1px; background: var(--accent); }
+  .toc-hint a { color: var(--sabbia); border-bottom: 1px solid var(--accent-soft); }
+  .depth__list { display: grid; border-top: 1px solid var(--line); }
+  .dch { border-bottom: 1px solid var(--line); scroll-margin-top: 5.5rem; }
+  .dch__sum { display: grid; grid-template-columns: 3rem 1fr auto; grid-template-areas: 'n title icon' 'n kicker icon'; align-items: center; column-gap: var(--s-4); row-gap: 0.15rem; padding: 1.25rem 0; cursor: pointer; list-style: none; }
+  .dch__sum::-webkit-details-marker { display: none; }
+  .dch__n { grid-area: n; color: var(--accent); }
+  .dch__title { grid-area: title; font-size: clamp(1.5rem, 2.8vw, 2.2rem); line-height: 1.1; transition: color var(--dur-1); }
+  .dch__kicker { grid-area: kicker; }
+  .dch__icon { grid-area: icon; position: relative; width: 2.2rem; height: 2.2rem; border: 1px solid var(--line); border-radius: 50%; transition: border-color var(--dur-1), transform var(--dur-2) var(--ease-out); }
+  .dch__icon::before, .dch__icon::after { content: ''; position: absolute; left: 50%; top: 50%; width: 0.8rem; height: 1px; background: currentColor; transform: translate(-50%, -50%); }
+  .dch__icon::after { transform: translate(-50%, -50%) rotate(90deg); transition: transform var(--dur-2) var(--ease-out); }
+  .dch[open] .dch__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+  .dch[open] .dch__icon, .dch__sum:hover .dch__icon { border-color: var(--accent); }
+  .dch__sum:hover .dch__title { color: var(--accent); }
+  .dch__body { display: grid; gap: var(--s-6); padding: var(--s-4) 0 var(--s-8); }
+  .dch__text { display: grid; gap: var(--s-5); }
+  .dch__lead { font-family: var(--font-serif); font-size: calc(var(--fs-lede) * 1.12); line-height: 1.42; }
+  .dch__facts { display: grid; margin-top: var(--s-4); border-top: 1px solid var(--accent); }
+  .dch__facts li { padding: 0.65rem 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); color: var(--fg-muted); }
   @media (min-width: 1024px) {
-    .ch__grid { grid-template-columns: 5fr 7fr; column-gap: calc(var(--gutter) * 2.5); }
-    .ch__grid--flip .ch__media { order: 2; }
-    .ch__sticky { position: sticky; top: 6.5rem; }
+    .dch__body { grid-template-columns: 5fr 7fr; column-gap: calc(var(--gutter) * 2.5); align-items: start; padding-left: calc(3rem + var(--s-4)); }
   }
 </style>

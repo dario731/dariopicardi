@@ -3,14 +3,15 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import Statement from '@components/editorial/Statement.astro';
 import Stats from '@components/editorial/Stats.astro';
-import Journey from '@components/home/Journey.astro';
+import StageScroller from '@components/cinematic/StageScroller.astro';
 import Instinct from '@components/home/Instinct.astro';
-import GlobalStrip from '@components/home/GlobalStrip.astro';
 import Framework from '@components/home/Framework.astro';
 import BizStyleIntro from '@components/home/BizStyleIntro.astro';
 import Personal from '@components/home/Personal.astro';
 import CtaBand from '@components/editorial/CtaBand.astro';
+import Title from '@components/ui/Title.astro';
 import { getCopy } from '@i18n/index';
+import { homeStages } from '@data/stages';
 import { webPageLd } from '@lib/seo';
 import { site } from '@data/site';
 
@@ -22,12 +23,22 @@ const jsonLd = [webPageLd({ name: h.seo.title, description: h.seo.description, p
 <BaseLayout title={h.seo.title} description={h.seo.description} path="/" pageType="home" type="profile" {jsonLd}>
   <Hero copy={h.hero} />
   <Statement id="positioning" ground="ivory" size="t-2" eyebrow={h.positioning.eyebrow} title={h.positioning.statement} body={h.positioning.body} />
+  <section class="jhead g-notte" aria-labelledby="journey-title">
+    <div class="container jhead__inner">
+      <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{h.journey.eyebrow}</p>
+      <div data-reveal><Title as="h2" id="journey-title" class="t-1" text={h.journey.title} /></div>
+    </div>
+  </section>
+  <StageScroller id="journey" eyebrow={h.journey.eyebrow} stages={homeStages('en')} />
   <Stats id="proof" ground="lino" eyebrow={h.proof.eyebrow} title={h.proof.title} body={h.proof.body} />
-  <Journey copy={h.journey} />
   <Instinct copy={h.instinct} />
-  <GlobalStrip copy={h.global} />
   <Framework copy={h.framework} />
   <BizStyleIntro copy={h.bizStyle} />
   <Personal copy={h.personal} />
   <CtaBand id="closing" ground="ivory" title={h.closing.title} body={h.closing.body} primary={{ ...h.closing.cta, name: 'connect' }} />
 </BaseLayout>
+
+<style>
+  .jhead { padding-top: var(--section); padding-bottom: var(--s-8); }
+  .jhead__inner { display: grid; gap: var(--s-5); max-width: 52rem; }
+</style>
