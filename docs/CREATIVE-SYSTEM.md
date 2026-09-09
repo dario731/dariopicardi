@@ -11,16 +11,18 @@ Italian Roots → Merchant Instinct → Academic Discipline → Global Executive
 
 ## Palette (`src/styles/tokens.css`)
 
+Clean and bright. The dark, low-contrast first pass was rejected as "cloudy"; the system now reads like a printed page.
+
 | Token | Value | Use |
 |---|---|---|
-| `--notte` | `#0c0b0a` | Near-black ground (hero, framework, closing bands) |
-| `--avorio` | `#f4eee3` | Warm ivory ground (reading sections) |
-| `--lino` | `#ebe3d4` | Raised ivory surface |
-| `--bronzo` / `--bronzo-2` | `#a5834f` / `#c4a575` | Bronze — hairlines, markers, route line, focus. Never a fill. |
-| `--tirreno` | `#1e4c63` | Mediterranean blue — only in the map's water glow |
-| `--sabbia`, `--pietra`, `--fumo`, `--calce`, `--grafite` | — | Muted text and rules per ground |
+| `--avorio` | `#fcfbf8` | Paper-white ground — every page, the stage frame, the hero |
+| `--lino` | `#f2f0ea` | Raised warm-grey surface for alternating sections |
+| `--inchiostro` | `#0b0b0c` | Ink — type, buttons, active states |
+| `--bronzo` (historical name) | `#1a49d8` | The single accent: cobalt. Routes, rules, focus, markers. Never a fill. |
+| `--fumo`, `--calce` | `#66666b`, `#dddad1` | Muted text and hairlines on paper |
+| `--notte` | `#0b0b0c` | The footer — the only dark surface |
 
-Three grounds alternate down every page (`.g-ivory`, `.g-lino`, `.g-notte`). Colour never carries meaning alone.
+No gradients as decoration, no grain, no vignette. Colour never carries meaning alone.
 
 ## Typography
 
