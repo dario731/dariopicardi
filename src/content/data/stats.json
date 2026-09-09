@@ -1,0 +1,61 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "years",
+      "value": "15+",
+      "label": "Years of international executive and entrepreneurial experience",
+      "source": "CV; BIZ & STYLE Corporate Profile 2026",
+      "order": 1,
+      "home": true
+    },
+    {
+      "id": "countries",
+      "value": "50+",
+      "label": "Countries of operating experience",
+      "source": "BIZ & STYLE Corporate Profile 2026, p.25",
+      "order": 2,
+      "home": true
+    },
+    {
+      "id": "flights",
+      "value": "1,000+",
+      "label": "Flights",
+      "source": "BIZ & STYLE Corporate Profile 2026, p.25",
+      "order": 3,
+      "home": true
+    },
+    {
+      "id": "sales",
+      "value": "$500M+",
+      "label": "Sales managed during the last decade",
+      "source": "BIZ & STYLE Corporate Profile 2026, pp.2, 5, 25",
+      "order": 4,
+      "home": true
+    },
+    {
+      "id": "degrees",
+      "value": "2",
+      "label": "Management degrees, both summa cum laude",
+      "source": "Brief (confirmed); CV: Bachelor's and Master's, Università della Calabria, cum laude",
+      "order": 5,
+      "home": true
+    },
+    {
+      "id": "founded",
+      "value": "2017",
+      "label": "BIZ & STYLE founded in Miami Beach",
+      "source": "BIZ & STYLE Corporate Profile 2026; one-pager 2026",
+      "order": 6,
+      "home": true
+    },
+    {
+      "id": "network",
+      "value": "200+",
+      "label": "Executives and partners in a trusted network",
+      "source": "CV; BIZ & STYLE Corporate Profile 2026",
+      "order": 7,
+      "home": false
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/editorial/Breadcrumbs.astro';
+import Title from '@components/ui/Title.astro';
+import { webPageLd, breadcrumbLd } from '@lib/seo';
+interface Props { title: string; heading: string; description: string; path: string; crumb: string; updated?: string }
+const { title, heading, description, path, crumb, updated } = Astro.props;
+const jsonLd = [webPageLd({ name: title, description, path }), breadcrumbLd([{ name: crumb, path }])];
+---
+<BaseLayout {title} {description} {path} pageType="legal" {jsonLd} headerOverlay={false}>
+  <article class="legal g-ivory">
+    <div class="container container--narrow legal__inner">
+      <Breadcrumbs items={[{ name: crumb, path }]} />
+      <Title as="h1" class="t-1" text={heading} />
+      {updated && <p class="num">{updated}</p>}
+      <div class="prose legal__prose"><slot /></div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal { padding-top: clamp(7rem, 14vh, 9rem); padding-bottom: var(--section-sm); }
+  .legal__inner { display: grid; gap: var(--s-6); }
+  .legal__prose :global(h2) { font-size: 1.5rem; margin-top: 2em; }
+  .legal__prose :global(.note) { padding: var(--s-4) var(--s-5); border: 1px solid var(--accent); font-size: var(--fs-small); }
+</style>

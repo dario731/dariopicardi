@@ -1,0 +1,139 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import CtaBand from '@components/editorial/CtaBand.astro';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd } from '@lib/seo';
+import { site } from '@data/site';
+
+const b = getCopy('en').bizStyle;
+const path = '/biz-and-style';
+const jsonLd = [webPageLd({ name: b.seo.title, description: b.seo.description, path, type: 'AboutPage' }), breadcrumbLd([{ name: 'BIZ & STYLE', path }])];
+---
+
+<BaseLayout title={`${b.seo.title}`} description={b.seo.description} {path} pageType="biz-style" {jsonLd}>
+  <EditorialHero eyebrow={b.hero.eyebrow} title={b.hero.title} lede={b.hero.lede} crumbs={[{ name: 'BIZ & STYLE', path }]} secondary={{ label: b.hero.external.label, href: b.hero.external.href, name: 'biz_style_external' }}>
+    <p class="bs-wordmark" data-reveal><img src="/brand/bizandstyle-white.svg" alt="BIZ & STYLE — Business. Wealth. Lifestyle." width="220" height="49" loading="eager" decoding="async" /></p>
+  </EditorialHero>
+
+  <section class="section g-ivory" id="why" aria-labelledby="why-title">
+    <div class="container grid-2">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{b.why.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="why-title" class="t-1" text={b.why.title} /></div>
+      </div>
+      <div class="prose" data-reveal>{b.why.paragraphs.map((p, i) => <p class:list={{ lead: i === 0 }}>{p}</p>)}</div>
+    </div>
+  </section>
+
+  <section class="section g-lino" id="evolution" aria-labelledby="evo-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{b.evolution.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="evo-title" class="t-1" text={b.evolution.title} /></div>
+        <p class="lede muted" data-reveal>{b.evolution.body}</p>
+      </div>
+      <div class="evo">
+        <ol class="evo__list" role="list" data-reveal-group>
+          {b.evolution.items.map((it, i) => <li class="evo__item"><span class="num">{String(i + 1).padStart(2, '0')}</span><span class="serif">{it}</span></li>)}
+        </ol>
+        <div class="evo__is" data-reveal>
+          <h3 class="eyebrow">{b.evolution.positioningTitle}</h3>
+          <ul class="evo__pos" role="list">{b.evolution.positioning.map((p) => <li class="serif">{p}</li>)}</ul>
+          <p class="small muted">{b.evolution.not}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section g-notte" id="divisions" aria-labelledby="div-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{b.divisions.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="div-title" class="t-1" text={b.divisions.title} /></div>
+      </div>
+      <div class="divs" data-reveal-group>
+        {b.divisions.items.map((d) => (
+          <article class="div">
+            <span class="num">{d.n}</span>
+            <h3 class="div__name serif">{d.name}</h3>
+            <p class="div__line eyebrow">{d.line}</p>
+            <p class="div__body">{d.body}</p>
+            {'external' in d && d.external && <a class="link link--sm" href={d.external.href} rel="noopener">{d.external.label} ↗</a>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section g-ivory" id="investor-journey" aria-labelledby="ij-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{b.journey.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="ij-title" class="t-1" text={b.journey.title} /></div>
+        <p class="lede muted" data-reveal>{b.journey.body}</p>
+      </div>
+      <ol class="ij" role="list" data-reveal-group>
+        {b.journey.stages.map((st, i) => (
+          <li class="ij__stage">
+            <span class="ij__n serif">{st.n}</span>
+            <h3 class="ij__name serif">{st.name}</h3>
+            <p class="ij__body muted">{st.body}</p>
+            {i < b.journey.stages.length - 1 && <span class="ij__arrow" aria-hidden="true"><Arrow class="ij__arrow-svg" /></span>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section g-lino" id="presence" aria-labelledby="presence-title">
+    <div class="container grid-2">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{b.presence.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="presence-title" class="t-1" text={b.presence.title} /></div>
+        <p class="lede muted" data-reveal>{b.presence.body}</p>
+      </div>
+      <dl class="facts" data-reveal-group>
+        {b.presence.facts.map((f) => <div class="fact"><dt class="eyebrow">{f.k}</dt><dd class="serif">{f.v}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <CtaBand ground="notte" title={b.closing.title} body={b.closing.body} primary={{ ...b.closing.primary, name: 'biz_style_external' }} secondary={{ ...b.closing.secondary, name: 'connect' }} />
+</BaseLayout>
+
+<style>
+  .bs-wordmark { margin-top: var(--s-4); opacity: 0.85; }
+  .bs-wordmark img { width: 220px; height: auto; }
+  .prose .lead { font-family: var(--font-serif); font-size: calc(var(--fs-lede) * 1.15); line-height: 1.42; }
+  .evo { display: grid; gap: var(--s-7); }
+  .evo__list { display: grid; border-top: 1px solid var(--line); }
+  .evo__item { display: flex; align-items: baseline; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.1rem, 1.7vw, 1.4rem); }
+  .evo__is { display: grid; gap: var(--s-4); align-content: start; padding: var(--s-6); border: 1px solid var(--line); background: var(--surface); }
+  .evo__pos { display: grid; gap: 0.35rem; font-size: clamp(1.3rem, 2.2vw, 1.8rem); }
+  .divs { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .div { display: grid; gap: var(--s-3); padding: var(--s-6) 0; border-bottom: 1px solid var(--line); align-content: start; }
+  .div__name { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.05; }
+  .div__line { color: var(--accent); }
+  .div__body { color: var(--sabbia); max-width: 34rem; }
+  .ij { display: grid; gap: var(--s-6); }
+  .ij__stage { position: relative; display: grid; gap: var(--s-3); padding: var(--s-6); border: 1px solid var(--line); background: var(--surface); }
+  .ij__n { color: var(--accent); font-size: 1.2rem; }
+  .ij__name { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; }
+  .ij__arrow { position: absolute; right: 1rem; bottom: -1.4rem; color: var(--accent); background: var(--bg); border-radius: 50%; padding: 0.3rem; }
+  .ij__arrow-svg { width: 1.3rem; height: 1.3rem; transform: rotate(90deg); }
+  .facts { display: grid; gap: 0; border-top: 1px solid var(--line); align-self: start; }
+  .fact { display: grid; gap: 0.35rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+  .fact dd { font-size: 1.35rem; }
+  @media (min-width: 900px) {
+    .evo { grid-template-columns: 7fr 5fr; column-gap: calc(var(--gutter) * 2); align-items: start; }
+    .divs { grid-template-columns: repeat(3, 1fr); border-top: 0; }
+    .div { border-bottom: 0; border-top: 1px solid var(--line); padding-right: var(--s-6); }
+    .div + .div { padding-left: var(--s-6); border-left: 1px solid var(--line); }
+    .ij { grid-template-columns: repeat(3, 1fr); }
+    .ij__arrow { right: -1.4rem; bottom: auto; top: 50%; transform: translateY(-50%); }
+    .ij__arrow-svg { transform: none; }
+  }
+</style>

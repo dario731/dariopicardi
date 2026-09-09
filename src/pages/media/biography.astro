@@ -1,0 +1,69 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/editorial/Breadcrumbs.astro';
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import { Picture } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd } from '@lib/seo';
+import portrait from '@assets/images/portrait-dario-bw-tmp.jpg';
+import { site } from '@data/site';
+
+const b = getCopy('en').biography;
+const path = '/media/biography';
+const stats = (await getCollection('stats')).sort((a, b) => a.data.order - b.data.order);
+const jsonLd = [webPageLd({ name: b.seo.title, description: b.seo.description, path, type: 'ProfilePage' }), breadcrumbLd([{ name: 'Media & Recognition', path: '/media' }, { name: 'Biography', path }])];
+---
+
+<BaseLayout title={b.seo.title} description={b.seo.description} {path} pageType="biography" type="profile" {jsonLd} headerOverlay={false}>
+  <article class="bio g-ivory">
+    <div class="container container--narrow bio__inner">
+      <div class="no-print"><Breadcrumbs items={[{ name: 'Media & Recognition', path: '/media' }, { name: 'Biography', path }]} /></div>
+      <p class="eyebrow eyebrow--rule eyebrow--accent">{b.eyebrow}</p>
+      <div class="bio__head">
+        <div><Title as="h1" class="t-1" text={b.title} /><p class="num bio__role">{site.titleLine}</p></div>
+        <div class="media media--4x5 media--mono bio__img"><Picture src={portrait} alt={`${site.name}`} widths={[320, 640]} sizes="240px" formats={['avif', 'webp']} loading="eager" decoding="async" /></div>
+      </div>
+
+      <section class="bio__sec" aria-labelledby="bio-short">
+        <h2 id="bio-short" class="eyebrow">{b.shortLabel}</h2>
+        <p class="lede lede--serif">{b.short}</p>
+      </section>
+
+      <section class="bio__sec" aria-labelledby="bio-long">
+        <h2 id="bio-long" class="eyebrow">{b.longLabel}</h2>
+        <div class="prose">{b.long.map((p) => <p>{p}</p>)}</div>
+      </section>
+
+      <section class="bio__sec" aria-labelledby="bio-facts">
+        <h2 id="bio-facts" class="eyebrow">{b.facts}</h2>
+        <dl class="bio__facts">
+          {stats.map((s) => <div><dt class="small muted">{s.data.label}</dt><dd class="serif">{s.data.value}</dd></div>)}
+          <div><dt class="small muted">Languages</dt><dd class="serif">{site.languages.join(', ')}</dd></div>
+          <div><dt class="small muted">Based in</dt><dd class="serif">{site.location.label}</dd></div>
+        </dl>
+      </section>
+
+      <p class="bio__actions no-print">
+        <button class="btn btn--ghost" type="button" onclick="window.print()">{b.print}</button>
+        <a class="link" href="/media">{b.back}<Arrow /></a>
+      </p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .bio { padding-top: clamp(7rem, 14vh, 9rem); padding-bottom: var(--section-sm); }
+  .bio__inner { display: grid; gap: var(--s-7); }
+  .bio__head { display: grid; gap: var(--s-6); align-items: end; }
+  .bio__role { text-transform: none; letter-spacing: 0.06em; margin-top: var(--s-3); }
+  .bio__img { width: 12rem; }
+  .bio__sec { display: grid; gap: var(--s-4); padding-top: var(--s-6); border-top: 1px solid var(--line); }
+  .bio__facts { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .bio__facts > div { display: grid; grid-template-columns: 1fr auto; gap: var(--s-4); padding: 0.7rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .bio__facts dd { font-size: 1.35rem; }
+  .bio__actions { display: flex; flex-wrap: wrap; gap: var(--s-5); align-items: center; }
+  @media (min-width: 720px) { .bio__head { grid-template-columns: 1fr auto; } }
+  @media print { .bio { padding-top: 0; } .bio__img { width: 8rem; } }
+</style>

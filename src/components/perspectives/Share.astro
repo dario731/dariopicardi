@@ -1,0 +1,49 @@
+---
+import type { Copy } from '@i18n/index';
+interface Props { url: string; title: string; slug: string; copy: Copy['perspectives'] }
+const { url, title, slug, copy } = Astro.props;
+const enc = encodeURIComponent;
+---
+<div class="share" data-share data-url={url} data-title={title}>
+  <span class="eyebrow">{copy.share}</span>
+  <ul role="list">
+    <li><a href={`https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}`} rel="noopener" target="_blank" aria-label={copy.shareChannels.linkedin} data-track="perspective_share" data-track-share-channel="linkedin" data-track-perspective-slug={slug}>LinkedIn</a></li>
+    <li><a href={`https://x.com/intent/tweet?url=${enc(url)}&text=${enc(title)}`} rel="noopener" target="_blank" aria-label={copy.shareChannels.x} data-track="perspective_share" data-track-share-channel="x" data-track-perspective-slug={slug}>X</a></li>
+    <li><a href={`mailto:?subject=${enc(title)}&body=${enc(url)}`} aria-label={copy.shareChannels.email} data-track="perspective_share" data-track-share-channel="email" data-track-perspective-slug={slug}>Email</a></li>
+    <li><button type="button" data-copy aria-label={copy.shareChannels.copy} data-track="perspective_share" data-track-share-channel="copy" data-track-perspective-slug={slug}><span data-copy-label>{copy.shareChannels.copy}</span></button></li>
+  </ul>
+  <span class="sr-only" role="status" data-copy-status></span>
+</div>
+
+<script>
+  function initShare() {
+    document.querySelectorAll<HTMLElement>('[data-share]').forEach((el) => {
+      if (el.dataset.bound) return;
+      el.dataset.bound = '1';
+      const btn = el.querySelector<HTMLButtonElement>('[data-copy]');
+      const label = el.querySelector<HTMLElement>('[data-copy-label]');
+      const status = el.querySelector<HTMLElement>('[data-copy-status]');
+      btn?.addEventListener('click', async () => {
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: el.dataset.title, url: el.dataset.url });
+            return;
+          }
+          await navigator.clipboard.writeText(el.dataset.url ?? '');
+          if (label) label.textContent = 'Link copied';
+          if (status) status.textContent = 'Link copied to clipboard';
+          setTimeout(() => { if (label) label.textContent = 'Copy link'; }, 2000);
+        } catch { /* user cancelled */ }
+      });
+    });
+  }
+  initShare();
+  document.addEventListener('astro:page-load', initShare);
+</script>
+
+<style>
+  .share { display: grid; gap: var(--s-3); }
+  .share ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .share a, .share button { display: inline-block; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.5em 0.95em; border: 1px solid var(--line); border-radius: 999px; transition: border-color var(--dur-1), color var(--dur-1); }
+  .share a:hover, .share button:hover { border-color: var(--accent); color: var(--accent); }
+</style>

@@ -1,0 +1,119 @@
+---
+/**
+ * Perspectives index body — categories, search (client-side over the rendered
+ * cards, with a progressive fallback to the static list), pagination, and an
+ * honest empty state when nothing is published yet.
+ */
+import ArticleCard from '@components/perspectives/ArticleCard.astro';
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import type { Copy } from '@i18n/index';
+import type { withMeta } from '@lib/perspectives';
+type Card = Awaited<ReturnType<typeof withMeta>>[number];
+interface Props {
+  cards: Card[];
+  categories: { id: string; name: string }[];
+  activeCategory?: string;
+  copy: Copy['perspectives'];
+  page?: { current: number; total: number; prev: number | null; next: number | null; base: string };
+  totalPublished: number;
+}
+const { cards, categories, activeCategory, copy, page, totalPublished } = Astro.props;
+const pageHref = (n: number) => (n === 1 ? (page?.base ?? '/perspectives') : `${page?.base ?? '/perspectives'}/page/${n}`);
+---
+
+<section class="px section g-ivory" id="perspectives">
+  <div class="container">
+    <div class="px__tools" data-reveal>
+      <nav class="px__cats" aria-label={copy.categories}>
+        <ul role="list">
+          <li><a class:list={{ 'is-active': !activeCategory }} href="/perspectives" aria-current={!activeCategory ? 'page' : undefined}>{copy.all}</a></li>
+          {categories.map((c) => <li><a class:list={{ 'is-active': activeCategory === c.id }} href={`/perspectives/category/${c.id}`} aria-current={activeCategory === c.id ? 'page' : undefined}>{c.name}</a></li>)}
+        </ul>
+      </nav>
+      <form class="px__search" role="search" action="/perspectives" method="get" data-search-form>
+        <label class="sr-only" for="px-q">{copy.searchLabel}</label>
+        <input class="input" id="px-q" type="search" name="q" placeholder={copy.searchPlaceholder} autocomplete="off" />
+        <button class="btn btn--ghost" type="submit">{copy.search}</button>
+      </form>
+    </div>
+
+    {totalPublished === 0 ? (
+      <div class="px__empty">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.empty.eyebrow}</p>
+        <div data-reveal><Title as="h2" class="t-1" text={copy.empty.title} /></div>
+        <p class="lede muted" data-reveal>{copy.empty.body}</p>
+        <ol class="px__themes" role="list" data-reveal-group>
+          {copy.empty.themes.map((t, i) => <li><span class="num">{String(i + 1).padStart(2, '0')}</span><span class="serif">{t}</span></li>)}
+        </ol>
+      </div>
+    ) : (
+      <>
+        <div class="px__grid" data-cards data-reveal-group>
+          {cards.map((c, i) => <ArticleCard entry={c.entry} categoryName={c.categoryName} readingTime={c.readingTime} readingLabel={copy.readingTime} featured={!activeCategory && !page?.prev && i === 0 && c.entry.data.featured} />)}
+        </div>
+        <p class="px__none lede muted" data-none hidden>{copy.noResults}</p>
+        {page && page.total > 1 && (
+          <nav class="px__pag" aria-label="Pagination">
+            {page.prev ? <a class="link" href={pageHref(page.prev)} rel="prev">← {copy.prev}</a> : <span />}
+            <span class="num">{copy.page} {page.current} / {page.total}</span>
+            {page.next ? <a class="link" href={pageHref(page.next)} rel="next">{copy.next}<Arrow /></a> : <span />}
+          </nav>
+        )}
+      </>
+    )}
+
+    <p class="px__rss small"><a class="link link--sm" href="/perspectives/rss.xml">{copy.rss}</a></p>
+  </div>
+</section>
+
+<script>
+  function initSearch() {
+    const form = document.querySelector<HTMLFormElement>('[data-search-form]');
+    const input = form?.querySelector<HTMLInputElement>('input[type=search]');
+    const grid = document.querySelector<HTMLElement>('[data-cards]');
+    const none = document.querySelector<HTMLElement>('[data-none]');
+    if (!form || !input || form.dataset.bound) return;
+    form.dataset.bound = '1';
+    const cards = grid ? Array.from(grid.querySelectorAll<HTMLElement>('[data-search]')) : [];
+    let index: { slug: string; title: string; excerpt: string; category: string; tags: string[]; date: string }[] | null = null;
+    const apply = async (q: string) => {
+      const needle = q.trim().toLowerCase();
+      if (!needle) { cards.forEach((c) => (c.hidden = false)); if (none) none.hidden = true; return; }
+      // Search across ALL published perspectives (not just this page) via the static index.
+      if (!index) {
+        try { index = await (await fetch('/perspectives/search.json')).json(); } catch { index = []; }
+      }
+      const matches = new Set((index ?? []).filter((e) => `${e.title} ${e.excerpt} ${e.category} ${e.tags.join(' ')}`.toLowerCase().includes(needle)).map((e) => e.slug));
+      let shown = 0;
+      cards.forEach((c) => { const slug = c.querySelector<HTMLAnchorElement>('a')?.getAttribute('href')?.split('/').pop() ?? ''; const on = matches.has(slug) || (c.dataset.search ?? '').includes(needle); c.hidden = !on; if (on) shown++; });
+      if (none) none.hidden = shown > 0;
+    };
+    let t: number | undefined;
+    input.addEventListener('input', () => { window.clearTimeout(t); t = window.setTimeout(() => apply(input.value), 120); });
+    form.addEventListener('submit', (e) => { e.preventDefault(); apply(input.value); const u = new URL(window.location.href); if (input.value) u.searchParams.set('q', input.value); else u.searchParams.delete('q'); history.replaceState(null, '', u); });
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) { input.value = q; apply(q); }
+  }
+  initSearch();
+  document.addEventListener('astro:page-load', initSearch);
+</script>
+
+<style>
+  .px__tools { display: grid; gap: var(--s-5); padding-bottom: var(--s-6); margin-bottom: var(--s-7); border-bottom: 1px solid var(--line); }
+  .px__cats ul { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+  .px__cats a { display: inline-block; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.45em 0.9em; border: 1px solid var(--line); border-radius: 999px; color: var(--fg-muted); transition: color var(--dur-1), border-color var(--dur-1), background var(--dur-1); }
+  .px__cats a:hover { color: var(--fg); border-color: var(--fg); }
+  .px__cats a.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  .px__search { display: grid; grid-template-columns: 1fr auto; gap: var(--s-3); max-width: 32rem; }
+  .px__grid { display: grid; gap: var(--s-7) var(--s-6); }
+  .px__grid > :global(.card--featured) { grid-column: 1 / -1; }
+  .px__empty { display: grid; gap: var(--s-5); max-width: 56rem; }
+  .px__themes { display: grid; border-top: 1px solid var(--line); margin-top: var(--s-4); }
+  .px__themes li { display: flex; align-items: baseline; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.15rem, 1.8vw, 1.5rem); }
+  .px__pag { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s-4); margin-top: var(--s-8); padding-top: var(--s-5); border-top: 1px solid var(--line); }
+  .px__pag > :last-child { justify-self: end; }
+  .px__rss { margin-top: var(--s-7); }
+  @media (min-width: 720px) { .px__grid { grid-template-columns: repeat(2, 1fr); } .px__themes { grid-template-columns: repeat(2, 1fr); column-gap: var(--s-7); } }
+  @media (min-width: 1024px) { .px__grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

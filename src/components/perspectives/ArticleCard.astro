@@ -1,0 +1,33 @@
+---
+import { Picture } from 'astro:assets';
+import { formatDate, isoDate } from '@lib/format';
+import type { Perspective } from '@lib/perspectives';
+interface Props { entry: Perspective; categoryName: string; readingTime: number; readingLabel: string; featured?: boolean }
+const { entry, categoryName, readingTime, readingLabel, featured = false } = Astro.props;
+const href = `/perspectives/${entry.id}`;
+---
+<article class:list={['card', { 'card--featured': featured }]} data-search={`${entry.data.title} ${entry.data.excerpt} ${categoryName} ${entry.data.tags.join(' ')}`.toLowerCase()} data-category={entry.data.category.id}>
+  <a class="card__link" href={href} data-track="navigation_click" data-track-cta-name="perspective_card" data-track-perspective-slug={entry.id}>
+    <div class="card__media media media--16x9">
+      {entry.data.hero?.image ? (
+        <Picture src={entry.data.hero.image} alt={entry.data.hero.alt} widths={[480, 768, 1080]} sizes={featured ? '(min-width: 1024px) 60vw, 100vw' : '(min-width: 1024px) 33vw, 100vw'} formats={['avif', 'webp']} loading="lazy" decoding="async" />
+      ) : (
+        <div class="card__blank" aria-hidden="true"><span class="serif">{entry.data.title.charAt(0)}</span></div>
+      )}
+    </div>
+    <p class="card__meta num"><span>{categoryName}</span><span aria-hidden="true">·</span><time datetime={isoDate(entry.data.publishDate)}>{formatDate(entry.data.publishDate)}</time><span aria-hidden="true">·</span><span>{readingTime} {readingLabel}</span></p>
+    <h3 class="card__title serif">{entry.data.title}</h3>
+    <p class="card__excerpt small muted">{entry.data.excerpt}</p>
+  </a>
+</article>
+
+<style>
+  .card__link { display: grid; gap: var(--s-3); height: 100%; }
+  .card__media { transition: transform var(--dur-2) var(--ease-out); }
+  .card__blank { height: 100%; display: grid; place-items: center; background: linear-gradient(135deg, var(--surface), var(--bg)); color: var(--accent); font-size: 4rem; }
+  .card__meta { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .card__title { font-size: 1.45rem; line-height: 1.2; transition: color var(--dur-1); }
+  .card--featured .card__title { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  .card__link:hover .card__title { color: var(--accent); }
+  .card__excerpt { text-wrap: pretty; }
+</style>

@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Index from '@components/perspectives/Index.astro';
+import { getCollection } from 'astro:content';
+import { getCopy } from '@i18n/index';
+import { getPublished, withMeta, paginate, PAGE_SIZE } from '@lib/perspectives';
+import { collectionPageLd, breadcrumbLd } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const all = await getPublished('en');
+  const total = Math.ceil(all.length / PAGE_SIZE);
+  return Array.from({ length: Math.max(0, total - 1) }, (_, i) => ({ params: { page: String(i + 2) } }));
+}
+
+const copy = getCopy('en').perspectives;
+const n = Number(Astro.params.page);
+const path = `/perspectives/page/${n}`;
+const all = await getPublished('en');
+const pg = paginate(all, n);
+const cards = await withMeta(pg.items);
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order).map((c) => ({ id: c.id, name: c.data.name }));
+const title = `${copy.seo.title} — ${copy.page} ${n}`;
+const jsonLd = [collectionPageLd({ name: title, description: copy.seo.description, path }), breadcrumbLd([{ name: 'Perspectives', path: '/perspectives' }, { name: `${copy.page} ${n}`, path }])];
+---
+
+<BaseLayout title={title} description={copy.seo.description} {path} pageType="perspectives" {jsonLd}>
+  <EditorialHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lede={copy.hero.lede} crumbs={[{ name: 'Perspectives', path: '/perspectives' }, { name: `${copy.page} ${n}`, path }]} compact />
+  <Index {cards} {categories} {copy} totalPublished={all.length} page={{ current: pg.current, total: pg.total, prev: pg.prev, next: pg.next, base: '/perspectives' }} />
+</BaseLayout>

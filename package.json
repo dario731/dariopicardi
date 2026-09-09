@@ -1,0 +1,36 @@
+{
+  "name": "dariopicardi-com",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dario Picardi — personal website. Born in Italy. Shaped by the world. Building from Miami.",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "node scripts/brand.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "node scripts/lint.mjs",
+    "test": "node --test \"scripts/tests/*.test.mjs\"",
+    "og": "node scripts/og.mjs",
+    "qa": "node scripts/qa.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^8.0.1",
+    "@astrojs/netlify": "^8.2.5",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "astro": "^7.3.2",
+    "sharp": "^0.35.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
+  }
+}

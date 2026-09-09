@@ -1,0 +1,92 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "discipline-before-opportunity",
+      "order": 1,
+      "title": "Discipline Before Opportunity",
+      "line": "Success begins before the opportunity appears — in preparation, consistency and standards.",
+      "body": [
+        "Opportunities rarely announce themselves. They arrive in the middle of ordinary work, and they reward the people who are already prepared: the market already studied, the relationship already built, the numbers already understood.",
+        "Dario's discipline was formed early, long before any title. It is the reason a perfect final score at school and two degrees summa cum laude belong in a professional story: not as trophies, but as evidence of how he works when nobody is watching."
+      ]
+    },
+    {
+      "id": "commitment-through-execution",
+      "order": 2,
+      "title": "Commitment Through Execution",
+      "line": "Ideas matter only when someone remains committed long enough to make them real.",
+      "body": [
+        "Between a good idea and a working operation lies a long stretch of unglamorous work: legal entities, logistics, contracts, teams, mistakes and corrections. Most ideas fail not because they were wrong, but because nobody stayed with them.",
+        "Dario measures himself on what exists afterward — a subsidiary that operates, a brand on the shelf, a company that trades — rather than on what was recommended."
+      ]
+    },
+    {
+      "id": "vision-across-industries",
+      "order": 3,
+      "title": "Vision Across Industries",
+      "line": "The ability to see how different markets, companies and people can create value together.",
+      "body": [
+        "Beauty, distribution, real estate, hospitality, yachting and investment often serve the same client and rarely speak to each other. Dario's work has never been limited to one industry. His greatest strength is the ability to understand different worlds, recognize where their interests converge, and bring the right people together to generate meaningful business."
+      ]
+    },
+    {
+      "id": "relationships-built-over-time",
+      "order": 4,
+      "title": "Relationships Built Over Time",
+      "line": "The strongest opportunities emerge from credibility, trust, loyalty and mutual value.",
+      "body": [
+        "A network is not a list of names. It is a set of relationships in which people have seen each other keep their word. Many of Dario's most productive professional relationships began as genuine human trust — and several of them are now decades old.",
+        "Businesses may begin with an opportunity. The most enduring ones are built through people."
+      ]
+    },
+    {
+      "id": "global-vision-local-execution",
+      "order": 5,
+      "title": "Global Vision, Local Execution",
+      "line": "International business requires understanding what changes from one market to another.",
+      "body": [
+        "A strategy that works in Milan may fail in Mexico City for reasons that have nothing to do with the product: a different retail structure, a different way of negotiating, a different idea of time. Operating across more than fifty countries taught Dario to respect those differences rather than to flatten them.",
+        "For Dario, international experience was never simply about visiting markets. It meant entering them, understanding them, and building within them."
+      ]
+    },
+    {
+      "id": "teaching-through-experience",
+      "order": 6,
+      "title": "Teaching Through Experience",
+      "line": "Knowledge becomes more valuable when it helps another person move forward.",
+      "body": [
+        "For Dario, experience creates a responsibility to share. He takes particular satisfaction in helping people see an opportunity more clearly, understand the path forward, and develop the confidence and structure required to execute.",
+        "This is practical mentoring, grounded in real operations — not motivation from a stage."
+      ]
+    },
+    {
+      "id": "continuous-learning",
+      "order": 7,
+      "title": "Continuous Learning",
+      "line": "Experience matters, but curiosity keeps experience relevant.",
+      "body": [
+        "The world first became his workplace, but it never stopped being his teacher. Markets change, channels change, technology changes what a small team can do. Dario's confidence comes from experience, but his growth comes from remaining curious."
+      ]
+    },
+    {
+      "id": "humility",
+      "order": 8,
+      "title": "Humility",
+      "line": "Confidence should come from preparation and experience without eliminating openness, listening or respect.",
+      "body": [
+        "Across countries, cultures, industries and relationships, he has learned that there is always something more to understand. Experience provides perspective. Humility keeps it evolving."
+      ]
+    },
+    {
+      "id": "skin-in-the-game",
+      "order": 9,
+      "title": "Skin in the Game",
+      "line": "Build alongside partners, and test strategies through real ventures and operations.",
+      "body": [
+        "Dario does not separate investment from execution. He builds alongside the people he works with, and BIZ & STYLE tests its methods inside its own ventures before offering them to anyone else. When genuine alignment exists, the platform may participate in selected ventures and joint ventures as a strategic or equity partner.",
+        "The most compelling opportunities are those where capital, expertise, relationships and operating capability can work together."
+      ]
+    }
+  ]
+}

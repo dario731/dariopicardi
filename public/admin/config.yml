@@ -1,0 +1,304 @@
+# Decap CMS — editorial interface at /admin
+# Backend: Netlify Identity + Git Gateway (enable both in the Netlify dashboard,
+# invite editors by email). Every save is a commit; "Publish" merges to main and
+# triggers a build. Editorial workflow = drafts → in review → ready.
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: 'content: create {{collection}} “{{slug}}”'
+    update: 'content: update {{collection}} “{{slug}}”'
+    delete: 'content: delete {{collection}} “{{slug}}”'
+    uploadMedia: 'media: upload “{{path}}”'
+    deleteMedia: 'media: delete “{{path}}”'
+
+publish_mode: editorial_workflow
+media_folder: 'src/assets/images/uploads'
+public_folder: '@assets/images/uploads'
+site_url: https://dariopicardi.com
+display_url: https://dariopicardi.com
+logo_url: /icon-512.png
+locale: en
+
+slug:
+  encoding: unicode
+  clean_accents: true
+  sanitize_replacement: '-'
+
+collections:
+  - name: perspectives
+    label: Perspectives
+    label_singular: Perspective
+    folder: src/content/perspectives
+    extension: mdx
+    format: frontmatter
+    create: true
+    slug: '{{slug}}'
+    preview_path: perspectives/{{slug}}
+    sortable_fields: [publishDate, title]
+    summary: '{{title}} — {{publishDate}}'
+    fields:
+      - { label: Title, name: title, widget: string, hint: 'Max 120 characters.' }
+      - { label: Excerpt, name: excerpt, widget: text, hint: 'One or two sentences, max 260 characters. Used in cards, RSS and search.' }
+      - { label: Category, name: category, widget: select, options: [international-business, commerce, market-entry, investment, leadership, entrepreneurship, luxury-markets, real-estate, business-wealth-lifestyle, miami, europe-americas, technology-ai, family-enterprise, personal-reflections] }
+      - { label: Tags, name: tags, widget: list, required: false, default: [] }
+      - { label: Publish date, name: publishDate, widget: datetime, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false, hint: 'A future date schedules the piece: it is hidden until a build runs on or after that date.' }
+      - { label: Updated date, name: updatedDate, widget: datetime, required: false, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false }
+      - { label: Draft, name: draft, widget: boolean, default: true, hint: 'Drafts are never built.' }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - label: Hero image
+        name: hero
+        widget: object
+        required: false
+        fields:
+          - { label: Image, name: image, widget: image, required: false }
+          - { label: Alt text, name: alt, widget: string, required: false, hint: 'Describe the photograph for readers who cannot see it.' }
+          - { label: Credit, name: credit, widget: string, required: false }
+      - { label: Author, name: author, widget: hidden, default: dario-picardi }
+      - { label: Related (slugs), name: related, widget: list, required: false, default: [] }
+      - label: SEO
+        name: seo
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Social image (URL), name: ogImage, widget: string, required: false }
+          - { label: No index, name: noindex, widget: boolean, default: false, required: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: settings
+    label: Site settings & data
+    editor: { preview: false }
+    files:
+      - name: site
+        label: Identity, contact & social
+        file: src/data/site.json
+        fields:
+          - { label: Name, name: name, widget: string }
+          - { label: Given name, name: givenName, widget: string }
+          - { label: Family name, name: familyName, widget: string }
+          - { label: Site URL, name: url, widget: string }
+          - { label: Title line, name: titleLine, widget: string }
+          - { label: Tagline, name: tagline, widget: string }
+          - { label: Description (meta), name: description, widget: text }
+          - { label: Role, name: role, widget: string }
+          - label: Organization
+            name: organization
+            widget: object
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Legal name, name: legalName, widget: string }
+              - { label: URL, name: url, widget: string }
+              - { label: Luxury division URL, name: luxuryUrl, widget: string }
+              - { label: Founding year, name: foundingYear, widget: string }
+              - { label: Divisions, name: divisions, widget: list }
+          - label: Location
+            name: location
+            widget: object
+            fields:
+              - { label: City, name: city, widget: string }
+              - { label: Region, name: region, widget: string }
+              - { label: Country, name: country, widget: string }
+              - { label: Label, name: label, widget: string }
+          - label: Office
+            name: office
+            widget: object
+            fields:
+              - { label: Street address, name: streetAddress, widget: string }
+              - { label: Locality, name: addressLocality, widget: string }
+              - { label: Region, name: addressRegion, widget: string }
+              - { label: Postal code, name: postalCode, widget: string }
+              - { label: Country, name: addressCountry, widget: string }
+              - { label: Show publicly, name: public, widget: boolean }
+          - label: Contact
+            name: contact
+            widget: object
+            fields:
+              - { label: Email, name: email, widget: string }
+              - { label: Show email publicly, name: emailPublic, widget: boolean }
+              - { label: Phone, name: phone, widget: string }
+              - { label: Phone (E.164), name: phoneE164, widget: string }
+              - { label: Show phone publicly, name: phonePublic, widget: boolean }
+              - { label: Calendly URL, name: calendly, widget: string, required: false }
+              - { label: Show Calendly publicly, name: calendlyPublic, widget: boolean }
+          - label: Social profiles (leave empty until approved)
+            name: social
+            widget: object
+            fields:
+              - { label: LinkedIn, name: linkedin, widget: string, required: false }
+              - { label: Instagram, name: instagram, widget: string, required: false }
+              - { label: X, name: x, widget: string, required: false }
+              - { label: YouTube, name: youtube, widget: string, required: false }
+          - { label: Languages, name: languages, widget: list }
+          - { label: Nationality, name: nationality, widget: string }
+          - { label: Birthplace, name: birthplace, widget: string, required: false }
+          - label: Family
+            name: family
+            widget: object
+            fields:
+              - { label: Spouse, name: spouse, widget: string }
+              - { label: Child, name: child, widget: string }
+          - label: SEO
+            name: seo
+            widget: object
+            fields:
+              - { label: Default social image, name: defaultImage, widget: string }
+              - { label: Twitter handle, name: twitterHandle, widget: string, required: false }
+          - label: Downloads
+            name: downloads
+            widget: object
+            fields:
+              - { label: Biography PDF (path under /public), name: biographyPdf, widget: string, required: false }
+              - { label: Media kit PDF, name: mediaKitPdf, widget: string, required: false }
+              - { label: CV PDF, name: cvPdf, widget: string, required: false }
+          - { label: Note, name: _note, widget: hidden }
+
+      - name: stats
+        label: Statistics (proof of experience)
+        file: src/content/data/stats.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Value, name: value, widget: string }
+              - { label: Label, name: label, widget: string }
+              - { label: Source, name: source, widget: string }
+              - { label: Order, name: order, widget: number }
+              - { label: Show on homepage, name: home, widget: boolean }
+
+      - name: milestones
+        label: Career milestones
+        file: src/content/data/milestones.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Phase, name: phase, widget: select, options: [learning, leading, building] }
+              - { label: Order, name: order, widget: number }
+              - { label: Years (label), name: years, widget: string }
+              - { label: Start year, name: startYear, widget: number, required: false }
+              - { label: Title, name: title, widget: string }
+              - { label: Organization, name: organization, widget: string, required: false }
+              - { label: Kind, name: kind, widget: select, options: [education, role, venture, moment] }
+              - { label: Location, name: location, widget: string, required: false }
+              - { label: Places (IDs), name: places, widget: list, required: false }
+              - { label: Summary, name: summary, widget: text }
+              - { label: Details, name: details, widget: list, required: false }
+              - { label: Status, name: status, widget: select, options: [verified, placeholder] }
+              - { label: Source, name: source, widget: string, required: false }
+
+      - name: places
+        label: Global map places
+        file: src/content/data/places.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Name, name: name, widget: string }
+              - { label: Country, name: country, widget: string }
+              - { label: Latitude, name: lat, widget: number, value_type: float }
+              - { label: Longitude, name: lng, widget: number, value_type: float }
+              - { label: Role, name: role, widget: select, options: [roots, education, hub, affiliate, base] }
+              - { label: Note, name: note, widget: text }
+              - { label: Label side, name: labelSide, widget: select, options: [left, right, top, bottom] }
+              - { label: Source, name: source, widget: string, required: false }
+
+      - name: organizations
+        label: Companies, brands, markets
+        file: src/content/data/organizations.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Name, name: name, widget: string }
+              - { label: Category, name: category, widget: select, options: [executive, brand, market, partnership, ecosystem, education] }
+              - { label: Note, name: note, widget: text }
+              - { label: Order, name: order, widget: number }
+              - { label: Source, name: source, widget: string, required: false }
+
+      - name: media
+        label: Media, speaking & recognition
+        file: src/content/data/media.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Type, name: type, widget: select, options: [interview, speaking, event, commentary, role, recognition, video, press] }
+              - { label: Title, name: title, widget: string }
+              - { label: Outlet / organizer, name: outlet, widget: string, required: false }
+              - { label: Date, name: date, widget: datetime, required: false, format: 'YYYY-MM-DD', date_format: 'YYYY-MM-DD', time_format: false }
+              - { label: Date label, name: dateLabel, widget: string, required: false }
+              - { label: Location, name: location, widget: string, required: false }
+              - { label: URL, name: url, widget: string, required: false }
+              - { label: Video URL (YouTube/Vimeo), name: videoUrl, widget: string, required: false }
+              - { label: Summary, name: summary, widget: text, required: false }
+              - { label: Published (verified), name: published, widget: boolean, default: false }
+              - { label: Source / verification, name: source, widget: string, required: false }
+
+      - name: principles
+        label: Operating Philosophy
+        file: src/content/data/principles.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Order, name: order, widget: number }
+              - { label: Title, name: title, widget: string }
+              - { label: Line, name: line, widget: string }
+              - { label: Body (paragraphs), name: body, widget: list }
+
+      - name: framework
+        label: Six-word framework
+        file: src/content/data/framework.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Order, name: order, widget: number }
+              - { label: Word, name: word, widget: string }
+              - { label: Line, name: line, widget: string }
+              - { label: Body, name: body, widget: text }
+
+      - name: categories
+        label: Perspective categories
+        file: src/content/data/categories.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID (slug), name: id, widget: string }
+              - { label: Name, name: name, widget: string }
+              - { label: Description, name: description, widget: string }
+              - { label: Order, name: order, widget: number }
+
+      - name: authors
+        label: Authors
+        file: src/content/data/authors.json
+        fields:
+          - label: Items
+            name: items
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Name, name: name, widget: string }
+              - { label: Role, name: role, widget: string }
+              - { label: Bio, name: bio, widget: text }
+              - { label: Image (public path), name: image, widget: string, required: false }
+              - { label: Same-as URLs, name: sameAs, widget: list, required: false }

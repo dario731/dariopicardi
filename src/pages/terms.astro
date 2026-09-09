@@ -1,0 +1,30 @@
+---
+import LegalPage from '@components/editorial/LegalPage.astro';
+import { getCopy } from '@i18n/index';
+import { site } from '@data/site';
+const l = getCopy('en').legal.terms;
+---
+<LegalPage title={l.seo.title} heading={l.title} description={l.seo.description} path="/terms" crumb="Terms" updated={l.updated}>
+  <p class="note"><strong>Draft for professional review.</strong> These terms are a starting point and must be reviewed by legal counsel before launch.</p>
+
+  <h2>Use of this website</h2>
+  <p>This website presents the professional story, experience and perspectives of {site.name}. Its content is provided for general information only. Nothing on this site constitutes legal, tax, immigration, accounting, investment or financial advice, an offer to sell or a solicitation of an offer to buy any security, real estate or other asset, or an offer of services. Where professional services are required, they are provided through the relevant company under a separate agreement, and regulated matters are handled by licensed professionals.</p>
+
+  <h2>No advisory relationship</h2>
+  <p>{site.name} is not a registered investment adviser, broker-dealer or financial planner. Descriptions of investment activity on this site describe personal and entrepreneurial experience and philosophy, not advice to any reader. No result, return, transaction or business outcome is promised or implied.</p>
+
+  <h2>Accuracy</h2>
+  <p>Reasonable care is taken to keep the information on this site accurate and current. Figures described as coming from corporate materials are company statements. Past employers, brands, clients and partners named on this site do not endorse {site.name} or BIZ & STYLE; they are named to describe where experience was earned.</p>
+
+  <h2>Intellectual property</h2>
+  <p>Text, photographs and design on this site are © {new Date().getFullYear()} {site.name} unless otherwise stated. The BIZ & STYLE and B&S Luxury names and marks belong to their respective owners. Third-party trademarks are the property of their owners. Short quotations with attribution are welcome; reproduction of substantial parts requires permission.</p>
+
+  <h2>Links to other sites</h2>
+  <p>Links to other websites, including bizandstyledna.com and bns-luxury.com, are provided for convenience. Those sites have their own terms and privacy policies.</p>
+
+  <h2>Limitation of liability</h2>
+  <p>To the fullest extent permitted by law, {site.name} accepts no liability for any loss arising from reliance on the content of this website or from its unavailability.</p>
+
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of the State of Florida, United States, subject to review by counsel.</p>
+</LegalPage>

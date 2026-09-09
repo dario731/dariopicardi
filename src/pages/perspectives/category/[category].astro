@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Index from '@components/perspectives/Index.astro';
+import { getCollection } from 'astro:content';
+import { getCopy } from '@i18n/index';
+import { getPublished, withMeta } from '@lib/perspectives';
+import { collectionPageLd, breadcrumbLd } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const cats = await getCollection('categories');
+  return cats.map((c) => ({ params: { category: c.id }, props: { name: c.data.name, description: c.data.description } }));
+}
+
+const copy = getCopy('en').perspectives;
+const { name, description } = Astro.props as { name: string; description: string };
+const id = Astro.params.category!;
+const path = `/perspectives/category/${id}`;
+const all = await getPublished('en');
+const filtered = all.filter((e) => e.data.category.id === id);
+const cards = await withMeta(filtered);
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order).map((c) => ({ id: c.id, name: c.data.name }));
+const title = `${name} — Perspectives by Dario Picardi`;
+const jsonLd = [collectionPageLd({ name: title, description, path }), breadcrumbLd([{ name: 'Perspectives', path: '/perspectives' }, { name, path }])];
+---
+
+<BaseLayout title={title} description={`${description} Perspectives by Dario Picardi on ${name.toLowerCase()}.`} {path} pageType="perspectives" {jsonLd} noindex={filtered.length === 0}>
+  <EditorialHero eyebrow={copy.hero.eyebrow} title={`${name}`} lede={description} crumbs={[{ name: 'Perspectives', path: '/perspectives' }, { name, path }]} compact />
+  <Index {cards} {categories} activeCategory={id} {copy} totalPublished={all.length} />
+</BaseLayout>

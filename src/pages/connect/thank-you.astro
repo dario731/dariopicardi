@@ -1,0 +1,9 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import { getCopy } from '@i18n/index';
+const t = getCopy('en').connect.thanks;
+---
+<BaseLayout title={t.seo.title} description={t.seo.description} path="/connect/thank-you" pageType="connect-thanks" noindex>
+  <EditorialHero eyebrow={t.eyebrow} title={t.title} lede={t.body} primary={{ ...t.primary, name: 'story' }} secondary={{ ...t.secondary, name: 'home' }} />
+</BaseLayout>

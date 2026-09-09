@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Index from '@components/perspectives/Index.astro';
+import CtaBand from '@components/editorial/CtaBand.astro';
+import { getCollection } from 'astro:content';
+import { getCopy } from '@i18n/index';
+import { getPublished, withMeta, paginate } from '@lib/perspectives';
+import { collectionPageLd, breadcrumbLd } from '@lib/seo';
+
+const copy = getCopy('en').perspectives;
+const path = '/perspectives';
+const all = await getPublished('en');
+const pg = paginate(all, 1);
+const cards = await withMeta(pg.items);
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order).map((c) => ({ id: c.id, name: c.data.name }));
+const jsonLd = [collectionPageLd({ name: copy.seo.title, description: copy.seo.description, path }), breadcrumbLd([{ name: 'Perspectives', path }])];
+---
+
+<BaseLayout title={`${copy.seo.title}`} description={copy.seo.description} {path} pageType="perspectives" {jsonLd}>
+  <EditorialHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lede={copy.hero.lede} crumbs={[{ name: 'Perspectives', path }]} compact />
+  <Index {cards} {categories} {copy} totalPublished={all.length} page={{ current: pg.current, total: pg.total, prev: pg.prev, next: pg.next, base: '/perspectives' }} />
+  <CtaBand ground="notte" title={copy.cta.title} primary={{ label: copy.cta.label, href: copy.cta.href, name: 'connect' }} />
+</BaseLayout>

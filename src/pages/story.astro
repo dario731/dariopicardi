@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import ImageNarrative from '@components/editorial/ImageNarrative.astro';
+import PullQuote from '@components/editorial/PullQuote.astro';
+import CtaBand from '@components/editorial/CtaBand.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import sea from '@assets/images/dario-sea-miami.jpg';
+import skyline from '@assets/images/dario-miami-skyline.jpg';
+import portrait from '@assets/images/portrait-dario-tmp.jpg';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd } from '@lib/seo';
+import type { ImageMetadata } from 'astro';
+
+const s = getCopy('en').story;
+const path = '/story';
+const jsonLd = [webPageLd({ name: s.seo.title, description: s.seo.description, path, type: 'ProfilePage' }), breadcrumbLd([{ name: 'Story', path }])];
+type Chapter = { id: string; n: string; title: string; kicker: string; paragraphs: readonly string[]; pull?: string; facts?: readonly string[]; placeholder?: string; cta?: { label: string; href: string }; imageAlt?: string };
+const chapters = s.chapters as readonly Chapter[];
+const images: Record<string, { image: ImageMetadata; alt: string; ratio: '4x5' | '3x4' | '16x9'; treatment: 'mono' | 'warm' | 'none'; note?: string }> = {
+  world: { image: skyline, alt: 'Dario Picardi on the water off Miami with the skyline behind him', ratio: '16x9', treatment: 'warm', note: 'Miami · the city that became home' },
+  life: { image: sea, alt: 'Dario Picardi at sea off Miami', ratio: '4x5', treatment: 'warm', note: 'At sea · Miami' },
+  instinct: { image: portrait, alt: 'Dario Picardi', ratio: '4x5', treatment: 'mono', note: 'Portrait FOUNDER-01 (placeholder)' },
+};
+---
+
+<BaseLayout title={`${s.seo.title} — Dario Picardi`} description={s.seo.description} {path} pageType="story" type="profile" {jsonLd}>
+  <EditorialHero eyebrow={s.hero.eyebrow} title={s.hero.title} lede={s.hero.lede} crumbs={[{ name: 'Story', path }]}>
+    <nav class="toc" aria-label={s.chaptersLabel} data-reveal>
+      <p class="eyebrow">{s.chaptersLabel}</p>
+      <ol class="toc__list" role="list">
+        {s.chapters.map((ch) => <li><a href={`#${ch.id}`}><span class="num">{ch.n}</span><span>{ch.title}</span></a></li>)}
+      </ol>
+    </nav>
+  </EditorialHero>
+
+  <div class="chapters">
+    {chapters.map((ch, i) => {
+      const img = images[ch.id];
+      const dark = i % 3 === 2;
+      const flip = i % 2 === 1;
+      return (
+        <section class:list={['ch section', dark ? 'g-notte' : i % 3 === 1 ? 'g-lino' : 'g-ivory']} id={ch.id} aria-labelledby={`${ch.id}-title`}>
+          <div class:list={['container ch__grid', { 'ch__grid--flip': flip }]}>
+            <div class="ch__media">
+              <div class="ch__sticky" data-reveal>
+                {img ? (
+                  <ImageNarrative image={img.image} alt={img.alt} ratio={img.ratio} treatment={img.treatment} note={img.note} sizes="(min-width: 1024px) 40vw, 100vw" />
+                ) : (
+                  <ImageNarrative ratio="4x5" placeholder={ch.placeholder} manifestId={`STORY-${ch.n}`} alt="" />
+                )}
+                {ch.facts && (
+                  <ul class="ch__facts" role="list">
+                    {ch.facts.map((f) => <li>{f}</li>)}
+                  </ul>
+                )}
+              </div>
+            </div>
+            <div class="ch__text">
+              <p class="ch__n num" data-reveal>Chapter {ch.n}</p>
+              <h2 id={`${ch.id}-title`} class="t-1" data-reveal>{ch.title}</h2>
+              <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{ch.kicker}</p>
+              <div class="prose ch__prose" data-reveal>
+                {ch.paragraphs.map((p, j) => <p class:list={{ 'ch__lead': j === 0 }}>{p}</p>)}
+              </div>
+              {ch.pull && <PullQuote text={ch.pull} />}
+              {ch.cta && <p data-reveal><a class="link" href={ch.cta.href} data-track="navigation_click" data-track-cta-name={ch.id}>{ch.cta.label}<Arrow /></a></p>}
+            </div>
+          </div>
+        </section>
+      );
+    })}
+  </div>
+
+  <CtaBand ground="notte" title={s.closing.title} primary={{ ...s.closing.cta, name: 'global_career' }} secondary={{ ...s.closing.secondary, name: 'connect' }} />
+</BaseLayout>
+
+<style>
+  .toc { margin-top: var(--s-5); display: grid; gap: var(--s-4); }
+  .toc__list { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .toc__list a { display: flex; align-items: baseline; gap: 0.9rem; padding: 0.65rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.95rem; transition: color var(--dur-1); }
+  .toc__list a:hover { color: var(--avorio); }
+  .ch__grid { display: grid; gap: var(--s-7); align-items: start; }
+  .ch__text { display: grid; gap: var(--s-5); }
+  .ch__lead { font-family: var(--font-serif); font-size: calc(var(--fs-lede) * 1.15); line-height: 1.42; }
+  .ch__prose { color: var(--fg); }
+  .ch__facts { display: grid; gap: 0; margin-top: var(--s-4); border-top: 1px solid var(--accent); }
+  .ch__facts li { padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: var(--fs-small); color: var(--fg-muted); }
+  .ch__n { color: var(--accent); }
+  @media (min-width: 720px) { .toc__list { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-6); } }
+  @media (min-width: 1024px) {
+    .ch__grid { grid-template-columns: 5fr 7fr; column-gap: calc(var(--gutter) * 2.5); }
+    .ch__grid--flip .ch__media { order: 2; }
+    .ch__sticky { position: sticky; top: 6.5rem; }
+  }
+</style>

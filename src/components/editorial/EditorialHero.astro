@@ -1,0 +1,45 @@
+---
+/**
+ * EditorialHero — page opener on the Notte ground: eyebrow, serif title, lede,
+ * optional breadcrumbs and actions. Used by every inner page.
+ */
+import Title from '@components/ui/Title.astro';
+import Breadcrumbs from '@components/editorial/Breadcrumbs.astro';
+import Arrow from '@components/ui/Arrow.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  crumbs?: { name: string; path: string }[];
+  primary?: { label: string; href: string; name?: string };
+  secondary?: { label: string; href: string; name?: string };
+  compact?: boolean;
+}
+const { eyebrow, title, lede, crumbs = [], primary, secondary, compact = false } = Astro.props;
+---
+
+<section class:list={['ehero g-notte', { 'ehero--compact': compact }]}>
+  <div class="container ehero__inner">
+    {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
+    <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{eyebrow}</p>
+    <div data-reveal><Title as="h1" class="t-1 ehero__title" text={title} /></div>
+    {lede && <p class="lede ehero__lede" data-reveal>{lede}</p>}
+    {(primary || secondary) && (
+      <div class="ehero__actions" data-reveal>
+        {primary && <a class="btn btn--accent" href={primary.href} data-track="cta_click" data-track-cta-name={primary.name ?? primary.label} data-track-cta-location="hero">{primary.label}<Arrow /></a>}
+        {secondary && <a class="link" href={secondary.href} data-track="cta_click" data-track-cta-name={secondary.name ?? secondary.label} data-track-cta-location="hero">{secondary.label}<Arrow /></a>}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .ehero { padding-top: clamp(8rem, 18vh, 12rem); padding-bottom: var(--section-sm); }
+  .ehero--compact { padding-top: clamp(7rem, 14vh, 9rem); padding-bottom: var(--s-8); }
+  .ehero__inner { display: grid; gap: var(--s-5); }
+  .ehero__title { max-width: 18ch; }
+  .ehero__lede { color: var(--sabbia); }
+  .ehero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); margin-top: var(--s-2); }
+</style>

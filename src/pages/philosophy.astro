@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import PullQuote from '@components/editorial/PullQuote.astro';
+import CtaBand from '@components/editorial/CtaBand.astro';
+import { getCollection } from 'astro:content';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd } from '@lib/seo';
+
+const p = getCopy('en').philosophy;
+const path = '/philosophy';
+const principles = (await getCollection('principles')).map((x) => x.data).sort((a, b) => a.order - b.order);
+const jsonLd = [webPageLd({ name: p.seo.title, description: p.seo.description, path }), breadcrumbLd([{ name: 'The Operating Philosophy', path }])];
+---
+
+<BaseLayout title={`${p.seo.title} — Dario Picardi`} description={p.seo.description} {path} pageType="philosophy" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} crumbs={[{ name: 'The Operating Philosophy', path }]}>
+    <ol class="pr-toc" role="list" data-reveal>
+      {principles.map((pr) => <li><a href={`#${pr.id}`}><span class="num">{String(pr.order).padStart(2, '0')}</span><span>{pr.title}</span></a></li>)}
+    </ol>
+  </EditorialHero>
+
+  <section class="section g-ivory" id="principles">
+    <div class="container">
+      <ol class="pr" role="list">
+        {principles.map((pr) => (
+          <li class="pr__item" id={pr.id}>
+            <div class="pr__side" data-reveal>
+              <span class="pr__n serif">{String(pr.order).padStart(2, '0')}</span>
+            </div>
+            <div class="pr__main">
+              <h2 class="t-2" data-reveal>{pr.title}</h2>
+              <p class="pr__line lede lede--serif" data-reveal>{pr.line}</p>
+              <div class="prose" data-reveal>{pr.body.map((b) => <p>{b}</p>)}</div>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section g-notte" id="passion" aria-labelledby="passion-title">
+    <div class="container passion">
+      <p class="eyebrow eyebrow--rule eyebrow--accent" id="passion-title" data-reveal>{p.passion.eyebrow}</p>
+      <PullQuote text={p.passion.quote} class="passion__quote" />
+      <p class="lede passion__body" data-reveal>{p.passion.body}</p>
+    </div>
+  </section>
+
+  <CtaBand ground="ivory" title={p.closing.title} primary={{ ...p.closing.cta, name: 'biz_style_page' }} secondary={{ ...p.closing.secondary, name: 'perspectives' }} />
+</BaseLayout>
+
+<style>
+  .pr-toc { display: grid; margin-top: var(--s-5); border-top: 1px solid var(--line); }
+  .pr-toc a { display: flex; align-items: baseline; gap: 0.9rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.92rem; transition: color var(--dur-1); }
+  .pr-toc a:hover { color: var(--avorio); }
+  .pr { display: grid; }
+  .pr__item { display: grid; gap: var(--s-4); padding: clamp(2.5rem, 6vw, 4.5rem) 0; border-top: 1px solid var(--line); scroll-margin-top: 6rem; }
+  .pr__n { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 0.9; color: var(--accent); }
+  .pr__main { display: grid; gap: var(--s-4); max-width: 62ch; }
+  .pr__line { color: var(--fg); }
+  .passion { display: grid; gap: var(--s-6); max-width: 60rem; }
+  .passion__quote { max-width: 40ch; }
+  .passion__body { color: var(--sabbia); }
+  @media (min-width: 720px) { .pr-toc { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-6); } }
+  @media (min-width: 900px) { .pr__item { grid-template-columns: 9rem 1fr; column-gap: var(--s-7); } }
+</style>

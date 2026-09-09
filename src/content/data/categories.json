@@ -1,0 +1,89 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "international-business",
+      "name": "International Business",
+      "description": "Operating across markets, cultures and legal environments.",
+      "order": 1
+    },
+    {
+      "id": "commerce",
+      "name": "Commerce",
+      "description": "The human side of buying, selling, distribution and trade.",
+      "order": 2
+    },
+    {
+      "id": "market-entry",
+      "name": "Market Entry",
+      "description": "Entering, understanding and building within a new market.",
+      "order": 3
+    },
+    {
+      "id": "investment",
+      "name": "Investment",
+      "description": "Evaluating opportunities with an operator's perspective.",
+      "order": 4
+    },
+    {
+      "id": "leadership",
+      "name": "Leadership",
+      "description": "Discipline, commitment, teaching and the people behind the work.",
+      "order": 5
+    },
+    {
+      "id": "entrepreneurship",
+      "name": "Entrepreneurship",
+      "description": "From executive to founder and builder.",
+      "order": 6
+    },
+    {
+      "id": "luxury-markets",
+      "name": "Luxury Markets",
+      "description": "Where business, wealth and lifestyle meet the same clientele.",
+      "order": 7
+    },
+    {
+      "id": "real-estate",
+      "name": "Real Estate",
+      "description": "Miami, pre-construction and real estate as a stage of the journey.",
+      "order": 8
+    },
+    {
+      "id": "business-wealth-lifestyle",
+      "name": "Business, Wealth & Lifestyle",
+      "description": "The connected journey behind BIZ & STYLE.",
+      "order": 9
+    },
+    {
+      "id": "miami",
+      "name": "Miami",
+      "description": "The gateway between North America, Europe and Latin America.",
+      "order": 10
+    },
+    {
+      "id": "europe-americas",
+      "name": "Europe & the Americas",
+      "description": "Bridges between two business cultures.",
+      "order": 11
+    },
+    {
+      "id": "technology-ai",
+      "name": "Technology & AI",
+      "description": "What changes for operators when tools change.",
+      "order": 12
+    },
+    {
+      "id": "family-enterprise",
+      "name": "Family Enterprise",
+      "description": "Building with the next generation in mind.",
+      "order": 13
+    },
+    {
+      "id": "personal-reflections",
+      "name": "Personal Reflections",
+      "description": "Family, food, the sea and the life behind the work.",
+      "order": 14
+    }
+  ]
+}

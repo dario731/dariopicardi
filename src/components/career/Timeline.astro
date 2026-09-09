@@ -1,0 +1,88 @@
+---
+/**
+ * Timeline — three phases, milestones in narrative order. Verified entries
+ * render as facts; placeholders say so, visibly. Milestones carry the places
+ * they touched, which the map below can highlight.
+ */
+import { getCollection } from 'astro:content';
+import type { Copy } from '@i18n/index';
+interface Props { copy: Copy['career'] }
+const { copy } = Astro.props;
+const all = (await getCollection('milestones')).map((m) => m.data).sort((a, b) => a.order - b.order);
+const byPhase = (id: string) => all.filter((m) => m.phase === id);
+const placesById = Object.fromEntries((await getCollection('places')).map((p) => [p.id, p.data.name]));
+---
+
+<section class="tl section g-ivory" id="timeline" aria-labelledby="timeline-title">
+  <div class="container">
+    <h2 id="timeline-title" class="sr-only">{copy.timelineLabel}</h2>
+    {copy.phases.map((ph) => (
+      <div class="tl__phase" id={`phase-${ph.id}`}>
+        <div class="tl__phase-head" data-reveal>
+          <span class="tl__phase-n serif">{ph.n}</span>
+          <div>
+            <h3 class="t-2">{ph.title}</h3>
+            <p class="lede muted">{ph.line}</p>
+          </div>
+        </div>
+        <ol class="tl__list" role="list">
+          {byPhase(ph.id).map((m) => (
+            <li class:list={['ms', `ms--${m.kind}`, { 'ms--placeholder': m.status === 'placeholder' }]} data-reveal>
+              <div class="ms__when">
+                <span class="ms__years serif">{m.years}</span>
+                {m.status === 'placeholder' && <span class="ms__flag num">{copy.placeholderNote}</span>}
+              </div>
+              <div class="ms__body">
+                <h4 class="ms__title serif">{m.title}</h4>
+                {(m.organization || m.location) && (
+                  <p class="ms__org num">
+                    {m.organization && <span>{m.organization}</span>}
+                    {m.organization && m.location && <span aria-hidden="true"> · </span>}
+                    {m.location && <span>{m.location}</span>}
+                  </p>
+                )}
+                <p class="ms__summary">{m.summary}</p>
+                {m.details.length > 0 && (
+                  <ul class="ms__details" role="list">
+                    {m.details.map((d) => <li>{d}</li>)}
+                  </ul>
+                )}
+                {m.places.length > 0 && (
+                  <p class="ms__places">
+                    {m.places.map((id) => <a class="ms__place" href="#map" data-ms-place={id}>{placesById[id] ?? id}</a>)}
+                  </p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .tl__phase + .tl__phase { margin-top: clamp(4rem, 9vw, 7rem); }
+  .tl__phase-head { display: grid; grid-template-columns: auto 1fr; gap: var(--s-5); align-items: start; margin-bottom: var(--s-7); }
+  .tl__phase-head > div { display: grid; gap: var(--s-3); }
+  .tl__phase-n { font-size: clamp(2.6rem, 6vw, 4.5rem); line-height: 0.9; color: var(--accent); min-width: 3ch; }
+  .tl__list { display: grid; border-top: 1px solid var(--line); }
+  .ms { display: grid; gap: var(--s-4); padding: var(--s-6) 0; border-bottom: 1px solid var(--line); }
+  .ms__when { display: grid; gap: 0.4rem; align-content: start; }
+  .ms__years { font-size: 1.45rem; line-height: 1.1; }
+  .ms__flag { color: var(--accent); font-size: 0.62rem; }
+  .ms__body { display: grid; gap: var(--s-3); max-width: 62ch; }
+  .ms__title { font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.15; letter-spacing: -0.01em; }
+  .ms__org { text-transform: none; letter-spacing: 0.06em; font-size: 0.8rem; }
+  .ms__summary { color: var(--fg); }
+  .ms__details { display: grid; gap: 0.55rem; padding-left: 1.1rem; color: var(--fg-muted); font-size: 0.98rem; }
+  .ms__details li { list-style: none; position: relative; }
+  .ms__details li::before { content: ''; position: absolute; left: -1.1rem; top: 0.72em; width: 0.45rem; height: 1px; background: var(--accent); }
+  .ms__places { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-top: 0.2rem; }
+  .ms__place { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3em 0.7em; border: 1px solid var(--line); border-radius: 999px; color: var(--fg-muted); transition: border-color var(--dur-1), color var(--dur-1); }
+  .ms__place:hover { border-color: var(--accent); color: var(--fg); }
+  .ms--placeholder .ms__title { color: var(--fg-muted); }
+  @media (min-width: 900px) {
+    .ms { grid-template-columns: 11rem 1fr; column-gap: var(--s-7); }
+  }
+</style>

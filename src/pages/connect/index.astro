@@ -1,0 +1,77 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import ContactForm from '@components/connect/ContactForm.astro';
+import { getCopy } from '@i18n/index';
+import { contactPageLd, breadcrumbLd } from '@lib/seo';
+import { site } from '@data/site';
+
+export const prerender = false; // the form carries a fresh signed token per request
+
+const c = getCopy('en').connect;
+const path = '/connect';
+const preselect = Astro.url.searchParams.get('interest') ?? undefined;
+const error = Astro.url.searchParams.get('error');
+const jsonLd = [contactPageLd({ name: c.seo.title, description: c.seo.description, path }), breadcrumbLd([{ name: 'Connect', path }])];
+---
+
+<BaseLayout title={`${c.seo.title}`} description={c.seo.description} {path} pageType="connect" {jsonLd}>
+  <EditorialHero eyebrow={c.hero.eyebrow} title={c.hero.title} lede={c.hero.lede} crumbs={[{ name: 'Connect', path }]} compact>
+    <ul class="areas" role="list" aria-label={c.areasLabel} data-reveal>
+      {c.areas.map((a) => <li><a href={`#contact-form`} data-area={a.id}>{a.label}</a></li>)}
+    </ul>
+  </EditorialHero>
+
+  <section class="section g-ivory" id="contact">
+    <div class="container cn">
+      <div class="cn__form">
+        {error && <p class="field__error" style="display:block" role="alert">{error === 'rate_limited' ? c.form.errors.rate : c.form.errors.generic}</p>}
+        <ContactForm copy={c} {preselect} />
+      </div>
+      <aside class="cn__side">
+        <p class="eyebrow eyebrow--rule eyebrow--accent">{c.direct.eyebrow}</p>
+        <dl class="cn__dl">
+          {site.contact.emailPublic && site.contact.email && <div><dt class="num">{c.direct.email}</dt><dd><a class="serif" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></dd></div>}
+          {site.contact.phonePublic && site.contact.phone && <div><dt class="num">{c.direct.phone}</dt><dd><a class="serif" href={`tel:${site.contact.phoneE164}`}>{site.contact.phone}</a></dd></div>}
+          {site.office.public && <div><dt class="num">{c.direct.office}</dt><dd class="serif">{site.office.streetAddress}<br />{site.office.addressLocality}, {site.office.addressRegion} {site.office.postalCode}<br /><span class="small muted">{c.direct.office2}</span></dd></div>}
+          {site.contact.calendlyPublic && site.contact.calendly && <div><dt class="num">{c.direct.calendly}</dt><dd><a class="serif" href={site.contact.calendly} rel="noopener">calendly.com ↗</a></dd></div>}
+          <div><dt class="num">{c.direct.ecosystem}</dt><dd><a class="serif" href={site.organization.url} rel="noopener">bizandstyledna.com ↗</a><br /><a class="serif" href={site.organization.luxuryUrl} rel="noopener">bns-luxury.com ↗</a></dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Area chips preselect the form's area of interest.
+  function initAreas() {
+    document.querySelectorAll<HTMLAnchorElement>('[data-area]').forEach((a) => {
+      if (a.dataset.bound) return;
+      a.dataset.bound = '1';
+      a.addEventListener('click', () => {
+        const sel = document.querySelector<HTMLSelectElement>('#cf-interest');
+        if (sel) { sel.value = a.dataset.area ?? ''; sel.dispatchEvent(new Event('input')); }
+      });
+    });
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+    if (form) { form.dataset.sending = 'Sending…'; }
+  }
+  initAreas();
+  document.addEventListener('astro:page-load', initAreas);
+</script>
+
+<style>
+  .areas { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--s-4); }
+  .areas a { display: inline-block; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5em 0.95em; border: 1px solid var(--line); border-radius: 999px; color: var(--sabbia); transition: border-color var(--dur-1), color var(--dur-1); }
+  .areas a:hover { border-color: var(--accent); color: var(--avorio); }
+  .cn { display: grid; gap: var(--s-8); }
+  .cn__side { display: grid; gap: var(--s-5); align-content: start; }
+  .cn__dl { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .cn__dl > div { display: grid; gap: 0.35rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+  .cn__dl dd { font-size: 1.15rem; line-height: 1.4; }
+  .cn__dl a:hover { color: var(--accent); }
+  @media (min-width: 1024px) {
+    .cn { grid-template-columns: 7fr 4fr; column-gap: calc(var(--gutter) * 2.5); align-items: start; }
+    .cn__side { position: sticky; top: 7rem; }
+  }
+</style>

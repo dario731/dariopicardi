@@ -1,0 +1,124 @@
+/* ==========================================================================
+   DARIO PICARDI — design tokens
+   Two grounds (Ivory / Notte), one accent (Bronze) used for hairlines, focus,
+   markers and the route line. Mediterranean blue (Tirreno) appears only in the
+   map's water and a handful of hover states. Everything else is typography,
+   rules, photography and space.
+   ========================================================================== */
+:root {
+  /* colour — foundation */
+  --notte: #0c0b0a;          /* near-black, warm */
+  --carbone: #17150f;        /* raised surface on Notte */
+  --grafite: #2b2823;        /* rules on Notte */
+  --pietra: #8b8378;         /* muted text on Notte */
+  --sabbia: #d9cdb8;         /* soft on Notte */
+  --avorio: #f4eee3;         /* warm ivory ground */
+  --lino: #ebe3d4;           /* raised surface on Ivory */
+  --calce: #d8cfbd;          /* rules on Ivory */
+  --fumo: #6b6459;           /* muted text on Ivory */
+  --inchiostro: #14120f;     /* ink text on Ivory */
+  --bronzo: #a5834f;         /* bronze accent */
+  --bronzo-2: #c4a575;       /* bronze, lighter (on Notte) */
+  --tirreno: #1e4c63;        /* Mediterranean blue, sparingly */
+  --tirreno-2: #6d97ad;
+
+  /* ground-relative (overridden by .g-ivory / .g-notte) */
+  --bg: var(--avorio);
+  --fg: var(--inchiostro);
+  --fg-muted: var(--fumo);
+  --line: var(--calce);
+  --surface: var(--lino);
+  --accent: var(--bronzo);
+  --accent-soft: rgba(165, 131, 79, 0.28);
+
+  /* type */
+  --font-serif: 'Newsreader Variable', 'Newsreader', 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  --font-sans: 'Inter Variable', 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  --fs-display: clamp(2.75rem, 8.2vw, 7.5rem);   /* hero */
+  --fs-1: clamp(2.35rem, 5.6vw, 5rem);          /* page / chapter titles */
+  --fs-2: clamp(1.8rem, 3.6vw, 3.1rem);          /* section titles */
+  --fs-3: clamp(1.35rem, 2.2vw, 1.9rem);         /* statements */
+  --fs-lede: clamp(1.12rem, 1.5vw, 1.35rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-eyebrow: 0.7rem;
+  --fs-quote: clamp(1.55rem, 3vw, 2.6rem);
+
+  --lh-display: 1.0;
+  --lh-tight: 1.12;
+  --lh-body: 1.62;
+
+  /* space */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --section: clamp(5.5rem, 11vw, 11rem);
+  --section-sm: clamp(3.5rem, 7vw, 6.5rem);
+
+  /* layout */
+  --container: 1360px;
+  --container-narrow: 760px;
+  --gutter: clamp(1.125rem, 3.4vw, 3.25rem);
+  --measure: 64ch;
+
+  /* shape */
+  --radius: 2px;
+  --radius-pill: 999px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 220ms;
+  --dur-2: 520ms;
+  --dur-3: 1000ms;
+
+  /* z */
+  --z-header: 50;
+  --z-menu: 60;
+  --z-toast: 90;
+
+  color-scheme: light;
+}
+
+.g-ivory {
+  --bg: var(--avorio);
+  --fg: var(--inchiostro);
+  --fg-muted: var(--fumo);
+  --line: var(--calce);
+  --surface: var(--lino);
+  --accent: var(--bronzo);
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: light;
+}
+
+.g-notte {
+  --bg: var(--notte);
+  --fg: var(--avorio);
+  --fg-muted: var(--pietra);
+  --line: var(--grafite);
+  --surface: var(--carbone);
+  --accent: var(--bronzo-2);
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: dark;
+}
+
+.g-lino {
+  --bg: var(--lino);
+  --fg: var(--inchiostro);
+  --fg-muted: var(--fumo);
+  --line: var(--calce);
+  --surface: var(--avorio);
+  --accent: var(--bronzo);
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: light;
+}

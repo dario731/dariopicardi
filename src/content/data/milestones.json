@@ -1,0 +1,215 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "high-school",
+      "phase": "learning",
+      "order": 1,
+      "years": "Year to confirm",
+      "title": "Secondary school, highest possible final score: 100/100",
+      "kind": "education",
+      "location": "Italy",
+      "places": [
+        "calabria"
+      ],
+      "summary": "A perfect final score was not an isolated result. It was the first visible sign of the discipline, consistency and commitment that would later define an international career.",
+      "details": [],
+      "status": "placeholder",
+      "source": "Brief (confirmed). Exact school name and graduation year required from Dario."
+    },
+    {
+      "id": "bachelor",
+      "phase": "learning",
+      "order": 2,
+      "years": "Years to confirm",
+      "title": "Bachelor's degree in Management, summa cum laude",
+      "organization": "Università della Calabria",
+      "kind": "education",
+      "location": "Calabria, Italy",
+      "places": [
+        "calabria"
+      ],
+      "summary": "The first of two degrees in Management from Università della Calabria, completed with the highest distinction.",
+      "details": [
+        "Exchange program at Universidad de Valencia, Spain — a first professional immersion in another language and business culture."
+      ],
+      "status": "placeholder",
+      "source": "CV (Bachelor's, Business Administration, Università della Calabria, cum laude); brief (Management, summa cum laude). Exact degree title and dates required."
+    },
+    {
+      "id": "master",
+      "phase": "learning",
+      "order": 3,
+      "years": "Years to confirm",
+      "title": "Master's degree in Management, summa cum laude",
+      "organization": "Università della Calabria",
+      "kind": "education",
+      "location": "Calabria, Italy",
+      "places": [
+        "calabria",
+        "valencia"
+      ],
+      "summary": "The second degree, again with the highest distinction — the academic foundation of a career that would be built on numbers, markets and people.",
+      "details": [],
+      "status": "placeholder",
+      "source": "CV (Master's, Business Administration, Università della Calabria, cum laude); brief (Management, summa cum laude). Exact degree title and dates required."
+    },
+    {
+      "id": "loreal",
+      "phase": "learning",
+      "order": 4,
+      "years": "2009 – 2010",
+      "startYear": 2009,
+      "title": "Business Analyst",
+      "organization": "L'Oréal",
+      "kind": "role",
+      "location": "Italy",
+      "places": [
+        "milan"
+      ],
+      "summary": "The corporate foundation: analysis, planning and the operating standards of the world's largest beauty group.",
+      "details": [],
+      "status": "verified",
+      "source": "CV"
+    },
+    {
+      "id": "estee-lauder",
+      "phase": "learning",
+      "order": 5,
+      "years": "2010 – 2011",
+      "startYear": 2010,
+      "title": "Business Manager",
+      "organization": "The Estée Lauder Companies",
+      "kind": "role",
+      "location": "Italy",
+      "places": [
+        "milan"
+      ],
+      "summary": "Commercial responsibility inside a second global prestige group — and the introduction to international brand management that would shape the next decade.",
+      "details": [],
+      "status": "verified",
+      "source": "CV"
+    },
+    {
+      "id": "perfume-holding",
+      "phase": "leading",
+      "order": 6,
+      "years": "2011 – 2018",
+      "startYear": 2011,
+      "title": "Regional Director, Americas & Europe",
+      "organization": "Perfume Holding",
+      "kind": "role",
+      "location": "Europe and the Americas",
+      "places": [
+        "milan",
+        "new-york",
+        "sao-paulo",
+        "mexico",
+        "miami",
+        "london"
+      ],
+      "summary": "Seven years leading licensed fragrance brands across two continents — building distribution, negotiating with the operators that handle the world's prestige brands, and turning a portfolio of licenses into a regional business.",
+      "details": [
+        "Led the expansion of Ferrari fragrances across the Americas, reaching €50 million in wholesale turnover within three years (approximately €200 million at retail).",
+        "Managed a portfolio of licensed brands including Ferrari, Benetton, La Perla and Atkinsons.",
+        "Strengthened the regional footprint through long-term partnerships with the top-tier operators handling global prestige brands.",
+        "Arrived in Miami in 2016 during one of the final international assignments of this period — the city that would become home and headquarters."
+      ],
+      "status": "verified",
+      "source": "CV; brief"
+    },
+    {
+      "id": "miami-2016",
+      "phase": "building",
+      "order": 7,
+      "years": "2016",
+      "startYear": 2016,
+      "title": "Miami",
+      "kind": "moment",
+      "location": "Miami, United States",
+      "places": [
+        "miami"
+      ],
+      "summary": "Arriving in Miami on an executive assignment, Dario recognized a recurring gap: companies had access to consultants, agencies and individual providers, but very few partners could connect strategy with real execution on the ground.",
+      "details": [],
+      "status": "verified",
+      "source": "Brief"
+    },
+    {
+      "id": "bizstyle-founded",
+      "phase": "building",
+      "order": 8,
+      "years": "2017",
+      "startYear": 2017,
+      "title": "Founder & President",
+      "organization": "BIZ & STYLE",
+      "kind": "venture",
+      "location": "Miami Beach, United States",
+      "places": [
+        "miami",
+        "mexico",
+        "sao-paulo"
+      ],
+      "summary": "Founded in Miami Beach as an advisory and distribution platform for international beauty groups, investors and family offices — and expanded, year by year, into an ecosystem with its own team, infrastructure and ventures.",
+      "details": [
+        "Established a local executive team and operating infrastructure in Miami, including domestic and bonded warehousing, fulfillment and logistics.",
+        "Structured joint ventures and internationalization projects across beauty, luxury and lifestyle, including a joint-venture project with an Italian beauty group to expand operations in the U.S. and Latin America.",
+        "Expanded into Miami real estate, advising international clients on new-construction and luxury developments — the origin of B&S Luxury.",
+        "Today: three divisions (Commerce, Advisory, Luxury), operating bases in Miami, Mexico and Brazil, and a network of more than 200 commercial partners."
+      ],
+      "status": "verified",
+      "source": "CV; Corporate Profile 2026; one-pager 2026. Note: the CV lists B&S from 2018; corporate materials state 2017 — 2017 used, pending confirmation."
+    },
+    {
+      "id": "pca",
+      "phase": "leading",
+      "order": 9,
+      "years": "2019 – 2024",
+      "startYear": 2019,
+      "title": "SVP & Managing Director, International Division",
+      "organization": "The PCA Companies",
+      "kind": "role",
+      "location": "New York and international markets",
+      "places": [
+        "new-york",
+        "mexico",
+        "caribbean",
+        "montevideo",
+        "milan",
+        "london",
+        "mumbai",
+        "dubai",
+        "cannes"
+      ],
+      "summary": "Engaged through his own management company to build an international division from nothing — and bringing additional experts from his team to strengthen execution.",
+      "details": [
+        "Built the International Division from zero to more than ten affiliates worldwide within five years — Mexico, the Caribbean, Uruguay, Italy, the United Kingdom, India and Dubai among them.",
+        "Designed a non-traditional affiliate model in which each affiliate acts as distributor for multiple brands, creating a multiplier effect.",
+        "Positioned the group at TFWA Cannes, the world's leading duty-free and travel-retail exhibition, and secured alliances with top regional operators.",
+        "Executed in parallel with the growth of BIZ & STYLE in Miami — the executive years and the entrepreneurial years overlapping, and informing each other."
+      ],
+      "status": "verified",
+      "source": "CV"
+    },
+    {
+      "id": "investor",
+      "phase": "building",
+      "order": 10,
+      "years": "Today",
+      "title": "Entrepreneur and investor",
+      "organization": "BIZ & STYLE ecosystem",
+      "kind": "venture",
+      "location": "Miami · the Americas · Europe",
+      "places": [
+        "miami",
+        "mexico",
+        "sao-paulo",
+        "milan"
+      ],
+      "summary": "Dario approaches investment through the eyes of an operator. He looks beyond the opportunity on paper to understand the people, market, execution, infrastructure and relationships required to create lasting value. When genuine alignment exists, BIZ & STYLE may participate in selected ventures and joint ventures as a strategic or equity partner.",
+      "details": [],
+      "status": "verified",
+      "source": "Brief; Corporate Profile 2026. Specific investments are not disclosed without approval."
+    }
+  ]
+}

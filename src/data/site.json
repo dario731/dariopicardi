@@ -1,0 +1,64 @@
+{
+  "_note": "Single source of truth for identity, contact and social data. Edit through /admin (Site settings) or by hand. Every value here is verified against the CV, the BIZ & STYLE Corporate Profile 2026 and the one-pager — see docs/VERIFIED-CONTENT.md. Empty strings mean 'not yet approved for publication' and are simply not rendered.",
+  "name": "Dario Picardi",
+  "givenName": "Dario",
+  "familyName": "Picardi",
+  "url": "https://dariopicardi.com",
+  "titleLine": "International executive · Entrepreneur · Investor · Founder & President, BIZ & STYLE",
+  "tagline": "Born in Italy. Shaped by the world. Building from Miami.",
+  "description": "Dario Picardi is an Italian-born international executive, entrepreneur, investor and founder of BIZ & STYLE — a Miami-based business ecosystem connecting commerce, advisory, investment, real estate and luxury across the Americas and the world.",
+  "role": "Founder & President",
+  "organization": {
+    "name": "BIZ & STYLE",
+    "legalName": "BIZ & STYLE DNA INC.",
+    "url": "https://bizandstyledna.com",
+    "luxuryUrl": "https://bns-luxury.com",
+    "foundingYear": "2017",
+    "divisions": ["B&S Commerce", "B&S Advisory", "B&S Luxury"]
+  },
+  "location": {
+    "city": "Miami Beach",
+    "region": "FL",
+    "country": "US",
+    "label": "Miami Beach, Florida"
+  },
+  "office": {
+    "streetAddress": "1000 5th Street, Suite 200",
+    "addressLocality": "Miami Beach",
+    "addressRegion": "FL",
+    "postalCode": "33139",
+    "addressCountry": "US",
+    "public": true
+  },
+  "contact": {
+    "email": "dario@bizandstyledna.com",
+    "emailPublic": true,
+    "phone": "+1 786 870 7262",
+    "phoneE164": "+17868707262",
+    "phonePublic": true,
+    "calendly": "https://calendly.com/dario-bizandstyledna/30min",
+    "calendlyPublic": false
+  },
+  "social": {
+    "linkedin": "",
+    "instagram": "",
+    "x": "",
+    "youtube": ""
+  },
+  "languages": ["Italian", "English", "Spanish", "Portuguese"],
+  "nationality": "Italian",
+  "birthplace": "",
+  "family": {
+    "spouse": "Alfonsina",
+    "child": "Amedeo"
+  },
+  "seo": {
+    "defaultImage": "/og-default.jpg",
+    "twitterHandle": ""
+  },
+  "downloads": {
+    "biographyPdf": "",
+    "mediaKitPdf": "",
+    "cvPdf": ""
+  }
+}

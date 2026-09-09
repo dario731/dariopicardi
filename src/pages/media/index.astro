@@ -1,0 +1,89 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import { getCollection } from 'astro:content';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd } from '@lib/seo';
+import { formatDate, isoDate } from '@lib/format';
+import { site } from '@data/site';
+
+const m = getCopy('en').media;
+const path = '/media';
+const items = (await getCollection('media')).map((x) => x.data).filter((x) => x.published).sort((a, b) => (b.date?.valueOf() ?? 0) - (a.date?.valueOf() ?? 0));
+const sections = m.sections.map((s) => ({ ...s, items: items.filter((i) => i.type === s.id) }));
+const jsonLd = [webPageLd({ name: m.seo.title, description: m.seo.description, path }), breadcrumbLd([{ name: 'Media & Recognition', path }])];
+const embed = (u: string) => {
+  const yt = u.match(/(?:youtu\.be\/|v=)([\w-]{6,})/);
+  if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}`;
+  const vm = u.match(/vimeo\.com\/(\d+)/);
+  if (vm) return `https://player.vimeo.com/video/${vm[1]}?dnt=1`;
+  return null;
+};
+---
+
+<BaseLayout title={`${m.seo.title} — Dario Picardi`} description={m.seo.description} {path} pageType="media" {jsonLd}>
+  <EditorialHero eyebrow={m.hero.eyebrow} title={m.hero.title} lede={m.hero.lede} crumbs={[{ name: 'Media & Recognition', path }]} compact />
+
+  <section class="section g-ivory" id="media-list">
+    <div class="container md">
+      {sections.map((s) => (
+        <div class="md__sec" id={s.id}>
+          <h2 class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{s.title}</h2>
+          {s.items.length === 0 ? (
+            <p class="md__empty small muted" data-reveal>{m.emptySection}</p>
+          ) : (
+            <ul class="md__list" role="list" data-reveal-group>
+              {s.items.map((it) => (
+                <li class="md__item">
+                  <div class="md__when num">{it.dateLabel ?? (it.date ? <time datetime={isoDate(it.date)}>{formatDate(it.date)}</time> : '')}</div>
+                  <div class="md__body">
+                    <h3 class="serif md__title">{it.url ? <a href={it.url} rel="noopener">{it.title} ↗</a> : it.title}</h3>
+                    <p class="num md__outlet">{[it.outlet, it.location].filter(Boolean).join(' · ')}</p>
+                    {it.summary && <p class="small muted">{it.summary}</p>}
+                    {it.videoUrl && embed(it.videoUrl) && (
+                      <div class="media media--16x9 md__video"><iframe src={embed(it.videoUrl)!} title={it.title} loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen data-track="media_play" data-track-item={it.id}></iframe></div>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section g-lino" id="kit" aria-labelledby="kit-title">
+    <div class="container grid-2">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{m.kit.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="kit-title" class="t-1" text={m.kit.title} /></div>
+        <p class="lede muted" data-reveal>{m.kit.body}</p>
+      </div>
+      <ul class="kit" role="list" data-reveal-group>
+        <li><a class="link" href={m.kit.bio.href}>{m.kit.bio.label}<Arrow /></a></li>
+        <li>{site.downloads.biographyPdf ? <a class="link" href={site.downloads.biographyPdf} download data-track="bio_download" data-track-item="biography">{m.kit.bioPdf}<Arrow /></a> : <span class="muted">{m.kit.bioPdf} — <span class="small">{m.kit.pending}</span></span>}</li>
+        <li>{site.downloads.mediaKitPdf ? <a class="link" href={site.downloads.mediaKitPdf} download data-track="bio_download" data-track-item="media_kit">{m.kit.kitPdf}<Arrow /></a> : <span class="muted">{m.kit.kitPdf} — <span class="small">{m.kit.pending}</span></span>}</li>
+        <li><a class="btn" href={m.kit.request.href} data-track="cta_click" data-track-cta-name="request_interview" data-track-cta-location="media_kit">{m.kit.request.label}<Arrow /></a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .md { display: grid; gap: clamp(2.5rem, 6vw, 4rem); }
+  .md__sec { display: grid; gap: var(--s-4); }
+  .md__list { display: grid; border-top: 1px solid var(--line); }
+  .md__item { display: grid; gap: var(--s-3); padding: var(--s-5) 0; border-bottom: 1px solid var(--line); }
+  .md__body { display: grid; gap: 0.4rem; max-width: 62ch; }
+  .md__title { font-size: 1.4rem; line-height: 1.2; }
+  .md__title a:hover { color: var(--accent); }
+  .md__outlet { text-transform: none; letter-spacing: 0.06em; }
+  .md__video { margin-top: var(--s-3); }
+  .md__video iframe { width: 100%; height: 100%; border: 0; }
+  .md__empty { padding: var(--s-4) 0; border-top: 1px solid var(--line); }
+  .kit { display: grid; gap: var(--s-5); align-content: start; }
+  @media (min-width: 900px) { .md__item { grid-template-columns: 12rem 1fr; column-gap: var(--s-6); } }
+</style>

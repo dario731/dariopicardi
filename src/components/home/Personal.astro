@@ -1,0 +1,34 @@
+---
+/** Personal — family as purpose, the sea as perspective. One real photograph. */
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import ImageNarrative from '@components/editorial/ImageNarrative.astro';
+import sea from '@assets/images/dario-sea-miami.jpg';
+import type { Copy } from '@i18n/index';
+interface Props { copy: Copy['home']['personal'] }
+const { copy } = Astro.props;
+---
+
+<section class="per section g-notte" id="personal" aria-labelledby="personal-title">
+  <div class="container per__grid">
+    <div class="per__media" data-reveal>
+      <ImageNarrative image={sea} alt={copy.imageAlt} ratio="4x5" treatment="warm" note="At sea · Miami" sizes="(min-width: 1024px) 42vw, 100vw" widths={[480, 768, 1080, 1600]} />
+    </div>
+    <div class="per__text">
+      <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.eyebrow}</p>
+      <div data-reveal><Title as="h2" id="personal-title" class="t-1" text={copy.title} /></div>
+      <p class="lede per__lede" data-reveal>{copy.body}</p>
+      <a class="link" href={copy.cta.href} data-reveal data-track="navigation_click" data-track-cta-name="life_behind_work">{copy.cta.label}<Arrow /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .per__grid { display: grid; gap: var(--s-8); align-items: center; }
+  .per__text { display: grid; gap: var(--s-5); }
+  .per__lede { color: var(--sabbia); }
+  .per__text .link { justify-self: start; }
+  @media (min-width: 1024px) {
+    .per__grid { grid-template-columns: 5fr 7fr; column-gap: calc(var(--gutter) * 2.5); }
+  }
+</style>

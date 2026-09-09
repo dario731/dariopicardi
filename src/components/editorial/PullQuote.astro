@@ -1,0 +1,16 @@
+---
+/** PullQuote — a large serif statement with a bronze hairline. */
+interface Props { text: string; cite?: string; align?: 'left' | 'center'; class?: string }
+const { text, cite, align = 'left', class: cls = '' } = Astro.props;
+---
+<blockquote class:list={['pq', `pq--${align}`, cls]} data-reveal>
+  <p class="quote">{text}</p>
+  {cite && <cite class="eyebrow">{cite}</cite>}
+</blockquote>
+
+<style>
+  .pq { display: grid; gap: var(--s-4); padding-top: var(--s-5); border-top: 1px solid var(--accent); max-width: 30ch; }
+  .pq--center { margin-inline: auto; text-align: center; max-width: 34ch; }
+  .pq cite { font-style: normal; }
+  .pq--center cite { justify-content: center; }
+</style>

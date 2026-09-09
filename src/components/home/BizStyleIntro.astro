@@ -1,0 +1,54 @@
+---
+/** BizStyleIntro — the platform as the culmination of the story; Business → Wealth → Lifestyle. */
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import type { Copy } from '@i18n/index';
+interface Props { copy: Copy['home']['bizStyle'] }
+const { copy } = Astro.props;
+---
+
+<section class="bsi section g-ivory" id="biz-style" aria-labelledby="bsi-title">
+  <div class="container bsi__grid">
+    <div class="bsi__text">
+      <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.eyebrow}</p>
+      <div data-reveal><Title as="h2" id="bsi-title" class="t-1" text={copy.title} /></div>
+      <p class="lede muted" data-reveal>{copy.body}</p>
+      <div class="bsi__actions" data-reveal>
+        <a class="btn" href={copy.cta.href} data-track="cta_click" data-track-cta-name="biz_style_page" data-track-cta-location="biz_style">{copy.cta.label}<Arrow /></a>
+        <a class="link" href={copy.external.href} rel="noopener">{copy.external.label} ↗</a>
+      </div>
+    </div>
+    <div class="bsi__journey" data-reveal>
+      <p class="eyebrow">{copy.journeyLabel}</p>
+      <ol class="bsi__stages" role="list">
+        {copy.journey.map((s, i) => (
+          <li class="bsi__stage" style={`--i:${i}`}>
+            <span class="bsi__stage-n num">0{i + 1}</span>
+            <span class="bsi__stage-name serif">{s}</span>
+            {i < copy.journey.length - 1 && <span class="bsi__stage-arrow" aria-hidden="true"><Arrow class="bsi__arrow" /></span>}
+          </li>
+        ))}
+      </ol>
+      <p class="small muted bsi__journey-body">{copy.journeyBody}</p>
+      <p class="bsi__wordmark"><img src="/brand/bizandstyle-black.svg" alt="BIZ & STYLE — Business. Wealth. Lifestyle." width="190" height="42" loading="lazy" decoding="async" /></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bsi__grid { display: grid; gap: var(--s-8); align-items: start; }
+  .bsi__text { display: grid; gap: var(--s-5); }
+  .bsi__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); }
+  .bsi__journey { display: grid; gap: var(--s-5); padding: var(--s-6); border: 1px solid var(--line); background: var(--surface); }
+  .bsi__stages { display: grid; gap: 0.6rem; }
+  .bsi__stage { display: grid; grid-template-columns: 2.5rem 1fr auto; align-items: center; gap: var(--s-3); padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+  .bsi__stage-name { font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1; }
+  .bsi__stage-arrow { color: var(--accent); }
+  .bsi__arrow { width: 1.4rem; height: 1.4rem; transform: rotate(90deg); }
+  .bsi__wordmark { margin-top: var(--s-2); opacity: 0.8; }
+  .bsi__wordmark img { width: 190px; height: auto; }
+  @media (min-width: 1024px) {
+    .bsi__grid { grid-template-columns: 7fr 5fr; column-gap: calc(var(--gutter) * 2); }
+    .bsi__journey { position: sticky; top: 7rem; }
+  }
+</style>

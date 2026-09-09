@@ -1,0 +1,614 @@
+/**
+ * English copy — every page. Lines marked with the brief's supplied wording are
+ * used as given; everything else is written to the same standard. Factual
+ * claims are cross-referenced in docs/VERIFIED-CONTENT.md.
+ *
+ * Titles may contain "|" to mark a line break for balanced headings, and
+ * <em>…</em> for italic emphasis (rendered by the Title component).
+ */
+export const en = {
+  meta: {
+    siteName: 'Dario Picardi',
+    titleSuffix: ' — Dario Picardi',
+  },
+
+  nav: {
+    menu: 'Menu',
+    close: 'Close',
+    cta: { label: 'Connect', href: '/connect' },
+    tagline: 'Born in Italy. Shaped by the world. Building from Miami.',
+  },
+
+  footer: {
+    line: 'Born in Italy. Shaped by the world. Building from Miami.',
+    explore: 'Explore',
+    more: 'More',
+    legal: 'Legal',
+    connect: 'Connect',
+    ecosystem: 'Ecosystem',
+    bizStyle: 'BIZ & STYLE',
+    bnsLuxury: 'B&S Luxury',
+    rights: 'All rights reserved.',
+    made: 'Business. Wealth. Lifestyle.',
+    rss: 'Perspectives RSS',
+  },
+
+  consent: {
+    title: 'Privacy and analytics',
+    body: 'This site uses privacy-conscious analytics to understand which stories are read. No advertising cookies. You can change your choice at any time on the Privacy page.',
+    accept: 'Accept analytics',
+    decline: 'Decline',
+    more: 'Privacy policy',
+  },
+
+  home: {
+    seo: {
+      title: 'Dario Picardi — Born in Italy. Shaped by the world. Building from Miami.',
+      description:
+        'Dario Picardi is an Italian-born international executive, entrepreneur, investor and founder of BIZ & STYLE — a Miami-based business ecosystem connecting commerce, advisory, investment, real estate and luxury.',
+    },
+    hero: {
+      eyebrow: 'Dario Picardi',
+      title: 'Born in Italy.|Shaped by the world.|Building from Miami.',
+      lede: 'Dario Picardi is an international executive, entrepreneur, investor, and founder of BIZ & STYLE — a Miami-based business ecosystem connecting commerce, advisory, investment, real estate, and luxury.',
+      primary: { label: 'Discover the Story', href: '/story' },
+      secondary: { label: 'Explore BIZ & STYLE', href: '/biz-and-style' },
+      portraitAlt: 'Dario Picardi, Founder and President of BIZ & STYLE',
+      scroll: 'Scroll',
+    },
+    positioning: {
+      eyebrow: 'Who he is',
+      statement: 'An Italian-born international executive, entrepreneur, investor and business builder connecting markets, companies, capital, industries and people across the Americas and the world.',
+      body: 'From academic excellence and an international executive career to entrepreneurship and investment, Dario Picardi’s journey has always been driven by discipline, curiosity, relationships, and the determination to turn vision into concrete operations.',
+    },
+    proof: {
+      eyebrow: 'The record behind the position',
+      title: 'Evidence, <em>quietly.</em>',
+      body: 'These figures are not the story. They are the reason the story can be told with confidence.',
+    },
+    journey: {
+      eyebrow: 'The journey',
+      title: 'Discipline became experience.|Experience became enterprise.|Enterprise is becoming <em>impact.</em>',
+      chapters: [
+        { n: '01', title: 'The Roots', line: 'Italy: family, discipline, quality, and the desire to build something that lasts.', href: '/story#roots' },
+        { n: '02', title: 'The Merchant Instinct', line: 'Commerce was never simply an industry. It was an instinct.', href: '/story#instinct' },
+        { n: '03', title: 'The Discipline', line: 'A perfect final score at school. Two degrees in Management, both summa cum laude.', href: '/story#discipline' },
+        { n: '04', title: 'The Global Executive', line: 'Fifteen years entering markets, leading brands and building organizations across four continents.', href: '/global-career' },
+        { n: '05', title: 'The Entrepreneur and Investor', line: 'Miami, 2016. A gap recognized, a company founded, an ecosystem built.', href: '/biz-and-style' },
+        { n: '06', title: 'The Person', line: 'Husband, father, friend. Food, the sea, and the people who share the journey.', href: '/story#family' },
+      ],
+    },
+    instinct: {
+      eyebrow: 'The instinct to build',
+      title: 'Long before commerce became his profession, it was already part of his <em>nature.</em>',
+      body: 'The instinct to recognize value, connect people, negotiate, buy, sell, and create opportunity eventually became a formal education, an international executive career, and an entrepreneurial ecosystem.',
+      capabilities: [
+        { n: '01', title: 'See the Opportunity', body: 'Recognize potential across markets, industries, and relationships.' },
+        { n: '02', title: 'Connect the People', body: 'Bring together individuals and organizations with complementary strengths.' },
+        { n: '03', title: 'Build the Structure', body: 'Create the strategy, team, infrastructure, and commercial model required to move forward.' },
+        { n: '04', title: 'Make It Real', body: 'Remain committed until the opportunity becomes a concrete operation or result.' },
+      ],
+    },
+    global: {
+      eyebrow: 'Global experience',
+      title: 'Not a collection of destinations.|A career built <em>across markets.</em>',
+      body: 'For Dario, international experience was never simply about visiting markets. It meant entering them, understanding them, and building within them — establishing subsidiaries, building distribution, managing local executives, and connecting headquarters strategy with local execution.',
+      cta: { label: 'Explore the global career', href: '/global-career' },
+      strip: ['Calabria', 'Milan', 'Valencia', 'London', 'Cannes', 'New York', 'Miami', 'Mexico', 'Caribbean', 'São Paulo', 'Uruguay', 'Dubai', 'India', 'Singapore'],
+    },
+    framework: {
+      eyebrow: 'A way of working',
+      title: 'Six words.|One <em>discipline.</em>',
+      sentence: 'Vision identifies what could exist. Discipline defines the path. Commitment sustains the effort. Connection brings the right people together. Execution makes the opportunity real. Humility ensures the learning never stops.',
+      hint: 'Select a word',
+      cta: { label: 'Read the Operating Philosophy', href: '/philosophy' },
+    },
+    bizStyle: {
+      eyebrow: 'BIZ & STYLE',
+      title: 'BIZ & STYLE is not separate from Dario’s story.|It is the <em>culmination</em> of it.',
+      body: 'Founded in Miami in 2017, BIZ & STYLE is the natural outcome of a complete professional journey: the commercial instinct, the academic discipline, the years operating across markets, and the conviction that strategy is worth very little without the capability to execute it. Three divisions — Commerce, Advisory, Luxury — share one infrastructure, one network and one way of working.',
+      journey: ['Business', 'Wealth', 'Lifestyle'],
+      journeyLabel: 'The Investor Journey™',
+      journeyBody: 'Ventures create capital. Capital seeks a home. A home shapes a life — and a life opens new business. One connected journey, lived by Dario before it became the platform’s method.',
+      cta: { label: 'Explore BIZ & STYLE', href: '/biz-and-style' },
+      external: { label: 'bizandstyledna.com', href: 'https://bizandstyledna.com' },
+    },
+    personal: {
+      eyebrow: 'The person',
+      title: 'Family is not separate from ambition.|It is what gives ambition its <em>purpose.</em>',
+      body: 'Among every milestone, achievement, journey, and business built, becoming a husband and father remains the most meaningful chapter of Dario’s life. Italy gave him his values; friendship taught him loyalty; the table and the sea are where he brings people together.',
+      cta: { label: 'The life behind the work', href: '/story#family' },
+      imageAlt: 'Dario Picardi at sea off Miami',
+    },
+    closing: {
+      title: 'Every meaningful opportunity begins with a <em>conversation.</em>',
+      body: 'International expansion, strategic partnerships, investment opportunities, business development, luxury real estate — or simply an introduction.',
+      cta: { label: 'Connect with Dario', href: '/connect' },
+    },
+  },
+
+  story: {
+    seo: {
+      title: 'The Story — From Italian roots to Miami',
+      description:
+        'The story of Dario Picardi: Italian roots, a natural instinct for commerce, academic discipline, fifteen years operating across global markets, the move to Miami, and the family and purpose behind everything he builds.',
+    },
+    hero: {
+      eyebrow: 'The story',
+      title: 'A lifelong instinct to understand opportunity, connect people, and build something <em>real.</em>',
+      lede: 'Not defined by one title, one company or one industry. Nine chapters of a journey from discipline to experience, from experience to enterprise, and from enterprise to impact.',
+    },
+    chaptersLabel: 'Chapters',
+    chapters: [
+      {
+        id: 'roots',
+        n: '01',
+        title: 'Italian Roots',
+        kicker: 'Where the standards come from',
+        paragraphs: [
+          'Dario was born in Italy, in the south, where a family’s values are taught at the table before they are taught anywhere else. Family gave him what no education can: stability, a sense of duty, an appreciation for things done properly, and a cultural identity that has travelled with him through more than fifty countries without ever fading.',
+          'Italy also taught him something that later became professionally decisive: that quality is a discipline, not a decoration. Design, food, hospitality and craft are, in Italy, ordinary expectations. Growing up inside that expectation shaped how Dario evaluates a product, a brand, a building or a partner — and why he has always wanted to build things that last rather than things that merely sell.',
+          'Above all, Italy taught him that relationships come first. Business, in the culture he comes from, is something people do with each other, over time, on the basis of trust. That instinct would later carry him through negotiations in Mexico City, Dubai and São Paulo, and it remains the way he works today.',
+        ],
+        pull: 'Family provided the foundation. Everything since has been built on it.',
+        placeholder: 'Archival photograph — Calabria, family or childhood (approval required)',
+      },
+      {
+        id: 'instinct',
+        n: '02',
+        title: 'The Merchant Instinct',
+        kicker: 'Commerce as nature, before it was a profession',
+        paragraphs: [
+          'Long before commerce became his profession, it was already part of Dario’s nature. From an early age, he was fascinated by the essential movement of business: recognizing value, connecting supply with demand, negotiating, buying, selling, and turning an idea into a concrete result.',
+          'For Dario, commerce has never been merely about transactions. It is the ability to understand people, to identify what they want before they say it, to see where two needs meet, and to create an exchange that works for everyone involved. That is a human skill before it is a commercial one — and it is the thread that connects the child, the executive and the founder.',
+          'What began as instinct became a field of study, then an international career, and eventually the foundation of an entrepreneurial ecosystem.',
+        ],
+        pull: 'Commerce was never simply an industry. It was an instinct.',
+        placeholder: 'Photograph — early years, first commercial experiences (approval required)',
+      },
+      {
+        id: 'discipline',
+        n: '03',
+        title: 'Academic Discipline',
+        kicker: 'Preparation, consistency, standards',
+        paragraphs: [
+          'Graduating from high school with the highest possible score — 100/100 — and later completing two degrees in Management, both summa cum laude, were not isolated academic achievements. They reflected the discipline, consistency, and commitment that would later define Dario’s international career.',
+          'At Università della Calabria, management was not an abstract subject. It was the first structured language for something he already understood intuitively: how value is created, measured, financed and delivered. An exchange program at Universidad de Valencia added a second language and a first, formative immersion in another business culture.',
+          'The record matters here for one reason only. It shows how Dario works when nobody is watching — and it is the same way he has worked in every market since.',
+        ],
+        facts: ['100/100 — highest possible final score at secondary school', 'Bachelor’s degree in Management, summa cum laude — Università della Calabria', 'Master’s degree in Management, summa cum laude — Università della Calabria', 'Exchange program — Universidad de Valencia, Spain'],
+        placeholder: 'Photograph — academic years, Università della Calabria (approval required)',
+      },
+      {
+        id: 'world',
+        n: '04',
+        title: 'The World as a Classroom',
+        kicker: 'Fifteen years of operating, not visiting',
+        paragraphs: [
+          'The career began inside two of the world’s great beauty groups, L’Oréal and The Estée Lauder Companies, in Italy: analysis, planning, commercial responsibility, and the standards of organizations that operate at global scale. It was a corporate foundation, and Dario has never underestimated what it gave him.',
+          'Then came the years that shaped him most. As Regional Director for the Americas and Europe at Perfume Holding, he spent seven years leading licensed fragrance brands across two continents — building distribution, negotiating with the multinational retail and duty-free groups that handle the world’s prestige brands, and turning a portfolio of licenses into a regional business. Later, as Senior Vice President and Managing Director of the International Division at The PCA Companies, he built that division from nothing into more than ten affiliates worldwide within five years.',
+          'For Dario, international experience was never simply about visiting markets. It meant entering them, understanding them, and building within them: establishing subsidiaries and commercial operations, managing local executives and cross-cultural teams, working with investors, manufacturers and brand owners, and connecting headquarters strategy with local execution in very different legal, cultural and commercial environments.',
+          'More than fifty countries and more than a thousand flights later, the world first became his workplace, but it never stopped being his teacher.',
+        ],
+        pull: 'The world first became his workplace, but it never stopped being his teacher.',
+        cta: { label: 'The Global Career, in detail', href: '/global-career' },
+      },
+      {
+        id: 'executive-to-entrepreneur',
+        n: '05',
+        title: 'From Executive to Entrepreneur',
+        kicker: 'Miami, 2016',
+        paragraphs: [
+          'While completing one of his final international executive assignments, Dario arrived in Miami in 2016 and recognized a recurring gap: companies had access to consultants, agencies, and individual service providers, but very few partners could connect strategy with real execution.',
+          'He did what he had always done in a new market. He established an advisory business, assembled a local team, and built operating infrastructure — offices, logistics, warehousing, banking and legal relationships — that could take an international brand from a decision to a working operation in the United States and Latin America. He worked on strategic corporate projects, structured joint ventures, and kept, in parallel, senior executive responsibilities for an international division. The executive years and the entrepreneurial years overlapped, and each informed the other.',
+          'That foundation became BIZ & STYLE, founded in Miami Beach in 2017 and expanded year by year into an ecosystem: commercial partnerships, market entry, distribution and logistics, strategic advisory, joint ventures, investments, real estate, and the relationships of the luxury and lifestyle world.',
+        ],
+        pull: 'Relationships create possibility. Execution turns possibility into business.',
+        cta: { label: 'Why BIZ & STYLE was founded', href: '/biz-and-style' },
+      },
+      {
+        id: 'investor',
+        n: '06',
+        title: 'Becoming an Investor and Builder',
+        kicker: 'Capital with an operator’s eyes',
+        paragraphs: [
+          'Today, Dario approaches investment through the eyes of an operator. He looks beyond the opportunity on paper to understand the people, market, execution, infrastructure, and relationships required to create lasting value.',
+          'He does not separate investment from execution. The most compelling opportunities are those where capital, expertise, relationships, and operating capability can work together. That is why BIZ & STYLE, when genuine alignment exists, may participate in selected ventures and joint ventures as a strategic or equity partner — building alongside the people it works with rather than advising from a distance.',
+          'It is also why his own evolution — from commerce to investment, from investment to real estate and lifestyle — became the method the platform now offers to others.',
+        ],
+        pull: 'He does not separate investment from execution.',
+      },
+      {
+        id: 'connector',
+        n: '07',
+        title: 'Family and Friendship',
+        kicker: 'The people who shaped the journey',
+        paragraphs: [
+          'Dario’s development was shaped not only by academic and professional experiences, but by the people around him. Family provided the foundation. Friendship taught loyalty, trust, perspective, and the lasting value of authentic relationships.',
+          'Many of the friendships that matter most to him are decades old, and several of his most productive professional relationships began exactly the same way — as genuine human trust, long before there was any business to discuss. That is not a strategy. It is simply how he understands relationships: they matter personally first, and only then, sometimes, do they become professionally valuable.',
+          'Dario’s work has never been limited to one industry. His greatest strength is the ability to understand different worlds, recognize where their interests converge, and bring the right people together to generate meaningful business. He connects people with opportunities, companies with markets, brands with distribution, investors with operating platforms, developers with qualified networks, and industries that serve the same client but rarely speak to each other. Connecting people is not the end goal. Creating value together is.',
+        ],
+        pull: 'Businesses may begin with an opportunity. The most enduring ones are built through people.',
+      },
+      {
+        id: 'life',
+        n: '08',
+        title: 'The Life Behind the Work',
+        kicker: 'Food, the sea, and the world',
+        paragraphs: [
+          'For Dario, food is culture, memory, creativity, and connection. Cooking is one of the most direct ways to bring people together — an Italian inheritance, a family habit, and the way he most naturally offers hospitality to friends, partners and the people who pass through Miami.',
+          'Travel, for him, has never been tourism. The world first became his workplace, but it never stopped being his teacher: every market, every culture and every person has something to teach, and the curiosity that took him into more than fifty countries is the same curiosity that keeps him learning today.',
+          'The sea offers something business rarely does: distance, perspective, and the space to see the horizon differently. Yachting, for Dario, is about freedom and exploration, but also about design, engineering, hospitality, and time with family and friends — the point where the worlds of business and lifestyle quietly meet.',
+        ],
+        pull: 'The sea offers something business rarely does: distance, perspective, and the space to see the horizon differently.',
+        imageAlt: 'Dario Picardi at sea off Miami',
+        placeholder: 'Photograph — cooking, hospitality or the table (approval required)',
+      },
+      {
+        id: 'family',
+        n: '09',
+        title: 'Fatherhood, Purpose, and Legacy',
+        kicker: 'The most meaningful chapter',
+        paragraphs: [
+          'Among every milestone, achievement, journey, and business built, becoming a husband and father remains the most meaningful chapter of Dario’s life.',
+          'With Alfonsina, and with their son Amedeo, family changed the meaning of ambition. Success was no longer only about how far he could go, but about what he could build, protect, teach, and leave behind.',
+          'It is the reason the businesses are built to last, the reason the relationships are treated with care, and the reason the work — all of it — has a purpose larger than itself.',
+        ],
+        pull: 'Family changed the meaning of ambition.',
+        placeholder: 'Photograph — family, approved by Dario and Alfonsina (approval required)',
+      },
+    ],
+    closing: {
+      eyebrow: 'Continue',
+      title: 'The career, market by <em>market.</em>',
+      cta: { label: 'Explore the Global Career', href: '/global-career' },
+      secondary: { label: 'Connect with Dario', href: '/connect' },
+    },
+  },
+
+  career: {
+    seo: {
+      title: 'Global Career — Fifteen years across markets',
+      description:
+        'Dario Picardi’s international career: L’Oréal and Estée Lauder in Italy, Regional Director for the Americas and Europe at Perfume Holding, SVP and Managing Director of the International Division at The PCA Companies, and the founding of BIZ & STYLE in Miami.',
+    },
+    hero: {
+      eyebrow: 'Global career',
+      title: 'Not a collection of destinations.|A career built <em>across markets.</em>',
+      lede: 'Fifteen years entering markets, leading brands and building organizations across Europe, the Americas, the Middle East and Asia — and then turning that experience into an enterprise of his own.',
+    },
+    phases: [
+      { id: 'learning', n: 'I', title: 'Learning Global Excellence', line: 'Education, early experience, corporate training and the introduction to international business.' },
+      { id: 'leading', n: 'II', title: 'Leading Across Markets', line: 'Executive positions, brands, territories, teams, commercial responsibility and international expansion.' },
+      { id: 'building', n: 'III', title: 'Becoming a Builder', line: 'Miami, advisory, entrepreneurship, investment, infrastructure, partnerships and BIZ & STYLE.' },
+    ],
+    timelineLabel: 'Timeline',
+    placeholderNote: 'Dates to be confirmed by Dario',
+    map: {
+      eyebrow: 'Where the experience was built',
+      title: 'Operating experience, <em>not tourism.</em>',
+      body: 'Each point is a market entered, an affiliate established, a hub where business was done, or a base from which a region was managed. Select a point to read what happened there.',
+      legend: [
+        { id: 'roots', label: 'Roots & education' },
+        { id: 'hub', label: 'Business hub' },
+        { id: 'affiliate', label: 'Affiliate or operation established' },
+        { id: 'base', label: 'Operating base today' },
+      ],
+      listTitle: 'The same map, as a list',
+      hint: 'Use the list below or the arrow keys to move between places.',
+    },
+    orgs: {
+      eyebrow: 'Companies and brands',
+      title: 'Named accurately, <em>categorized honestly.</em>',
+      body: 'Former employers are former employers. Brands managed under license are named as such. Markets are markets. None of the organizations below endorse Dario or BIZ & STYLE; they are simply where the experience was earned.',
+      categories: [
+        { id: 'executive', label: 'Executive experience' },
+        { id: 'brand', label: 'Selected brands managed' },
+        { id: 'market', label: 'Selected markets' },
+        { id: 'partnership', label: 'Selected partnerships' },
+        { id: 'ecosystem', label: 'BIZ & STYLE ecosystem' },
+        { id: 'education', label: 'Education' },
+      ],
+    },
+    strengths: {
+      eyebrow: 'What transfers',
+      title: 'The strengths that travel from one industry to the <em>next.</em>',
+      items: ['Discipline', 'Commitment', 'Vision', 'Commercial instinct', 'International perspective', 'Understanding people and markets', 'Connecting people across industries', 'Recognizing mutual value', 'Generating business from trusted relationships', 'Moving from concept to execution', 'Building something concrete', 'Staying committed until a result is real'],
+    },
+    closing: {
+      title: 'The experience became an <em>enterprise.</em>',
+      cta: { label: 'Explore BIZ & STYLE', href: '/biz-and-style' },
+      secondary: { label: 'Connect with Dario', href: '/connect' },
+    },
+  },
+
+  bizStyle: {
+    seo: {
+      title: 'BIZ & STYLE — Why Dario founded a business ecosystem in Miami',
+      description:
+        'Why Dario Picardi founded BIZ & STYLE in Miami in 2017, how an advisory practice became an ecosystem with three divisions — B&S Commerce, B&S Advisory, B&S Luxury — and the Business → Wealth → Lifestyle philosophy behind The Investor Journey™.',
+    },
+    hero: {
+      eyebrow: 'BIZ & STYLE',
+      title: 'Not separate from the story.|The <em>culmination</em> of it.',
+      lede: 'BIZ & STYLE is a Miami-based business ecosystem connecting commerce, advisory, investment, real estate and luxury across the Americas — founded by Dario in 2017 and built the way he has always built: on the ground, with a team, with infrastructure, and with skin in the game.',
+      external: { label: 'Visit bizandstyledna.com', href: 'https://bizandstyledna.com' },
+    },
+    why: {
+      eyebrow: 'Why it exists',
+      title: 'A gap between strategy and <em>execution.</em>',
+      paragraphs: [
+        'While completing one of his final international executive assignments, Dario arrived in Miami in 2016 and recognized a recurring gap: companies had access to consultants, agencies, and individual service providers, but very few partners could connect strategy with real execution.',
+        'International brands and investors did not lack advice. They lacked a partner who would take responsibility for what happened after the advice — the company formation, the warehouse, the distributor, the first order, the team on the ground. Dario had spent fifteen years being exactly that partner inside other people’s organizations. BIZ & STYLE made it his own.',
+      ],
+    },
+    evolution: {
+      eyebrow: 'How it grew',
+      title: 'From an advisory practice to an <em>ecosystem.</em>',
+      body: 'The original advisory activity expanded, step by step, into everything a company needs to enter and operate in the Americas:',
+      items: ['A local executive team', 'Operational infrastructure — offices, domestic and bonded warehousing, logistics', 'Commercial partnerships', 'Market entry', 'Distribution and logistics', 'Strategic advisory', 'Joint ventures', 'Investments', 'Real estate', 'Luxury and lifestyle relationships'],
+      positioningTitle: 'What BIZ & STYLE is',
+      positioning: ['An ecosystem', 'An operator', 'A business-building platform', 'A venture builder', 'A strategic and operational partner', 'An investor in selected aligned opportunities'],
+      not: 'It is not a concierge, not a referral network, and not a collection of disconnected services. Every solution is tested inside the platform’s own ventures before it is offered to anyone else.',
+    },
+    divisions: {
+      eyebrow: 'Three divisions, one infrastructure',
+      title: 'Commerce. Advisory. <em>Luxury.</em>',
+      items: [
+        { n: '01', name: 'B&S Commerce', line: 'Trade, distribution and commercial platforms', body: 'Commercial platforms, distribution, licensing, e-commerce, logistics, marketplaces and market development — the import, distribution and commercial representation of premium goods across the U.S. and Latin America, supported by domestic and bonded warehousing in Miami.' },
+        { n: '02', name: 'B&S Advisory', line: 'Strategy that stays for execution', body: 'Market entry, growth strategy, business development, joint ventures, strategic partnerships, investments and fractional executive support — delivered by senior operators, with legal, tax and financial matters handled through licensed professionals.' },
+        { n: '03', name: 'B&S Luxury', line: 'Where business, wealth and lifestyle meet', body: 'Luxury real estate, investor relationships, selected opportunities and connections across the world of wealth and lifestyle — with a focus on luxury and pre-construction developments in Miami and the ecosystem of yachting, private aviation and partnerships that serves the same clientele.', external: { label: 'bns-luxury.com', href: 'https://bns-luxury.com' } },
+      ],
+    },
+    journey: {
+      eyebrow: 'The Investor Journey™',
+      title: 'Business → Wealth → <em>Lifestyle.</em>',
+      body: 'One connected journey. Ventures generate capital and networks; capital seeks a home; a home shapes a life; and a life, lived in Miami among entrepreneurs and investors, opens new business. Dario’s own evolution — from commerce to investment, real estate, and lifestyle — helped inform this philosophy, and BIZ & STYLE structures its work around it.',
+      stages: [
+        { n: '01', name: 'Business', body: 'Enter, operate and grow — market entry, distribution, partnerships and ventures.' },
+        { n: '02', name: 'Wealth', body: 'Capital created by business finds a home — investment, real estate, structure and long-term value.' },
+        { n: '03', name: 'Lifestyle', body: 'Residence, community, the sea and the city — the life that gives the work its meaning, and that opens the next opportunity.' },
+      ],
+    },
+    presence: {
+      eyebrow: 'On the ground',
+      title: 'Miami. Mexico. <em>Brazil.</em>',
+      body: 'Headquarters and bonded warehouse in Miami Beach, and operating bases in Mexico and Brazil — three bases to cover the Americas, with a network of more than 200 commercial partners.',
+      facts: [
+        { k: 'Founded', v: 'Miami Beach, 2017' },
+        { k: 'Headquarters', v: '1000 5th Street, Miami Beach' },
+        { k: 'Infrastructure', v: 'Offices, domestic & bonded warehouse, logistics, CRM' },
+        { k: 'Bases', v: 'Miami · Mexico · Brazil' },
+      ],
+    },
+    closing: {
+      title: 'Building alongside partners, <em>not advising from a distance.</em>',
+      body: 'For company matters — market entry, distribution, partnerships — the platform’s own site is the right door. For a conversation with Dario, this one is.',
+      primary: { label: 'Visit BIZ & STYLE', href: 'https://bizandstyledna.com' },
+      secondary: { label: 'Connect with Dario', href: '/connect' },
+    },
+  },
+
+  philosophy: {
+    seo: {
+      title: 'The Operating Philosophy — Nine principles',
+      description: 'Discipline before opportunity, commitment through execution, vision across industries, relationships built over time, global vision with local execution, teaching through experience, continuous learning, humility, and skin in the game.',
+    },
+    hero: {
+      eyebrow: 'Leadership',
+      title: 'The Operating <em>Philosophy.</em>',
+      lede: 'Nine principles, none of them motivational. They describe how Dario actually works — in a negotiation, in a new market, with a team, and with his own capital.',
+    },
+    passion: {
+      eyebrow: 'On passion',
+      quote: 'Passion, for Dario, is not enthusiasm without direction. It is the energy that sustains discipline, deepens curiosity, and carries an idea through the difficult distance between vision and execution.',
+      body: 'He is most energized when he is learning, teaching, connecting people, solving a problem, or building something that did not exist before.',
+    },
+    closing: {
+      title: 'Principles are tested in <em>practice.</em>',
+      cta: { label: 'See how they became BIZ & STYLE', href: '/biz-and-style' },
+      secondary: { label: 'Read the Perspectives', href: '/perspectives' },
+    },
+  },
+
+  perspectives: {
+    seo: {
+      title: 'Perspectives — Writing by Dario Picardi',
+      description: 'Perspectives on international business, commerce, market entry, investment, leadership, entrepreneurship, luxury markets, Miami, and the life behind the work — written by Dario Picardi.',
+    },
+    hero: {
+      eyebrow: 'Perspectives',
+      title: 'What experience <em>teaches.</em>',
+      lede: 'Notes from the ground on international business, commerce, investment, leadership, Miami, and the life behind the work. Written by Dario, published when there is something worth saying.',
+    },
+    all: 'All perspectives',
+    categories: 'Topics',
+    search: 'Search',
+    searchPlaceholder: 'Search perspectives…',
+    searchLabel: 'Search perspectives by title, excerpt or topic',
+    noResults: 'No perspectives match that search yet.',
+    readingTime: 'min read',
+    by: 'By',
+    published: 'Published',
+    updated: 'Updated',
+    related: 'Related perspectives',
+    share: 'Share',
+    shareChannels: { linkedin: 'Share on LinkedIn', x: 'Share on X', email: 'Share by email', copy: 'Copy link', copied: 'Link copied' },
+    back: 'All perspectives',
+    author: 'About the author',
+    page: 'Page',
+    prev: 'Newer',
+    next: 'Older',
+    rss: 'Subscribe via RSS',
+    empty: {
+      eyebrow: 'In preparation',
+      title: 'The first perspectives are being <em>written.</em>',
+      body: 'Nothing is published here that Dario has not written. Until the first pieces are ready, these are the themes in preparation.',
+      themes: [
+        'The Human Side of Commerce',
+        'Why Relationships Still Matter',
+        'Connecting Industries Around the Same Client',
+        'The Difference Between Traveling and Operating Globally',
+        'Investing with an Operator’s Perspective',
+        'Discipline as a Competitive Advantage',
+        'Turning Vision into Execution',
+        'What Fatherhood Changed About Ambition',
+        'Food, Hospitality, and Bringing People Together',
+        'The Sea, Perspective, and Leadership',
+        'Why Experience Still Requires Curiosity',
+      ],
+    },
+    cta: { title: 'Reading is a beginning. A conversation is <em>better.</em>', label: 'Connect with Dario', href: '/connect' },
+  },
+
+  media: {
+    seo: {
+      title: 'Media & Recognition — Interviews, speaking, events',
+      description: 'Interviews, speaking engagements, events, published commentary, recognition, and downloadable biography and media kit for Dario Picardi.',
+    },
+    hero: {
+      eyebrow: 'Media & recognition',
+      title: 'On the record, <em>when it is true.</em>',
+      lede: 'Interviews, speaking engagements, events, commentary and recognition. Only verified items are listed; requests for interviews and speaking are welcome through the Connect page.',
+    },
+    sections: [
+      { id: 'interview', title: 'Interviews and conversations' },
+      { id: 'speaking', title: 'Speaking engagements' },
+      { id: 'event', title: 'Events and panels' },
+      { id: 'commentary', title: 'Published commentary' },
+      { id: 'press', title: 'Selected press' },
+      { id: 'video', title: 'Video conversations' },
+      { id: 'role', title: 'Institutional roles' },
+      { id: 'recognition', title: 'Industry recognition' },
+    ],
+    emptySection: 'Verified items will be added as they are confirmed.',
+    kit: {
+      eyebrow: 'For editors and organizers',
+      title: 'Biography and <em>media kit.</em>',
+      body: 'A short and a long biography, approved portraits, and the facts behind the figures.',
+      bio: { label: 'Read the biography', href: '/media/biography' },
+      bioPdf: 'Download biography (PDF)',
+      kitPdf: 'Download media kit (PDF)',
+      pending: 'PDF pending approval — the biography page is print-ready in the meantime.',
+      request: { label: 'Request an interview', href: '/connect?interest=media' },
+    },
+  },
+
+  biography: {
+    seo: {
+      title: 'Biography — Dario Picardi',
+      description: 'Short and long biography of Dario Picardi, Founder and President of BIZ & STYLE, for editorial and event use.',
+    },
+    eyebrow: 'Biography',
+    title: 'Dario <em>Picardi</em>',
+    shortLabel: 'Short biography (about 60 words)',
+    short:
+      'Dario Picardi is an Italian-born international executive, entrepreneur and investor, and the Founder and President of BIZ & STYLE, a Miami-based business ecosystem connecting commerce, advisory, investment, real estate and luxury across the Americas. After more than fifteen years leading brands and commercial organizations across Europe, the Americas, the Middle East and Asia, he founded BIZ & STYLE in Miami Beach in 2017.',
+    longLabel: 'Long biography',
+    long: [
+      'Dario Picardi is an Italian-born international executive, entrepreneur, investor and business builder based in Miami Beach. He is the Founder and President of BIZ & STYLE, a business ecosystem founded in Miami in 2017 that connects commerce, advisory, investment, real estate and luxury through three divisions — B&S Commerce, B&S Advisory and B&S Luxury — and the philosophy of The Investor Journey™: Business, Wealth and Lifestyle as one connected path.',
+      'Born in Italy, Dario completed secondary school with the highest possible final score and earned two degrees in Management from Università della Calabria, both summa cum laude, with an exchange program at Universidad de Valencia. His career began at L’Oréal and The Estée Lauder Companies in Italy before he took regional leadership at Perfume Holding as Regional Director for the Americas and Europe, leading licensed fragrance brands — including Ferrari fragrances — across two continents. As Senior Vice President and Managing Director of the International Division at The PCA Companies, he built the division from zero to more than ten affiliates worldwide within five years.',
+      'His experience spans beauty, fragrance, consumer goods, retail, duty-free and travel retail, international expansion, strategic advisory, distribution, real estate and luxury, across more than fifty countries. Corporate materials reference more than $500 million in sales managed during the last decade and a trusted network of more than 200 executives and partners. He speaks Italian, English and Spanish and works professionally across Portuguese-speaking markets.',
+      'Dario approaches investment through the eyes of an operator, and his greatest strength is the ability to understand different worlds, recognize where their interests converge, and bring the right people together to generate meaningful business. He lives in Miami Beach with his wife, Alfonsina, and their son, Amedeo. He enjoys cooking, travel, the sea and yachting.',
+    ],
+    facts: 'Facts at a glance',
+    print: 'Print this page',
+    back: 'Media & recognition',
+  },
+
+  connect: {
+    seo: {
+      title: 'Connect — Start a conversation with Dario Picardi',
+      description: 'Every meaningful opportunity begins with a conversation. International expansion, strategic partnerships, investment opportunities, business development, luxury real estate, media and speaking, or a general introduction.',
+    },
+    hero: {
+      eyebrow: 'Connect',
+      title: 'Every meaningful opportunity begins with a <em>conversation.</em>',
+      lede: 'Write with context, and expect a personal reply. For company matters, the BIZ & STYLE team can also be reached directly through the platform.',
+    },
+    areasLabel: 'Areas of interest',
+    areas: [
+      { id: 'international-expansion', label: 'International Expansion' },
+      { id: 'strategic-partnerships', label: 'Strategic Partnerships' },
+      { id: 'investment-opportunities', label: 'Investment Opportunities' },
+      { id: 'business-development', label: 'Business Development' },
+      { id: 'luxury-real-estate', label: 'Luxury Real Estate' },
+      { id: 'media', label: 'Media and Speaking' },
+      { id: 'introduction', label: 'General Introduction' },
+    ],
+    form: {
+      title: 'Start the conversation',
+      name: 'Name',
+      company: 'Company',
+      email: 'Email',
+      phone: 'Phone',
+      optional: 'optional',
+      location: 'Location',
+      locationHint: 'City and country',
+      interest: 'Area of interest',
+      interestPlaceholder: 'Select an area',
+      message: 'Message',
+      messageHint: 'What are you building, and where does the conversation start?',
+      consent: 'I agree that my details will be used to respond to this message, as described in the',
+      consentLink: 'privacy policy',
+      submit: 'Send the message',
+      sending: 'Sending…',
+      errors: {
+        name: 'Please enter your name.',
+        company: 'Please enter your company or organization.',
+        email: 'Please enter a valid email address.',
+        location: 'Please tell us where you are based.',
+        interest: 'Please select an area of interest.',
+        message: 'Please write a short message (at least 20 characters).',
+        consent: 'Please confirm you agree to be contacted.',
+        generic: 'Something went wrong. Please try again, or write directly by email.',
+        rate: 'Too many messages in a short time. Please try again in a few minutes.',
+      },
+      successTitle: 'Received. Thank you.',
+      successBody: 'Your message has reached Dario. Messages with context are answered personally, usually within a few working days.',
+    },
+    direct: {
+      eyebrow: 'Directly',
+      email: 'Email',
+      phone: 'Phone',
+      office: 'Office',
+      office2: 'By appointment',
+      ecosystem: 'For BIZ & STYLE company matters',
+      calendly: 'Book a call',
+    },
+    thanks: {
+      seo: { title: 'Thank you — Dario Picardi', description: 'Your message has been received.' },
+      eyebrow: 'Received',
+      title: 'Thank you. The conversation has <em>begun.</em>',
+      body: 'Your message has reached Dario. Messages with context are answered personally, usually within a few working days. In the meantime, the story and the perspectives are here.',
+      primary: { label: 'Read the story', href: '/story' },
+      secondary: { label: 'Back to home', href: '/' },
+    },
+  },
+
+  legal: {
+    privacy: {
+      seo: { title: 'Privacy Policy — Dario Picardi', description: 'How this website handles personal data, analytics and contact-form submissions.' },
+      title: 'Privacy <em>Policy</em>',
+      updated: 'Initial draft for professional review. Last updated: September 2026.',
+    },
+    terms: {
+      seo: { title: 'Terms of Use — Dario Picardi', description: 'Terms governing the use of this website.' },
+      title: 'Terms of <em>Use</em>',
+      updated: 'Initial draft for professional review. Last updated: September 2026.',
+    },
+    accessibility: {
+      seo: { title: 'Accessibility — Dario Picardi', description: 'Accessibility statement for dariopicardi.com.' },
+      title: 'Accessibility <em>Statement</em>',
+    },
+  },
+
+  notFound: {
+    seo: { title: 'Page not found — Dario Picardi', description: 'The page you were looking for does not exist.' },
+    eyebrow: '404',
+    title: 'Not every route leads <em>somewhere.</em>',
+    body: 'The page you were looking for does not exist, or has moved.',
+    primary: { label: 'Back to home', href: '/' },
+    secondary: { label: 'Read the story', href: '/story' },
+  },
+} as const;

@@ -1,0 +1,165 @@
+---
+/**
+ * Header — a quiet bar that starts transparent over dark heroes and becomes a
+ * solid ground once the page scrolls. Six items, one CTA, a full-screen menu on
+ * small screens. The mark is typographic: no logo, the name itself.
+ */
+import { getCopy, localePath } from '@i18n/index';
+import { nav, site, type Locale } from '@data/site';
+
+interface Props {
+  locale?: Locale;
+  overlay?: boolean;
+}
+const { locale = 'en', overlay = true } = Astro.props;
+const copy = getCopy(locale);
+const current = Astro.url.pathname.replace(/\.html$/, '');
+const isActive = (href: string) => (href === '/' ? current === '/' : current.startsWith(href));
+---
+
+<header class:list={['hdr', { 'hdr--overlay': overlay }]} data-header transition:persist>
+  <div class="hdr__bar">
+    <div class="container hdr__inner">
+      <a class="hdr__mark" href={localePath('/', locale)} aria-label={`${site.name} — home`} data-track="navigation_click" data-track-cta-name="mark">
+        <span class="hdr__name">Dario Picardi</span>
+        <span class="hdr__dot" aria-hidden="true"></span>
+      </a>
+
+      <nav class="hdr__nav" aria-label="Primary">
+        <ul role="list">
+          {nav.filter((n) => n.href !== '/').map((item) => (
+            <li>
+              <a class:list={['hdr__link', { 'is-active': isActive(item.href) }]} href={localePath(item.href, locale)} aria-current={isActive(item.href) ? 'page' : undefined} data-track="navigation_click" data-track-cta-name={item.label}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="hdr__actions">
+        <a class="btn btn--ghost hdr__cta" href={localePath(copy.nav.cta.href, locale)} data-track="cta_click" data-track-cta-name="connect" data-track-cta-location="header">
+          {copy.nav.cta.label}
+        </a>
+        <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-mobile-trigger>
+          <span class="sr-only">{copy.nav.menu}</span>
+          <span class="hdr__burger-line"></span>
+          <span class="hdr__burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mm g-notte" id="mobile-menu" data-mobile-menu hidden>
+    <div class="container mm__inner">
+      <nav aria-label="Primary (mobile)">
+        <ol class="mm__list" role="list">
+          {nav.map((item, i) => (
+            <li style={`--i:${i}`}>
+              <a class:list={['mm__link', { 'is-active': isActive(item.href) }]} href={localePath(item.href, locale)} aria-current={isActive(item.href) ? 'page' : undefined} data-track="navigation_click" data-track-cta-name={item.label} data-track-cta-location="mobile_menu">
+                <span class="num">0{i + 1}</span>
+                <span class="mm__label">{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <div class="mm__foot">
+        <p class="small muted">{copy.nav.tagline}</p>
+        <a class="btn btn--accent" href={localePath(copy.nav.cta.href, locale)} data-track="cta_click" data-track-cta-name="connect" data-track-cta-location="mobile_menu">{copy.nav.cta.label}</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    if (!header || header.dataset.bound) return;
+    header.dataset.bound = '1';
+    const trigger = header.querySelector<HTMLButtonElement>('[data-mobile-trigger]');
+    const menu = header.querySelector<HTMLElement>('[data-mobile-menu]');
+
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    let lastFocus: HTMLElement | null = null;
+    const open = () => {
+      if (!trigger || !menu) return;
+      lastFocus = document.activeElement as HTMLElement;
+      menu.hidden = false;
+      requestAnimationFrame(() => menu.classList.add('is-open'));
+      trigger.setAttribute('aria-expanded', 'true');
+      header.classList.add('is-menu-open');
+      document.documentElement.style.overflow = 'hidden';
+      menu.querySelector<HTMLElement>('a')?.focus();
+    };
+    const close = () => {
+      if (!trigger || !menu) return;
+      menu.classList.remove('is-open');
+      trigger.setAttribute('aria-expanded', 'false');
+      header.classList.remove('is-menu-open');
+      document.documentElement.style.overflow = '';
+      window.setTimeout(() => { menu.hidden = true; }, 320);
+      lastFocus?.focus();
+    };
+    trigger?.addEventListener('click', () => (trigger.getAttribute('aria-expanded') === 'true' ? close() : open()));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && trigger?.getAttribute('aria-expanded') === 'true') close(); });
+    menu?.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const f = Array.from(menu.querySelectorAll<HTMLElement>('a, button')).filter((el) => !el.hidden);
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); trigger?.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); trigger?.focus(); }
+    });
+    document.addEventListener('astro:before-swap', () => { if (trigger?.getAttribute('aria-expanded') === 'true') close(); });
+  }
+  initHeader();
+  document.addEventListener('astro:page-load', initHeader);
+</script>
+
+<style>
+  .hdr { position: fixed; inset: 0 0 auto 0; z-index: var(--z-header); color: var(--avorio); }
+  .hdr__bar { transition: background var(--dur-2), box-shadow var(--dur-2), color var(--dur-2); }
+  .hdr.is-scrolled .hdr__bar { background: rgba(12, 11, 10, 0.86); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06); }
+  .hdr:not(.hdr--overlay):not(.is-scrolled) .hdr__bar { background: var(--notte); }
+  .hdr__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--s-6); min-height: 4.5rem; }
+  .hdr__mark { display: inline-flex; align-items: baseline; gap: 0.35rem; font-family: var(--font-serif); font-size: 1.32rem; letter-spacing: 0.005em; font-weight: 420; }
+  .hdr__dot { width: 0.36em; height: 0.36em; border-radius: 50%; background: var(--bronzo-2); transform: translateY(-0.05em); }
+  .hdr__nav { display: none; }
+  .hdr__nav ul { display: flex; gap: clamp(1.1rem, 2.2vw, 2.2rem); }
+  .hdr__link { position: relative; display: inline-block; padding: 0.5rem 0; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sabbia); transition: color var(--dur-1); }
+  .hdr__link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0.15rem; height: 1px; background: var(--bronzo-2); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease-out); }
+  .hdr__link:hover, .hdr__link.is-active { color: var(--avorio); }
+  .hdr__link:hover::after, .hdr__link.is-active::after { transform: scaleX(1); }
+  .hdr__actions { display: flex; align-items: center; gap: var(--s-4); }
+  .hdr__cta { --btn-fg: var(--avorio); box-shadow: inset 0 0 0 1px rgba(244, 238, 227, 0.32); min-height: 2.6rem; padding-block: 0.5em; display: none; }
+  .hdr__cta:hover { box-shadow: inset 0 0 0 1px var(--avorio); }
+  .hdr__burger { position: relative; width: 2.75rem; height: 2.75rem; display: grid; place-items: center; gap: 0; border-radius: 50%; }
+  .hdr__burger-line { position: absolute; width: 1.35rem; height: 1px; background: currentColor; transition: transform var(--dur-2) var(--ease-out); }
+  .hdr__burger-line:first-of-type { transform: translateY(-4px); }
+  .hdr__burger-line:last-of-type { transform: translateY(4px); }
+  .is-menu-open .hdr__burger-line:first-of-type { transform: rotate(45deg); }
+  .is-menu-open .hdr__burger-line:last-of-type { transform: rotate(-45deg); }
+  .is-menu-open .hdr__bar { background: var(--notte); }
+
+  .mm { position: fixed; inset: 0; z-index: -1; display: grid; align-items: end; opacity: 0; transition: opacity var(--dur-2) var(--ease-out); overflow-y: auto; }
+  .mm.is-open { opacity: 1; }
+  .mm__inner { padding-top: 6rem; padding-bottom: 2.5rem; display: grid; gap: var(--s-8); min-height: 100%; align-content: space-between; }
+  .mm__list { display: grid; }
+  .mm__link { display: flex; align-items: baseline; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); font-family: var(--font-serif); font-size: clamp(1.9rem, 7vw, 2.8rem); line-height: 1.1; transform: translateY(12px); opacity: 0; transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); transition-delay: calc(var(--i) * 45ms); }
+  .mm.is-open .mm__link { transform: none; opacity: 1; }
+  .mm__link.is-active .mm__label { color: var(--bronzo-2); }
+  .mm__foot { display: grid; gap: var(--s-5); }
+  .mm__foot .btn { justify-self: start; }
+
+  @media (min-width: 1024px) {
+    .hdr__nav { display: block; }
+    .hdr__cta { display: inline-flex; }
+    .hdr__burger { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mm, .mm__link { transition: none; }
+  }
+</style>

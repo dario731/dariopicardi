@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Timeline from '@components/career/Timeline.astro';
+import GlobalMap from '@components/career/GlobalMap.astro';
+import Organizations from '@components/career/Organizations.astro';
+import Stats from '@components/editorial/Stats.astro';
+import CtaBand from '@components/editorial/CtaBand.astro';
+import Title from '@components/ui/Title.astro';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd } from '@lib/seo';
+
+const c = getCopy('en').career;
+const path = '/global-career';
+const jsonLd = [webPageLd({ name: c.seo.title, description: c.seo.description, path, type: 'ProfilePage' }), breadcrumbLd([{ name: 'Global Career', path }])];
+---
+
+<BaseLayout title={`${c.seo.title} — Dario Picardi`} description={c.seo.description} {path} pageType="career" {jsonLd}>
+  <EditorialHero eyebrow={c.hero.eyebrow} title={c.hero.title} lede={c.hero.lede} crumbs={[{ name: 'Global Career', path }]}>
+    <nav class="phases" aria-label="Career phases" data-reveal>
+      <ol role="list">
+        {c.phases.map((p) => (
+          <li><a href={`#phase-${p.id}`}><span class="serif phases__n">{p.n}</span><span>{p.title}</span></a></li>
+        ))}
+      </ol>
+    </nav>
+  </EditorialHero>
+  <Timeline copy={c} />
+  <GlobalMap copy={c.map} />
+  <Organizations copy={c.orgs} />
+  <section class="section g-ivory" id="strengths" aria-labelledby="strengths-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{c.strengths.eyebrow}</p>
+        <div data-reveal><Title as="h2" id="strengths-title" class="t-1" text={c.strengths.title} /></div>
+      </div>
+      <ul class="strengths" role="list" data-reveal-group>
+        {c.strengths.items.map((s, i) => <li class="strength"><span class="num">{String(i + 1).padStart(2, '0')}</span><span class="serif">{s}</span></li>)}
+      </ul>
+    </div>
+  </section>
+  <Stats id="career-proof" ground="lino" homeOnly={false} />
+  <CtaBand ground="notte" title={c.closing.title} primary={{ ...c.closing.cta, name: 'biz_style_page' }} secondary={{ ...c.closing.secondary, name: 'connect' }} />
+</BaseLayout>
+
+<style>
+  .phases { margin-top: var(--s-4); }
+  .phases ol { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .phases a { display: flex; align-items: baseline; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); color: var(--sabbia); font-size: 0.95rem; transition: color var(--dur-1); }
+  .phases a:hover { color: var(--avorio); }
+  .phases__n { color: var(--accent); font-size: 1.3rem; min-width: 2ch; }
+  .strengths { display: grid; border-top: 1px solid var(--line); }
+  .strength { display: flex; align-items: baseline; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.15rem, 1.8vw, 1.5rem); }
+  @media (min-width: 720px) { .phases ol { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-6); } .strengths { grid-template-columns: repeat(2, 1fr); column-gap: var(--s-7); } }
+  @media (min-width: 1100px) { .strengths { grid-template-columns: repeat(3, 1fr); } }
+</style>

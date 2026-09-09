@@ -1,0 +1,43 @@
+---
+/**
+ * Stats — proof of experience as evidence inside the narrative: a ruled list,
+ * serif numerals, count-up on entry (final value always present in the DOM).
+ */
+import { getCollection } from 'astro:content';
+import Title from '@components/ui/Title.astro';
+interface Props { eyebrow?: string; title?: string; body?: string; ground?: 'ivory' | 'notte' | 'lino'; homeOnly?: boolean; id?: string }
+const { eyebrow, title, body, ground = 'ivory', homeOnly = true, id = 'proof' } = Astro.props;
+const stats = (await getCollection('stats')).filter((s) => !homeOnly || s.data.home).sort((a, b) => a.data.order - b.data.order);
+---
+<section class:list={['stats section', `g-${ground}`]} id={id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    {(eyebrow || title) && (
+      <div class="section-head">
+        {eyebrow && <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{eyebrow}</p>}
+        {title && <div data-reveal><Title as="h2" class="t-2" id={`${id}-title`} text={title} /></div>}
+        {body && <p class="lede muted" data-reveal>{body}</p>}
+      </div>
+    )}
+    <dl class="stats__list" data-reveal-group>
+      {stats.map((s) => (
+        <div class="stat">
+          <dt class="stat__label">{s.data.label}</dt>
+          <dd class="stat__value serif" data-count data-value={s.data.value}>{s.data.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .stats__list { display: grid; border-top: 1px solid var(--line); }
+  .stat { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: var(--s-5); padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+  .stat__label { font-size: var(--fs-small); color: var(--fg-muted); max-width: 26rem; order: 2; }
+  .stat__value { font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; font-weight: 380; order: 1; min-width: 5.5ch; }
+  @media (min-width: 900px) {
+    .stats__list { grid-template-columns: repeat(3, 1fr); border-top: 0; column-gap: var(--s-7); }
+    .stat { grid-template-columns: 1fr; align-content: start; gap: var(--s-3); padding: var(--s-5) 0 var(--s-6); border-top: 1px solid var(--line); border-bottom: 0; }
+    .stat__value { order: 1; }
+    .stat__label { order: 2; }
+  }
+</style>

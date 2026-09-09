@@ -1,0 +1,81 @@
+---
+import { getCopy, localePath } from '@i18n/index';
+import { site, footerNav, socialLinks, type Locale } from '@data/site';
+
+interface Props { locale?: Locale }
+const { locale = 'en' } = Astro.props;
+const copy = getCopy(locale);
+const socials = socialLinks();
+const year = new Date().getFullYear();
+---
+
+<footer class="ftr g-notte" id="footer">
+  <div class="container">
+    <div class="ftr__top">
+      <p class="ftr__line serif" data-reveal>{copy.footer.line}</p>
+      <a class="btn btn--accent" href={localePath('/connect', locale)} data-track="cta_click" data-track-cta-name="connect" data-track-cta-location="footer">{copy.nav.cta.label}</a>
+    </div>
+
+    <div class="ftr__grid">
+      <div class="ftr__col">
+        <h2 class="eyebrow">{copy.footer.explore}</h2>
+        <ul role="list">{footerNav.explore.map((l) => <li><a href={localePath(l.href, locale)}>{l.label}</a></li>)}</ul>
+      </div>
+      <div class="ftr__col">
+        <h2 class="eyebrow">{copy.footer.more}</h2>
+        <ul role="list">
+          {footerNav.more.map((l) => <li><a href={localePath(l.href, locale)}>{l.label}</a></li>)}
+          <li><a href="/perspectives/rss.xml">{copy.footer.rss}</a></li>
+        </ul>
+      </div>
+      <div class="ftr__col">
+        <h2 class="eyebrow">{copy.footer.ecosystem}</h2>
+        <ul role="list">
+          <li><a href={site.organization.url} rel="noopener">{copy.footer.bizStyle} ↗</a></li>
+          <li><a href={site.organization.luxuryUrl} rel="noopener">{copy.footer.bnsLuxury} ↗</a></li>
+        </ul>
+        <p class="ftr__wordmark"><img src="/brand/bizandstyle-white.svg" alt="BIZ & STYLE — Business. Wealth. Lifestyle." width="150" height="33" loading="lazy" decoding="async" /></p>
+      </div>
+      <div class="ftr__col">
+        <h2 class="eyebrow">{copy.footer.connect}</h2>
+        <ul role="list">
+          {site.contact.emailPublic && site.contact.email && <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>}
+          {site.contact.phonePublic && site.contact.phone && <li><a href={`tel:${site.contact.phoneE164}`}>{site.contact.phone}</a></li>}
+          {site.office.public && <li class="muted small">{site.office.streetAddress}<br />{site.office.addressLocality}, {site.office.addressRegion} {site.office.postalCode}</li>}
+          {socials.map((s) => <li><a href={s.href} rel="me noopener">{s.label} ↗</a></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="ftr__bottom">
+      <p class="small muted">© {year} {site.name}. {copy.footer.rights}</p>
+      <ul class="ftr__legal" role="list">{footerNav.legal.map((l) => <li><a href={localePath(l.href, locale)}>{l.label}</a></li>)}</ul>
+      <p class="small muted ftr__made">{copy.footer.made}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr { padding-block: var(--section-sm) var(--s-7); border-top: 1px solid var(--line); }
+  .ftr__top { display: grid; gap: var(--s-6); align-items: center; padding-bottom: var(--s-8); border-bottom: 1px solid var(--line); }
+  .ftr__line { font-size: clamp(1.5rem, 3.4vw, 2.6rem); line-height: 1.15; letter-spacing: -0.01em; max-width: 22ch; text-wrap: balance; }
+  .ftr__top .btn { justify-self: start; }
+  .ftr__grid { display: grid; gap: var(--s-7) var(--s-6); padding-block: var(--s-8); grid-template-columns: repeat(2, 1fr); }
+  .ftr__col { display: grid; gap: var(--s-4); align-content: start; }
+  .ftr__col ul { display: grid; gap: 0.55rem; }
+  .ftr__col a { font-size: 0.95rem; color: var(--sabbia); transition: color var(--dur-1); }
+  .ftr__col a:hover { color: var(--avorio); }
+  .ftr__wordmark { opacity: 0.7; margin-top: var(--s-2); }
+  .ftr__wordmark img { width: 150px; height: auto; }
+  .ftr__bottom { display: grid; gap: var(--s-4); padding-top: var(--s-6); border-top: 1px solid var(--line); }
+  .ftr__legal { display: flex; flex-wrap: wrap; gap: var(--s-5); font-size: var(--fs-small); }
+  .ftr__legal a { color: var(--pietra); }
+  .ftr__legal a:hover { color: var(--avorio); }
+  .ftr__made { letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.68rem; }
+  @media (min-width: 720px) {
+    .ftr__top { grid-template-columns: 1fr auto; }
+    .ftr__grid { grid-template-columns: repeat(4, 1fr); }
+    .ftr__bottom { grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .ftr__made { text-align: right; }
+  }
+</style>

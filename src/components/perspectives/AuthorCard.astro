@@ -1,0 +1,24 @@
+---
+import Arrow from '@components/ui/Arrow.astro';
+interface Props { name: string; role: string; bio: string; image?: string; label: string }
+const { name, role, bio, image, label } = Astro.props;
+---
+<aside class="author" aria-label={label}>
+  {image && <img class="author__img" src={image} alt="" width="96" height="96" loading="lazy" decoding="async" />}
+  <div class="author__text">
+    <p class="eyebrow">{label}</p>
+    <p class="author__name serif">{name}</p>
+    <p class="num author__role">{role}</p>
+    <p class="small muted">{bio}</p>
+    <a class="link link--sm" href="/story">The story<Arrow /></a>
+  </div>
+</aside>
+
+<style>
+  .author { display: grid; grid-template-columns: auto 1fr; gap: var(--s-5); padding: var(--s-6) 0; border-top: 1px solid var(--accent); border-bottom: 1px solid var(--line); }
+  .author__img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; filter: grayscale(1); }
+  .author__text { display: grid; gap: 0.4rem; }
+  .author__name { font-size: 1.5rem; }
+  .author__role { text-transform: none; letter-spacing: 0.06em; }
+  .author__text .link { justify-self: start; margin-top: 0.4rem; }
+</style>

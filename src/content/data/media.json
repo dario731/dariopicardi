@@ -1,0 +1,56 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "real-deal-miami-forum-2026",
+      "type": "event",
+      "title": "The Real Deal Miami Forum — BIZ & STYLE / B&S Luxury exhibiting",
+      "outlet": "The Real Deal",
+      "date": "2026-11-04",
+      "dateLabel": "November 4–5, 2026",
+      "location": "Mana Wynwood Convention Center, Miami",
+      "summary": "BIZ & STYLE's luxury real estate division exhibits at South Florida's principal real estate forum. Private meetings by appointment.",
+      "published": true,
+      "source": "Confirmed by the client on 28 August 2026 (B&S Luxury site content model)."
+    },
+    {
+      "id": "tfwa-cannes",
+      "type": "event",
+      "title": "TFWA World Exhibition, Cannes — positioning an international division with global travel-retail operators",
+      "outlet": "TFWA",
+      "dateLabel": "During the PCA years (2019–2024)",
+      "location": "Cannes, France",
+      "summary": "The world's leading duty-free and travel-retail exhibition, where the International Division was positioned with global operators.",
+      "published": true,
+      "source": "CV"
+    },
+    {
+      "id": "placeholder-interview",
+      "type": "interview",
+      "title": "PLACEHOLDER — Interview or podcast appearance (title, outlet, date, link required)",
+      "published": false,
+      "source": "Content required from Dario"
+    },
+    {
+      "id": "placeholder-speaking",
+      "type": "speaking",
+      "title": "PLACEHOLDER — Speaking engagement or panel (event, date, city, topic required)",
+      "published": false,
+      "source": "Content required from Dario"
+    },
+    {
+      "id": "placeholder-press",
+      "type": "press",
+      "title": "PLACEHOLDER — Selected press (outlet, headline, date, link required)",
+      "published": false,
+      "source": "Content required from Dario"
+    },
+    {
+      "id": "placeholder-recognition",
+      "type": "recognition",
+      "title": "PLACEHOLDER — Industry recognition, award or institutional role (issuer, year required)",
+      "published": false,
+      "source": "Content required from Dario"
+    }
+  ]
+}

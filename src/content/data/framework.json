@@ -1,0 +1,47 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "vision",
+      "order": 1,
+      "word": "Vision",
+      "line": "Vision identifies what could exist.",
+      "body": "The ability to look at a market, a company or a conversation and see the business that is not yet there — and to see how different worlds could create value together."
+    },
+    {
+      "id": "discipline",
+      "order": 2,
+      "word": "Discipline",
+      "line": "Discipline defines the path.",
+      "body": "Preparation, consistency and standards. The same discipline that produced a perfect final score at school and two degrees summa cum laude later defined how markets were entered and organizations were built."
+    },
+    {
+      "id": "commitment",
+      "order": 3,
+      "word": "Commitment",
+      "line": "Commitment sustains the effort.",
+      "body": "Ideas matter only when someone stays with them long enough to make them real — through the slow, unglamorous distance between a plan and an operation."
+    },
+    {
+      "id": "connection",
+      "order": 4,
+      "word": "Connection",
+      "line": "Connection brings the right people together.",
+      "body": "Trusted relationships, built over years and across cultures, that turn complementary strengths into concrete opportunity. Not introductions for their own sake: alignment, and then business."
+    },
+    {
+      "id": "execution",
+      "order": 5,
+      "word": "Execution",
+      "line": "Execution makes the opportunity real.",
+      "body": "Strategy, team, infrastructure and commercial model — assembled and run until the result exists on the ground, not only on paper."
+    },
+    {
+      "id": "humility",
+      "order": 6,
+      "word": "Humility",
+      "line": "Humility ensures the learning never stops.",
+      "body": "Confidence comes from experience; growth comes from remaining curious. Every market, culture and person has something to teach."
+    }
+  ]
+}

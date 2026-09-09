@@ -1,0 +1,104 @@
+---
+import '@styles/tokens.css';
+import '@styles/base.css';
+import { ClientRouter } from 'astro:transitions';
+import newsreaderUrl from '@fontsource-variable/newsreader/files/newsreader-latin-standard-normal.woff2?url';
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import Seo from '@components/layout/Seo.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import ConsentBanner from '@components/layout/ConsentBanner.astro';
+import { site, type Locale } from '@data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  pageType: string;
+  locale?: Locale;
+  type?: 'website' | 'article' | 'profile';
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  publishedTime?: string;
+  modifiedTime?: string;
+  /** Header begins transparent over a dark hero. */
+  headerOverlay?: boolean;
+  bodyClass?: string;
+}
+
+const { title, description, path, pageType, locale = 'en', type, image, noindex, jsonLd, publishedTime, modifiedTime, headerOverlay = true, bodyClass = '' } = Astro.props;
+const gtmId = (import.meta.env.PUBLIC_GTM_ID as string | undefined) ?? '';
+---
+
+<!doctype html>
+<html lang={locale} dir="ltr" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0c0b0a" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="author" content={site.name} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preload" as="font" type="font/woff2" href={newsreaderUrl} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interUrl} crossorigin />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Perspectives — Dario Picardi" href="/perspectives/rss.xml" />
+    <script is:inline>document.documentElement.classList.remove('no-js');</script>
+    <Seo {title} {description} {path} {type} {image} {noindex} {jsonLd} {publishedTime} {modifiedTime} {locale} />
+    <ClientRouter />
+  </head>
+  <body data-page-type={pageType} data-gtm={gtmId} class:list={[bodyClass]}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header {locale} overlay={headerOverlay} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer {locale} />
+    <ConsentBanner {locale} />
+    <script>
+      import { initReveal, countUp } from '@lib/reveal';
+      import { captureAttribution, bindDeclarativeTracking, bindScrollDepth, track } from '@lib/track';
+      import { readConsent, loadGtm, pushConsent } from '@lib/consent';
+
+      let scrollBound = false;
+      function boot() {
+        captureAttribution();
+        initReveal();
+        bindDeclarativeTracking();
+        document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+          if (el.dataset.countBound) return;
+          el.dataset.countBound = '1';
+          const io = new IntersectionObserver((entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              countUp(el);
+              io.disconnect();
+            }
+          }, { threshold: 0.4 });
+          io.observe(el);
+        });
+        if (!scrollBound) {
+          bindScrollDepth();
+          scrollBound = true;
+        }
+        const gtm = document.body.dataset.gtm;
+        const consent = readConsent();
+        if (consent) pushConsent(consent);
+        if (gtm && consent === 'granted') loadGtm(gtm);
+        track('page_view');
+      }
+      document.addEventListener('astro:page-load', boot);
+      window.addEventListener('dp:consent', (e) => {
+        const gtm = document.body.dataset.gtm;
+        if (gtm && (e as CustomEvent).detail === 'granted') loadGtm(gtm);
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  main:focus { outline: none; }
+</style>

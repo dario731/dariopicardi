@@ -1,0 +1,9 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import { getCopy } from '@i18n/index';
+const n = getCopy('en').notFound;
+---
+<BaseLayout title={n.seo.title} description={n.seo.description} path="/404" pageType="404" noindex>
+  <EditorialHero eyebrow={n.eyebrow} title={n.title} lede={n.body} primary={{ ...n.primary, name: 'home' }} secondary={{ ...n.secondary, name: 'story' }} />
+</BaseLayout>

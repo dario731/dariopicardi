@@ -1,0 +1,165 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "loreal",
+      "name": "L'Oréal",
+      "category": "executive",
+      "note": "Business Analyst, Italy, 2009–2010. Former employer.",
+      "order": 1,
+      "source": "CV"
+    },
+    {
+      "id": "estee-lauder",
+      "name": "The Estée Lauder Companies",
+      "category": "executive",
+      "note": "Business Manager, Italy, 2010–2011. Former employer.",
+      "order": 2,
+      "source": "CV"
+    },
+    {
+      "id": "perfume-holding",
+      "name": "Perfume Holding",
+      "category": "executive",
+      "note": "Regional Director, Americas & Europe, 2011–2018. Former employer.",
+      "order": 3,
+      "source": "CV"
+    },
+    {
+      "id": "pca",
+      "name": "The PCA Companies",
+      "category": "executive",
+      "note": "SVP & Managing Director, International Division, 2019–2024. Engaged through his own management company.",
+      "order": 4,
+      "source": "CV"
+    },
+    {
+      "id": "ferrari",
+      "name": "Ferrari fragrances",
+      "category": "brand",
+      "note": "Licensed fragrance brand led across the Americas at Perfume Holding.",
+      "order": 1,
+      "source": "CV"
+    },
+    {
+      "id": "benetton",
+      "name": "Benetton",
+      "category": "brand",
+      "note": "Licensed fragrance brand within the portfolio managed at Perfume Holding.",
+      "order": 2,
+      "source": "CV"
+    },
+    {
+      "id": "la-perla",
+      "name": "La Perla",
+      "category": "brand",
+      "note": "Licensed fragrance brand within the portfolio managed at Perfume Holding.",
+      "order": 3,
+      "source": "CV"
+    },
+    {
+      "id": "atkinsons",
+      "name": "Atkinsons",
+      "category": "brand",
+      "note": "Licensed fragrance brand within the portfolio managed at Perfume Holding.",
+      "order": 4,
+      "source": "CV"
+    },
+    {
+      "id": "united-states",
+      "name": "United States",
+      "category": "market",
+      "note": "Base since 2016; commercial operations and distribution from Miami.",
+      "order": 1,
+      "source": "Corporate Profile 2026"
+    },
+    {
+      "id": "latin-america",
+      "name": "Latin America & Caribbean",
+      "category": "market",
+      "note": "Mexico, Brazil, Uruguay, the Caribbean and the wider region — affiliates, distribution and market entry.",
+      "order": 2,
+      "source": "CV; Corporate Profile 2026"
+    },
+    {
+      "id": "europe",
+      "name": "Europe",
+      "category": "market",
+      "note": "Italy, the United Kingdom, Spain and the European fragrance and beauty trade.",
+      "order": 3,
+      "source": "CV"
+    },
+    {
+      "id": "middle-east",
+      "name": "Middle East",
+      "category": "market",
+      "note": "Dubai as regional hub and affiliate.",
+      "order": 4,
+      "source": "CV"
+    },
+    {
+      "id": "asia",
+      "name": "Asia",
+      "category": "market",
+      "note": "India affiliate; Singapore as regional business hub.",
+      "order": 5,
+      "source": "CV; Corporate Profile 2026"
+    },
+    {
+      "id": "travel-retail",
+      "name": "Duty-free & travel retail",
+      "category": "market",
+      "note": "Positioning brands and groups with global travel-retail operators, including at TFWA Cannes.",
+      "order": 6,
+      "source": "CV"
+    },
+    {
+      "id": "beauticon-valley",
+      "name": "Beauticon Valley",
+      "category": "partnership",
+      "note": "Joint-venture project negotiated and launched with the Italian beauty group to expand operations in the U.S. and Latin America. Pending Dario's approval for public reference.",
+      "order": 1,
+      "source": "CV"
+    },
+    {
+      "id": "bs-commerce",
+      "name": "B&S Commerce",
+      "category": "ecosystem",
+      "note": "BIZ & STYLE division — trade, distribution and commercial platforms.",
+      "order": 1,
+      "source": "Corporate Profile 2026"
+    },
+    {
+      "id": "bs-advisory",
+      "name": "B&S Advisory",
+      "category": "ecosystem",
+      "note": "BIZ & STYLE division — market entry, growth strategy, partnerships and fractional executive support.",
+      "order": 2,
+      "source": "Corporate Profile 2026"
+    },
+    {
+      "id": "bs-luxury",
+      "name": "B&S Luxury",
+      "category": "ecosystem",
+      "note": "BIZ & STYLE division — luxury real estate, investor relationships and the luxury ecosystem.",
+      "order": 3,
+      "source": "Corporate Profile 2026"
+    },
+    {
+      "id": "unical",
+      "name": "Università della Calabria",
+      "category": "education",
+      "note": "Two degrees in Management, both summa cum laude.",
+      "order": 1,
+      "source": "CV; brief"
+    },
+    {
+      "id": "valencia-uni",
+      "name": "Universidad de Valencia",
+      "category": "education",
+      "note": "Exchange program, Spain.",
+      "order": 2,
+      "source": "CV"
+    }
+  ]
+}

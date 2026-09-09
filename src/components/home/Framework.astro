@@ -1,0 +1,117 @@
+---
+/**
+ * Framework — six words, one discipline. An accessible tab interface: the
+ * words are tabs, the definition is the panel. Cycles gently while in view
+ * until the reader interacts; static under reduced motion.
+ */
+import { getCollection } from 'astro:content';
+import Title from '@components/ui/Title.astro';
+import Arrow from '@components/ui/Arrow.astro';
+import type { Copy } from '@i18n/index';
+interface Props { copy: Copy['home']['framework'] }
+const { copy } = Astro.props;
+const words = (await getCollection('framework')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="fw section g-notte" id="framework" aria-labelledby="framework-title" data-framework>
+  <div class="container">
+    <div class="fw__head">
+      <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.eyebrow}</p>
+      <div data-reveal><Title as="h2" id="framework-title" class="t-1" text={copy.title} /></div>
+      <p class="fw__sentence serif" data-reveal>
+        {words.map((w, i) => (
+          <span class="fw__frag" data-frag={w.id}>{copy.sentence.split('. ')[i]}{i < words.length - 1 ? '. ' : ''}</span>
+        ))}
+      </p>
+    </div>
+
+    <div class="fw__stage" data-reveal>
+      <div class="fw__tabs" role="tablist" aria-label="Six words">
+        {words.map((w, i) => (
+          <button class="fw__tab serif" role="tab" id={`fw-tab-${w.id}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`fw-panel-${w.id}`} tabindex={i === 0 ? 0 : -1} data-fw-tab={w.id} data-track="framework_interaction" data-track-item={w.id}>
+            <span class="num">0{w.data.order}</span>
+            <span class="fw__word">{w.data.word}</span>
+          </button>
+        ))}
+      </div>
+      <div class="fw__panels">
+        {words.map((w, i) => (
+          <div class="fw__panel" role="tabpanel" id={`fw-panel-${w.id}`} aria-labelledby={`fw-tab-${w.id}`} hidden={i !== 0} data-fw-panel={w.id}>
+            <p class="fw__line t-3">{w.data.line}</p>
+            <p class="fw__body">{w.data.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <p class="fw__foot" data-reveal><a class="link" href={copy.cta.href} data-track="navigation_click" data-track-cta-name="philosophy">{copy.cta.label}<Arrow /></a></p>
+  </div>
+</section>
+
+<script>
+  import { reducedMotion, whileInView } from '@lib/reveal';
+  function initFramework() {
+    const root = document.querySelector<HTMLElement>('[data-framework]');
+    if (!root || root.dataset.bound) return;
+    root.dataset.bound = '1';
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-fw-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-fw-panel]'));
+    const frags = Array.from(root.querySelectorAll<HTMLElement>('[data-frag]'));
+    let index = 0;
+    let interacted = false;
+    const select = (i: number, focus = false) => {
+      index = (i + tabs.length) % tabs.length;
+      const id = tabs[index].dataset.fwTab;
+      tabs.forEach((t, j) => { t.setAttribute('aria-selected', j === index ? 'true' : 'false'); t.tabIndex = j === index ? 0 : -1; });
+      panels.forEach((p) => { p.hidden = p.dataset.fwPanel !== id; });
+      frags.forEach((f) => f.classList.toggle('is-on', f.dataset.frag === id));
+      if (focus) tabs[index].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { interacted = true; select(i); });
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); interacted = true; select(i + 1, true); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); interacted = true; select(i - 1, true); }
+        if (e.key === 'Home') { e.preventDefault(); interacted = true; select(0, true); }
+        if (e.key === 'End') { e.preventDefault(); interacted = true; select(tabs.length - 1, true); }
+      });
+    });
+    select(0);
+    if (reducedMotion()) return;
+    let timer: number | undefined;
+    const start = () => { stop(); timer = window.setInterval(() => { if (!interacted && !document.hidden) select(index + 1); }, 3800); };
+    const stop = () => { if (timer) window.clearInterval(timer); timer = undefined; };
+    const stage = root.querySelector('.fw__stage');
+    if (stage) {
+      const io = new IntersectionObserver((entries) => entries.forEach((e) => (e.isIntersecting ? start() : stop())), { threshold: 0.4 });
+      io.observe(stage);
+    }
+    whileInView(root);
+  }
+  initFramework();
+  document.addEventListener('astro:page-load', initFramework);
+</script>
+
+<style>
+  .fw__head { display: grid; gap: var(--s-5); max-width: 56rem; margin-bottom: clamp(3rem, 7vw, 5rem); }
+  .fw__sentence { font-size: clamp(1.15rem, 1.8vw, 1.5rem); line-height: 1.5; color: var(--pietra); max-width: 44rem; }
+  .fw__frag { transition: color var(--dur-2); }
+  .fw__frag.is-on { color: var(--avorio); }
+  .fw__stage { display: grid; gap: var(--s-7); border-top: 1px solid var(--line); padding-top: var(--s-6); }
+  .fw__tabs { display: grid; gap: 0; }
+  .fw__tab { display: flex; align-items: baseline; gap: 1rem; width: 100%; text-align: left; padding: 0.7rem 0; border-bottom: 1px solid var(--line); font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.1; color: var(--pietra); transition: color var(--dur-2), padding-left var(--dur-2) var(--ease-out); }
+  .fw__tab:hover { color: var(--sabbia); }
+  .fw__tab[aria-selected='true'] { color: var(--avorio); padding-left: 0.4rem; }
+  .fw__tab[aria-selected='true'] .fw__word { border-bottom: 1px solid var(--accent); }
+  .fw__panels { min-height: 12rem; }
+  .fw__panel { display: grid; gap: var(--s-4); animation: fwin var(--dur-2) var(--ease-out); }
+  .fw__line { color: var(--avorio); }
+  .fw__body { color: var(--sabbia); max-width: 34rem; font-size: 1.05rem; }
+  .fw__foot { margin-top: var(--s-7); }
+  @keyframes fwin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (min-width: 900px) {
+    .fw__stage { grid-template-columns: 5fr 7fr; column-gap: calc(var(--gutter) * 2); align-items: start; }
+    .fw__panels { position: sticky; top: 8rem; padding-top: 0.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .fw__panel { animation: none; } }
+</style>

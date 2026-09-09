@@ -1,0 +1,12 @@
+dist/
+.astro/
+node_modules/
+.netlify/
+.env
+.env.*
+!.env.example
+npm-debug.log*
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json

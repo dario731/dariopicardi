@@ -1,0 +1,174 @@
+---
+/**
+ * ContactForm — personal, executive, not a funnel. Progressive enhancement:
+ * works as a native POST without JavaScript (server renders the result page),
+ * and as an inline fetch with accessible validation when JS is present.
+ * Anti-spam: honeypot, signed time-token, optional Cloudflare Turnstile.
+ */
+import type { Copy } from '@i18n/index';
+import Arrow from '@components/ui/Arrow.astro';
+import { createHmac } from 'node:crypto';
+interface Props { copy: Copy['connect']; preselect?: string }
+const { copy, preselect } = Astro.props;
+const f = copy.form;
+const secret = (import.meta.env.CONTACT_FORM_SECRET as string | undefined) || 'dev-secret-change-me';
+const issued = Date.now().toString();
+const token = `${issued}.${createHmac('sha256', secret).update(issued).digest('hex').slice(0, 32)}`;
+const turnstile = (import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined) ?? '';
+---
+
+<form class="cf" id="contact-form" method="post" action="/api/contact" novalidate data-contact-form>
+  <h2 class="cf__title serif">{f.title}</h2>
+  <input type="hidden" name="formId" value="connect" />
+  <input type="hidden" name="token" value={token} />
+  <input type="hidden" name="attribution" value="" data-attribution />
+  <div class="cf__hp" aria-hidden="true"><label>Leave this field empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
+
+  <div class="cf__grid">
+    <div class="field">
+      <label class="field__label" for="cf-name">{f.name}</label>
+      <input class="input" id="cf-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="120" aria-describedby="cf-name-err" />
+      <p class="field__error" id="cf-name-err">{f.errors.name}</p>
+    </div>
+    <div class="field">
+      <label class="field__label" for="cf-company">{f.company}</label>
+      <input class="input" id="cf-company" name="company" type="text" autocomplete="organization" required minlength="2" maxlength="160" aria-describedby="cf-company-err" />
+      <p class="field__error" id="cf-company-err">{f.errors.company}</p>
+    </div>
+    <div class="field">
+      <label class="field__label" for="cf-email">{f.email}</label>
+      <input class="input" id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="200" aria-describedby="cf-email-err" />
+      <p class="field__error" id="cf-email-err">{f.errors.email}</p>
+    </div>
+    <div class="field">
+      <label class="field__label" for="cf-phone">{f.phone} <span class="opt">({f.optional})</span></label>
+      <input class="input" id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" />
+    </div>
+    <div class="field">
+      <label class="field__label" for="cf-location">{f.location}</label>
+      <input class="input" id="cf-location" name="location" type="text" autocomplete="address-level2" required minlength="2" maxlength="120" placeholder={f.locationHint} aria-describedby="cf-location-err" />
+      <p class="field__error" id="cf-location-err">{f.errors.location}</p>
+    </div>
+    <div class="field">
+      <label class="field__label" for="cf-interest">{f.interest}</label>
+      <select class="input" id="cf-interest" name="interest" required aria-describedby="cf-interest-err">
+        <option value="" selected={!preselect}>{f.interestPlaceholder}</option>
+        {copy.areas.map((a) => <option value={a.id} selected={preselect === a.id}>{a.label}</option>)}
+      </select>
+      <p class="field__error" id="cf-interest-err">{f.errors.interest}</p>
+    </div>
+    <div class="field field--full">
+      <label class="field__label" for="cf-message">{f.message}</label>
+      <textarea class="input" id="cf-message" name="message" required minlength="20" maxlength="4000" rows="6" aria-describedby="cf-message-hint cf-message-err"></textarea>
+      <p class="field__hint" id="cf-message-hint">{f.messageHint}</p>
+      <p class="field__error" id="cf-message-err">{f.errors.message}</p>
+    </div>
+    <div class="field field--full">
+      <label class="check">
+        <input type="checkbox" name="consent" value="1" required aria-describedby="cf-consent-err" />
+        <span>{f.consent} <a href="/privacy">{f.consentLink}</a>.</span>
+      </label>
+      <p class="field__error" id="cf-consent-err">{f.errors.consent}</p>
+    </div>
+    {turnstile && <div class="field field--full"><div class="cf-turnstile" data-sitekey={turnstile} data-theme="light"></div></div>}
+  </div>
+
+  <div class="cf__actions">
+    <button class="btn btn--accent" type="submit" data-submit><span data-submit-label>{f.submit}</span><Arrow /></button>
+    <p class="field__error cf__generic" role="alert" data-generic-error></p>
+  </div>
+  <div class="cf__success" role="status" aria-live="polite" data-success hidden>
+    <p class="t-3">{f.successTitle}</p>
+    <p class="muted">{f.successBody}</p>
+  </div>
+</form>
+{turnstile && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>}
+
+<script>
+  import { track, getAttribution } from '@lib/track';
+  function initForm() {
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = '1';
+    const attr = form.querySelector<HTMLInputElement>('[data-attribution]');
+    if (attr) attr.value = JSON.stringify(getAttribution() ?? {});
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const generic = form.querySelector<HTMLElement>('[data-generic-error]')!;
+    const success = form.querySelector<HTMLElement>('[data-success]')!;
+    const labelIdle = submitLabel.textContent ?? '';
+    let started = false;
+    form.addEventListener('focusin', () => { if (!started) { started = true; track('contact_form_start'); } });
+
+    // Turnstile explicit render (only when configured)
+    const ts = form.querySelector<HTMLElement>('.cf-turnstile');
+    const renderTurnstile = () => { const w = (window as any).turnstile; if (ts && w && !ts.dataset.rendered) { ts.dataset.rendered = '1'; w.render(ts, { sitekey: ts.dataset.sitekey }); } };
+    if (ts) { renderTurnstile(); window.setTimeout(renderTurnstile, 1500); }
+
+    const validateField = (el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) => {
+      const field = el.closest('.field');
+      const ok = el.checkValidity();
+      field?.classList.toggle('is-invalid', !ok);
+      el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      return ok;
+    };
+    form.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach((el) => {
+      el.addEventListener('blur', () => { if (el.name !== 'website') validateField(el); });
+      el.addEventListener('input', () => { if (el.closest('.field')?.classList.contains('is-invalid')) validateField(el); });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      generic.textContent = '';
+      let valid = true;
+      let first: HTMLElement | null = null;
+      form.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach((el) => {
+        if (el.name === 'website' || el.type === 'hidden') return;
+        if (!validateField(el)) { valid = false; first = first ?? el; }
+      });
+      if (!valid) { (first as HTMLElement | null)?.focus(); return; }
+      const fd = new FormData(form);
+      const interest = String(fd.get('interest') ?? '');
+      track('contact_form_submit', { area_of_interest: interest });
+      submit.disabled = true;
+      submitLabel.textContent = submit.dataset.sending ?? 'Sending…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', headers: { accept: 'application/json' }, body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          track('contact_form_success', { area_of_interest: interest });
+          form.querySelector<HTMLElement>('.cf__grid')!.hidden = true;
+          form.querySelector<HTMLElement>('.cf__actions')!.hidden = true;
+          success.hidden = false;
+          success.focus?.();
+          window.location.assign('/connect/thank-you');
+        } else {
+          track('contact_form_error', { status: String(res.status), area_of_interest: interest });
+          generic.textContent = res.status === 429 ? (form.dataset.errRate ?? 'Too many messages. Please try again shortly.') : (form.dataset.errGeneric ?? 'Something went wrong. Please try again.');
+          submit.disabled = false;
+          submitLabel.textContent = labelIdle;
+        }
+      } catch {
+        track('contact_form_error', { status: 'network', area_of_interest: interest });
+        generic.textContent = form.dataset.errGeneric ?? 'Something went wrong. Please try again.';
+        submit.disabled = false;
+        submitLabel.textContent = labelIdle;
+      }
+    });
+  }
+  initForm();
+  document.addEventListener('astro:page-load', initForm);
+</script>
+
+<style>
+  .cf { display: grid; gap: var(--s-6); }
+  .cf__title { font-size: clamp(1.6rem, 2.6vw, 2.2rem); }
+  .cf__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .cf__grid { display: grid; gap: var(--s-5); }
+  .field--full { grid-column: 1 / -1; }
+  .cf__actions { display: grid; gap: var(--s-4); }
+  .cf__actions .btn { justify-self: start; }
+  .cf__generic { display: block; min-height: 1.2em; }
+  .cf__success { display: grid; gap: var(--s-3); padding: var(--s-6); border: 1px solid var(--accent); }
+  @media (min-width: 720px) { .cf__grid { grid-template-columns: 1fr 1fr; } }
+</style>

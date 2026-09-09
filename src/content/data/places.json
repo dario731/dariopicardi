@@ -1,0 +1,159 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "calabria",
+      "name": "Calabria",
+      "country": "Italy",
+      "lat": 39.36,
+      "lng": 16.23,
+      "role": "roots",
+      "note": "Roots. Two degrees in Management at Università della Calabria, both summa cum laude.",
+      "labelSide": "right",
+      "source": "CV; brief"
+    },
+    {
+      "id": "valencia",
+      "name": "Valencia",
+      "country": "Spain",
+      "lat": 39.47,
+      "lng": -0.38,
+      "role": "education",
+      "note": "Exchange program, Universidad de Valencia.",
+      "labelSide": "left",
+      "source": "CV"
+    },
+    {
+      "id": "milan",
+      "name": "Milan",
+      "country": "Italy",
+      "lat": 45.46,
+      "lng": 9.19,
+      "role": "hub",
+      "note": "Early corporate years in Italy with L'Oréal and Estée Lauder; a recurring business hub throughout the career.",
+      "labelSide": "top",
+      "source": "CV; Corporate Profile 2026"
+    },
+    {
+      "id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "lat": 51.51,
+      "lng": -0.13,
+      "role": "affiliate",
+      "note": "Business hub; UK affiliate within the International Division built at The PCA Companies.",
+      "labelSide": "top",
+      "source": "CV; Corporate Profile 2026"
+    },
+    {
+      "id": "cannes",
+      "name": "Cannes",
+      "country": "France",
+      "lat": 43.55,
+      "lng": 7.02,
+      "role": "hub",
+      "note": "TFWA World Exhibition — the duty-free and travel-retail industry's principal meeting point, where brands and groups were positioned with global operators.",
+      "labelSide": "bottom",
+      "source": "CV"
+    },
+    {
+      "id": "dubai",
+      "name": "Dubai",
+      "country": "United Arab Emirates",
+      "lat": 25.2,
+      "lng": 55.27,
+      "role": "affiliate",
+      "note": "Business hub for the Middle East; affiliate within the International Division.",
+      "labelSide": "right",
+      "source": "CV; Corporate Profile 2026"
+    },
+    {
+      "id": "mumbai",
+      "name": "India",
+      "country": "India",
+      "lat": 19.08,
+      "lng": 72.88,
+      "role": "affiliate",
+      "note": "Affiliate within the International Division built at The PCA Companies.",
+      "labelSide": "right",
+      "source": "CV"
+    },
+    {
+      "id": "singapore",
+      "name": "Singapore",
+      "country": "Singapore",
+      "lat": 1.35,
+      "lng": 103.82,
+      "role": "hub",
+      "note": "Business hub for Asia; one of the markets where ventures were built and business done with leading players.",
+      "labelSide": "right",
+      "source": "Corporate Profile 2026"
+    },
+    {
+      "id": "new-york",
+      "name": "New York",
+      "country": "United States",
+      "lat": 40.71,
+      "lng": -74,
+      "role": "hub",
+      "note": "Business hub for the Americas region during the executive years.",
+      "labelSide": "right",
+      "source": "Corporate Profile 2026"
+    },
+    {
+      "id": "miami",
+      "name": "Miami",
+      "country": "United States",
+      "lat": 25.79,
+      "lng": -80.13,
+      "role": "base",
+      "note": "Arrived in 2016 during one of the final international executive assignments. Home, headquarters and base since — BIZ & STYLE founded here in 2017.",
+      "labelSide": "right",
+      "source": "Brief; Corporate Profile 2026"
+    },
+    {
+      "id": "mexico",
+      "name": "Mexico",
+      "country": "Mexico",
+      "lat": 19.43,
+      "lng": -99.13,
+      "role": "affiliate",
+      "note": "Affiliate within the International Division; today one of BIZ & STYLE's three operating bases (Mexico and Central America).",
+      "labelSide": "left",
+      "source": "CV; Corporate Profile 2026"
+    },
+    {
+      "id": "caribbean",
+      "name": "Caribbean",
+      "country": "Caribbean",
+      "lat": 18.2,
+      "lng": -66.5,
+      "role": "affiliate",
+      "note": "Affiliate within the International Division; a region served from Miami.",
+      "labelSide": "bottom",
+      "source": "CV; Corporate Profile 2026"
+    },
+    {
+      "id": "sao-paulo",
+      "name": "São Paulo",
+      "country": "Brazil",
+      "lat": -23.55,
+      "lng": -46.63,
+      "role": "base",
+      "note": "Business hub for Brazil and Portuguese-speaking markets; today one of BIZ & STYLE's three operating bases (Brazil and the wider LATAM region).",
+      "labelSide": "right",
+      "source": "Corporate Profile 2026"
+    },
+    {
+      "id": "montevideo",
+      "name": "Uruguay",
+      "country": "Uruguay",
+      "lat": -34.9,
+      "lng": -56.16,
+      "role": "affiliate",
+      "note": "Affiliate within the International Division built at The PCA Companies.",
+      "labelSide": "bottom",
+      "source": "CV"
+    }
+  ]
+}

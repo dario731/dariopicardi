@@ -1,0 +1,13 @@
+{
+  "_note": "Edit via /admin or by hand. The array under items is what the site reads.",
+  "items": [
+    {
+      "id": "dario-picardi",
+      "name": "Dario Picardi",
+      "role": "Founder & President, BIZ & STYLE",
+      "bio": "Italian-born international executive, entrepreneur and investor. After more than fifteen years leading brands and commercial organizations across Europe, the Americas, the Middle East and Asia, he founded BIZ & STYLE in Miami in 2017 — a business ecosystem connecting commerce, advisory, investment, real estate and luxury.",
+      "image": "/media/dario-picardi-author.jpg",
+      "sameAs": []
+    }
+  ]
+}

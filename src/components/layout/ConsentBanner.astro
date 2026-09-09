@@ -1,0 +1,49 @@
+---
+/**
+ * ConsentBanner — shown only when a GTM container is configured and no choice
+ * has been stored. Analytics never loads before "Accept". No advertising.
+ */
+import { getCopy, localePath } from '@i18n/index';
+import type { Locale } from '@data/site';
+interface Props { locale?: Locale }
+const { locale = 'en' } = Astro.props;
+const c = getCopy(locale).consent;
+const gtm = (import.meta.env.PUBLIC_GTM_ID as string | undefined) ?? '';
+---
+
+{gtm && (
+  <div class="consent g-ivory" role="region" aria-label={c.title} data-consent hidden transition:persist>
+    <div class="consent__inner">
+      <p class="consent__title">{c.title}</p>
+      <p class="consent__body small">{c.body} <a href={localePath('/privacy', locale)}>{c.more}</a></p>
+      <div class="consent__actions">
+        <button class="btn btn--ghost" type="button" data-consent-decline>{c.decline}</button>
+        <button class="btn" type="button" data-consent-accept>{c.accept}</button>
+      </div>
+    </div>
+  </div>
+)}
+
+<script>
+  import { readConsent, writeConsent } from '@lib/consent';
+  function initConsent() {
+    const el = document.querySelector<HTMLElement>('[data-consent]');
+    if (!el || el.dataset.bound) return;
+    el.dataset.bound = '1';
+    if (readConsent() === null) el.hidden = false;
+    el.querySelector('[data-consent-accept]')?.addEventListener('click', () => { writeConsent('granted'); el.hidden = true; });
+    el.querySelector('[data-consent-decline]')?.addEventListener('click', () => { writeConsent('denied'); el.hidden = true; });
+    window.addEventListener('dp:consent-reopen', () => { el.hidden = false; });
+  }
+  initConsent();
+  document.addEventListener('astro:page-load', initConsent);
+</script>
+
+<style>
+  .consent { position: fixed; inset: auto 1rem 1rem 1rem; z-index: var(--z-toast); max-width: 30rem; margin-left: auto; border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.5); }
+  .consent__inner { display: grid; gap: var(--s-4); padding: var(--s-5); }
+  .consent__title { font-family: var(--font-serif); font-size: 1.25rem; }
+  .consent__body a { text-decoration: underline; text-underline-offset: 0.15em; }
+  .consent__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); justify-content: flex-end; }
+  .consent__actions .btn { min-height: 2.6rem; padding-block: 0.5em; }
+</style>

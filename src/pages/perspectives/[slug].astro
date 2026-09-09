@@ -1,0 +1,130 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/editorial/Breadcrumbs.astro';
+import Share from '@components/perspectives/Share.astro';
+import AuthorCard from '@components/perspectives/AuthorCard.astro';
+import ArticleCard from '@components/perspectives/ArticleCard.astro';
+import CtaBand from '@components/editorial/CtaBand.astro';
+import { Picture, getImage } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import { getCopy } from '@i18n/index';
+import { getPublished, withMeta, related, readingTime, wordCount } from '@lib/perspectives';
+import { articleLd, webPageLd, breadcrumbLd } from '@lib/seo';
+import { formatDate, isoDate } from '@lib/format';
+import { site } from '@data/site';
+
+export async function getStaticPaths() {
+  const all = await getPublished('en');
+  return all.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const copy = getCopy('en').perspectives;
+const { entry } = Astro.props;
+const path = `/perspectives/${entry.id}`;
+const url = `${site.url}${path}`;
+const { Content } = await render(entry);
+const category = await getEntry(entry.data.category);
+const author = await getEntry(entry.data.author);
+const all = await getPublished('en');
+const rel = await withMeta(await related(entry, all, 3));
+const minutes = readingTime(entry.body);
+const ogImage = entry.data.seo.ogImage ?? (entry.data.hero?.image ? (await getImage({ src: entry.data.hero.image, width: 1200, height: 630, fit: 'cover', format: 'jpg' })).src : undefined);
+const ogAbs = ogImage ? (ogImage.startsWith('http') ? ogImage : `${site.url}${ogImage}`) : undefined;
+const title = entry.data.seo.title ?? `${entry.data.title} — Dario Picardi`;
+const description = entry.data.seo.description ?? entry.data.excerpt;
+const jsonLd = [
+  webPageLd({ name: title, description, path, image: ogAbs, datePublished: entry.data.publishDate.toISOString(), dateModified: (entry.data.updatedDate ?? entry.data.publishDate).toISOString() }),
+  articleLd({ title: entry.data.title, description, path, image: ogAbs, datePublished: entry.data.publishDate.toISOString(), dateModified: entry.data.updatedDate?.toISOString(), section: category?.data.name, keywords: entry.data.tags, wordCount: wordCount(entry.body) }),
+  breadcrumbLd([{ name: 'Perspectives', path: '/perspectives' }, ...(category ? [{ name: category.data.name, path: `/perspectives/category/${category.id}` }] : []), { name: entry.data.title, path }]),
+];
+---
+
+<BaseLayout {title} {description} {path} pageType="perspective" type="article" image={ogAbs} noindex={entry.data.seo.noindex} publishedTime={entry.data.publishDate.toISOString()} modifiedTime={entry.data.updatedDate?.toISOString()} {jsonLd} bodyClass="is-article">
+  <article class="art" data-article data-slug={entry.id} data-category={category?.id}>
+    <header class="art__head g-notte">
+      <div class="container container--narrow art__head-inner">
+        <Breadcrumbs items={[{ name: 'Perspectives', path: '/perspectives' }, ...(category ? [{ name: category.data.name, path: `/perspectives/category/${category.id}` }] : [])]} />
+        <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{category?.data.name}</p>
+        <h1 class="t-1" data-reveal>{entry.data.title}</h1>
+        <p class="lede art__excerpt" data-reveal>{entry.data.excerpt}</p>
+        <p class="num art__meta" data-reveal>
+          <span>{copy.by} {author?.data.name}</span><span aria-hidden="true">·</span>
+          <time datetime={isoDate(entry.data.publishDate)}>{formatDate(entry.data.publishDate)}</time>
+          {entry.data.updatedDate && <><span aria-hidden="true">·</span><span>{copy.updated} <time datetime={isoDate(entry.data.updatedDate)}>{formatDate(entry.data.updatedDate)}</time></span></>}
+          <span aria-hidden="true">·</span><span>{minutes} {copy.readingTime}</span>
+        </p>
+      </div>
+      {entry.data.hero?.image && (
+        <div class="container art__hero" data-reveal>
+          <figure class="media media--21x9 media--warm">
+            <Picture src={entry.data.hero.image} alt={entry.data.hero.alt} widths={[768, 1200, 1800, 2400]} sizes="(min-width: 1360px) 1360px, 100vw" formats={['avif', 'webp']} loading="eager" fetchpriority="high" decoding="async" />
+            {entry.data.hero.credit && <figcaption class="media-note">{entry.data.hero.credit}</figcaption>}
+          </figure>
+        </div>
+      )}
+    </header>
+
+    <div class="art__body g-ivory">
+      <div class="container container--narrow">
+        <div class="prose art__prose"><Content /></div>
+        <div class="art__foot">
+          {entry.data.tags.length > 0 && <ul class="art__tags" role="list">{entry.data.tags.map((t) => <li>{t}</li>)}</ul>}
+          <Share {url} title={entry.data.title} slug={entry.id} {copy} />
+          {author && <AuthorCard name={author.data.name} role={author.data.role} bio={author.data.bio} image={author.data.image} label={copy.author} />}
+        </div>
+      </div>
+    </div>
+
+    {rel.length > 0 && (
+      <section class="section g-lino art__related" aria-labelledby="related-title">
+        <div class="container">
+          <h2 id="related-title" class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.related}</h2>
+          <div class="art__related-grid" data-reveal-group>
+            {rel.map((c) => <ArticleCard entry={c.entry} categoryName={c.categoryName} readingTime={c.readingTime} readingLabel={copy.readingTime} />)}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+  <CtaBand ground="notte" title={copy.cta.title} primary={{ label: copy.cta.label, href: copy.cta.href, name: 'connect' }} />
+</BaseLayout>
+
+<script>
+  import { track } from '@lib/track';
+  function initArticle() {
+    const art = document.querySelector<HTMLElement>('[data-article]');
+    if (!art || art.dataset.bound) return;
+    art.dataset.bound = '1';
+    track('perspective_view', { perspective_slug: art.dataset.slug, perspective_category: art.dataset.category });
+    const body = art.querySelector<HTMLElement>('.art__prose');
+    if (!body) return;
+    let engaged = false;
+    const io = new IntersectionObserver((entries) => {
+      if (!engaged && entries.some((e) => e.isIntersecting)) {
+        engaged = true;
+        track('perspective_engaged', { perspective_slug: art.dataset.slug });
+        io.disconnect();
+      }
+    }, { threshold: 0 , rootMargin: '0px 0px -60% 0px' });
+    const last = body.lastElementChild;
+    if (last) io.observe(last);
+  }
+  initArticle();
+  document.addEventListener('astro:page-load', initArticle);
+</script>
+
+<style>
+  .art__head { padding-top: clamp(7rem, 14vh, 9.5rem); padding-bottom: var(--s-8); }
+  .art__head-inner { display: grid; gap: var(--s-5); }
+  .art__excerpt { color: var(--sabbia); }
+  .art__meta { display: flex; flex-wrap: wrap; gap: 0.6rem; text-transform: none; letter-spacing: 0.08em; }
+  .art__hero { margin-top: var(--s-8); }
+  .art__body { padding-block: var(--section-sm); }
+  .art__prose { margin-inline: auto; font-size: 1.12rem; }
+  .art__prose :global(p:first-of-type) { font-family: var(--font-serif); font-size: 1.35rem; line-height: 1.45; }
+  .art__foot { display: grid; gap: var(--s-7); margin-top: var(--s-8); }
+  .art__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .art__tags li { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3em 0.7em; border: 1px solid var(--line); border-radius: 999px; color: var(--fg-muted); }
+  .art__related-grid { display: grid; gap: var(--s-7) var(--s-6); margin-top: var(--s-6); }
+  @media (min-width: 720px) { .art__related-grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

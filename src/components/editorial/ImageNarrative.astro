@@ -1,0 +1,33 @@
+---
+/**
+ * ImageNarrative — an optimized image with a masked reveal, or an honest,
+ * labelled placeholder when the photograph has not yet been supplied.
+ * Never a stock image.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  image?: ImageMetadata;
+  alt?: string;
+  ratio?: '4x5' | '3x4' | '16x9' | '21x9' | '1x1';
+  treatment?: 'mono' | 'warm' | 'none';
+  note?: string;
+  placeholder?: string;
+  manifestId?: string;
+  sizes?: string;
+  widths?: number[];
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+const { image, alt = '', ratio = '4x5', treatment = 'none', note, placeholder, manifestId, sizes = '(min-width: 1024px) 50vw, 100vw', widths = [480, 768, 1080, 1600], loading = 'lazy', class: cls = '' } = Astro.props;
+---
+{image ? (
+  <figure class:list={['media', `media--${ratio}`, treatment !== 'none' ? `media--${treatment}` : '', 'mask', cls]}>
+    <Picture src={image} alt={alt} widths={widths} sizes={sizes} formats={['avif', 'webp']} loading={loading} decoding="async" fetchpriority={loading === 'eager' ? 'high' : undefined} />
+    {note && <figcaption class="media-note">{note}</figcaption>}
+  </figure>
+) : (
+  <div class:list={['media', `media--${ratio}`, 'placeholder', cls]} role="img" aria-label={alt || placeholder || 'Photograph to be supplied'}>
+    <span>{manifestId && <strong>{manifestId}</strong>}{placeholder ?? 'Photograph to be supplied'}</span>
+  </div>
+)}

@@ -1,0 +1,36 @@
+---
+import LegalPage from '@components/editorial/LegalPage.astro';
+import { getCopy } from '@i18n/index';
+import { site } from '@data/site';
+const l = getCopy('en').legal.privacy;
+---
+<LegalPage title={l.seo.title} heading={l.title} description={l.seo.description} path="/privacy" crumb="Privacy" updated={l.updated}>
+  <p class="note"><strong>Draft for professional review.</strong> This policy was prepared as a starting point and must be reviewed by legal counsel for the jurisdictions in which the site operates (United States / Florida, European Union / Italy, and any other applicable law) before launch.</p>
+
+  <h2>Who is responsible for this website</h2>
+  <p>This website, {site.url.replace('https://', '')}, is the personal website of {site.name}. For matters relating to personal data, write to <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> or by post to {site.office.streetAddress}, {site.office.addressLocality}, {site.office.addressRegion} {site.office.postalCode}, United States.</p>
+
+  <h2>What data is collected, and why</h2>
+  <p><strong>Contact form.</strong> When you write through the Connect page, we collect the information you provide — name, company, email address, phone number if given, location, area of interest and your message — together with technical context that helps us understand how you found the site (the page you arrived on, the referring site, campaign parameters in the address, and your browser language). This information is used only to respond to your message and, where you have asked for it, to continue the conversation. The legal basis is your consent and our legitimate interest in responding to enquiries.</p>
+  <p><strong>Analytics.</strong> With your consent, the site may use Google Analytics through Google Tag Manager to understand which pages are read and how the site performs. No analytics script loads before you accept. No advertising cookies are used. You may withdraw consent at any time using the control below, which reopens the choice.</p>
+  <p><strong>Server logs.</strong> Our hosting provider (Netlify, Inc.) records standard technical logs, including IP addresses, for security and operation of the service.</p>
+
+  <h2>Where data goes</h2>
+  <p>Contact-form submissions are delivered to {site.name} by email and may be recorded in a customer-relationship system used to manage professional correspondence. Analytics data, when enabled, is processed by Google. The site is hosted by Netlify, whose infrastructure may be located outside your country. Where data leaves the European Economic Area, appropriate safeguards (such as standard contractual clauses) apply.</p>
+
+  <h2>How long data is kept</h2>
+  <p>Messages and related contact details are retained for as long as needed to respond and maintain a professional relationship, and are deleted or anonymized when no longer needed. Analytics data is retained according to the settings of the analytics provider (by default 14 months).</p>
+
+  <h2>Your rights</h2>
+  <p>Depending on where you live, you may have the right to access, correct, delete or restrict the use of your personal data, to object to certain processing, to data portability, and to lodge a complaint with a supervisory authority. To exercise any right, write to the address above.</p>
+
+  <h2>Cookies and local storage</h2>
+  <p>The site stores your analytics choice in your browser so you are not asked again, and stores non-identifying session information (such as the page you arrived on) to attribute a contact-form message to its source. Analytics cookies are set only if you accept analytics.</p>
+  <p><button class="btn btn--ghost" type="button" onclick="window.dispatchEvent(new CustomEvent('dp:consent-reopen'))">Change your analytics choice</button></p>
+
+  <h2>Children</h2>
+  <p>This website is not directed at children and does not knowingly collect their data.</p>
+
+  <h2>Changes</h2>
+  <p>This policy may be updated. The date at the top indicates the latest version.</p>
+</LegalPage>

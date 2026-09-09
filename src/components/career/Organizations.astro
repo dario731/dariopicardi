@@ -1,0 +1,47 @@
+---
+/** Organizations — names in refined typography, under accurate categories. No logo wall. */
+import { getCollection } from 'astro:content';
+import Title from '@components/ui/Title.astro';
+import type { Copy } from '@i18n/index';
+interface Props { copy: Copy['career']['orgs'] }
+const { copy } = Astro.props;
+const orgs = (await getCollection('organizations')).map((o) => o.data).sort((a, b) => a.order - b.order);
+---
+
+<section class="orgs section g-lino" id="organizations" aria-labelledby="orgs-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--rule eyebrow--accent" data-reveal>{copy.eyebrow}</p>
+      <div data-reveal><Title as="h2" id="orgs-title" class="t-1" text={copy.title} /></div>
+      <p class="lede muted" data-reveal>{copy.body}</p>
+    </div>
+    <div class="orgs__grid">
+      {copy.categories.map((cat) => {
+        const items = orgs.filter((o) => o.category === cat.id);
+        if (!items.length) return null;
+        return (
+          <div class="orgs__group" data-reveal>
+            <h3 class="eyebrow">{cat.label}</h3>
+            <ul class="orgs__list" role="list">
+              {items.map((o) => (
+                <li class="org">
+                  <span class="org__name serif">{o.name}</span>
+                  <span class="org__note small muted">{o.note}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .orgs__grid { display: grid; gap: var(--s-7); }
+  .orgs__group { display: grid; gap: var(--s-4); align-content: start; }
+  .orgs__list { display: grid; border-top: 1px solid var(--line); }
+  .org { display: grid; gap: 0.25rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
+  .org__name { font-size: 1.35rem; line-height: 1.15; }
+  @media (min-width: 900px) { .orgs__grid { grid-template-columns: repeat(3, 1fr); column-gap: var(--s-7); } }
+</style>

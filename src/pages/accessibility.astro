@@ -1,0 +1,13 @@
+---
+import LegalPage from '@components/editorial/LegalPage.astro';
+import { getCopy } from '@i18n/index';
+import { site } from '@data/site';
+const l = getCopy('en').legal.accessibility;
+---
+<LegalPage title={l.seo.title} heading={l.title} description={l.seo.description} path="/accessibility" crumb="Accessibility">
+  <p>This website is built to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA. Semantic structure, a correct heading order, keyboard operability, visible focus states, a skip link, sufficient colour contrast, descriptive alternative text, and text alternatives for the map, timeline and animated elements are part of the design, not additions to it.</p>
+  <h2>Motion</h2>
+  <p>Animation on this site is restrained and respects the operating-system setting to reduce motion. With that setting enabled, elements appear without transitions and the route line and map arcs are drawn immediately. No information is conveyed only through motion or colour.</p>
+  <h2>Feedback</h2>
+  <p>If you have difficulty accessing any content or notice a problem, please write to <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> describing the issue and the assistive technology you use. We will provide the content you need in a format that works for you and fix what we can.</p>
+</LegalPage>

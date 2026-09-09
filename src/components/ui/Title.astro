@@ -1,0 +1,22 @@
+---
+/**
+ * Title — renders copy strings that use "|" as a line break and <em> for
+ * italic emphasis, as balanced display headings. Only <em> is allowed through;
+ * everything else is escaped.
+ */
+interface Props {
+  text: string;
+  as?: 'h1' | 'h2' | 'h3' | 'p';
+  class?: string;
+  id?: string;
+}
+const { text, as: Tag = 'h2', class: cls = 't-2', id } = Astro.props;
+const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const html = text
+  .split('|')
+  .map((line: string) => `<span class="line">${escape(line.trim()).replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>')}</span>`)
+  .join('');
+---
+
+<Tag class={cls} id={id} set:html={html} />
+
