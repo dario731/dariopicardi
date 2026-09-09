@@ -1,7 +1,8 @@
 ---
 /**
- * Hero — white ground, one enormous typographic statement that rises line by
- * line on load, a crisp portrait, two actions. Nothing else.
+ * Hero — three lines, a name, a portrait, one action. The lines rise on load;
+ * the portrait settles; as the page scrolls the portrait recedes (CSS
+ * scroll-driven animation where supported, no JS).
  */
 import { Picture } from 'astro:assets';
 import Arrow from '@components/ui/Arrow.astro';
@@ -19,7 +20,6 @@ const lines = copy.title.split('|').map((l) => l.trim());
       <h1 id="hero-title" class="t-display hero__title">
         {lines.map((l, i) => <span class="hero__mask"><span class="hero__line" style={`--i:${i}`}>{l}</span></span>)}
       </h1>
-      <p class="lede hero__lede">{copy.lede}</p>
       <div class="hero__actions">
         <a class="btn" href={copy.primary.href} data-track="cta_click" data-track-cta-name="discover_story" data-track-cta-location="hero">{copy.primary.label}<Arrow /></a>
         <a class="link" href={copy.secondary.href} data-track="cta_click" data-track-cta-name="explore_biz_style" data-track-cta-location="hero">{copy.secondary.label}<Arrow /></a>
@@ -27,34 +27,41 @@ const lines = copy.title.split('|').map((l) => l.trim());
     </div>
     <figure class="hero__fig">
       <div class="media media--4x5 media--mono hero__media">
-        <Picture src={portrait} alt={copy.portraitAlt} widths={[480, 819]} sizes="(min-width: 1024px) 34vw, 90vw" formats={['avif', 'webp']} loading="eager" fetchpriority="high" decoding="async" />
+        <Picture src={portrait} alt={copy.portraitAlt} widths={[480, 819]} sizes="(min-width: 1024px) 30vw, 70vw" formats={['avif', 'webp']} loading="eager" fetchpriority="high" decoding="async" />
       </div>
-      <figcaption class="num hero__cap">Miami Beach · FOUNDER-01 placeholder — editorial portrait pending</figcaption>
+      <figcaption class="num hero__cap">{copy.lede}</figcaption>
     </figure>
   </div>
+  <p class="hero__scroll num" aria-hidden="true"><span>{copy.scroll}</span><span class="hero__scroll-line"></span></p>
 </section>
 
 <style>
-  .hero { min-height: 100svh; display: grid; align-items: center; padding-top: clamp(6rem, 13vh, 8rem); padding-bottom: clamp(3rem, 8vh, 5rem); }
+  .hero { position: relative; min-height: 100svh; display: grid; align-items: center; padding-top: clamp(6rem, 13vh, 8rem); padding-bottom: clamp(4rem, 10vh, 6rem); overflow: hidden; }
   .hero__grid { display: grid; gap: var(--s-7); align-items: end; }
-  .hero__text { display: grid; gap: var(--s-5); }
+  .hero__text { display: grid; gap: var(--s-6); }
   .hero__eyebrow { animation: fade var(--dur-3) var(--ease-out) both; }
   .hero__title { max-width: 13ch; }
   .hero__mask { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
-  .hero__line { display: block; transform: translateY(110%); animation: rise 640ms var(--ease-out) both; animation-delay: calc(80ms + var(--i) * 90ms); }
-  .hero__lede { color: var(--fg-muted); max-width: 32rem; animation: fade var(--dur-3) var(--ease-out) both; animation-delay: 380ms; }
-  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); animation: fade var(--dur-3) var(--ease-out) both; animation-delay: 460ms; }
-  .hero__fig { display: grid; gap: var(--s-3); max-width: 26rem; animation: fade 700ms var(--ease-out) both; animation-delay: 200ms; }
-  .hero__media { transform: scale(1.03); animation: settle 900ms var(--ease-out) both; animation-delay: 200ms; }
-  .hero__cap { text-transform: uppercase; }
+  .hero__line { display: block; transform: translateY(110%); animation: rise 620ms var(--ease-out) both; animation-delay: calc(60ms + var(--i) * 80ms); }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-5); animation: fade var(--dur-3) var(--ease-out) both; animation-delay: 380ms; }
+  .hero__fig { display: grid; gap: var(--s-3); max-width: 22rem; animation: fade 640ms var(--ease-out) both; animation-delay: 180ms; }
+  .hero__media { transform: scale(1.04); animation: settle 900ms var(--ease-out) both; animation-delay: 180ms; }
+  .hero__cap { text-transform: none; letter-spacing: 0.04em; font-size: 0.78rem; line-height: 1.5; max-width: 22rem; }
+  .hero__scroll { position: absolute; left: var(--gutter); bottom: 1.5rem; display: inline-flex; align-items: center; gap: 0.8rem; text-transform: uppercase; }
+  .hero__scroll-line { width: 3rem; height: 1px; background: var(--accent); transform-origin: left; animation: scrollline 1.8s var(--ease-in-out) infinite; }
   @keyframes rise { to { transform: none; } }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @keyframes settle { to { transform: none; } }
+  @keyframes scrollline { 0% { transform: scaleX(0); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0); transform-origin: right; } }
+  @supports (animation-timeline: scroll()) {
+    .hero__fig { animation: fade 640ms var(--ease-out) both, recede linear both; animation-delay: 180ms, 0s; animation-timeline: auto, scroll(root); animation-range: normal, 0 100svh; }
+    @keyframes recede { to { transform: translateY(-12vh) scale(0.94); opacity: 0.2; } }
+  }
   @media (min-width: 1024px) {
     .hero__grid { grid-template-columns: 8fr 4fr; column-gap: calc(var(--gutter) * 2); }
     .hero__fig { justify-self: end; width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero__line, .hero__eyebrow, .hero__lede, .hero__actions, .hero__fig, .hero__media { animation: none; transform: none; opacity: 1; }
+    .hero__line, .hero__eyebrow, .hero__actions, .hero__fig, .hero__media, .hero__scroll-line { animation: none !important; transform: none; opacity: 1; }
   }
 </style>

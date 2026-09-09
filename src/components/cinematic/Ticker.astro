@@ -1,0 +1,20 @@
+---
+/** Ticker — a fast, continuous line of places. Pure CSS; pauses on hover; static under reduced motion. */
+interface Props { items: readonly string[]; speed?: number }
+const { items, speed = 28 } = Astro.props;
+---
+<div class="tk" aria-label="Markets and cities" style={`--speed:${speed}s`}>
+  <ul class="tk__track" role="list">
+    {[...items, ...items].map((it, i) => <li aria-hidden={i >= items.length ? 'true' : undefined}>{it}</li>)}
+  </ul>
+</div>
+
+<style>
+  .tk { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg); }
+  .tk__track { display: flex; width: max-content; gap: 0; animation: tk var(--speed) linear infinite; }
+  .tk__track li { display: flex; align-items: center; gap: 2.2rem; padding: 0.9rem 1.1rem 0.9rem 0; white-space: nowrap; font-family: var(--font-serif); font-size: clamp(1.5rem, 3.2vw, 2.6rem); letter-spacing: -0.01em; }
+  .tk__track li::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 1.1rem; }
+  .tk:hover .tk__track { animation-play-state: paused; }
+  @keyframes tk { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .tk__track { animation: none; flex-wrap: wrap; width: auto; } .tk__track li[aria-hidden] { display: none; } }
+</style>

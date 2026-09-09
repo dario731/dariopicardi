@@ -3,11 +3,13 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import PullQuote from '@components/editorial/PullQuote.astro';
 import CtaBand from '@components/editorial/CtaBand.astro';
+import Framework from '@components/home/Framework.astro';
 import { getCollection } from 'astro:content';
 import { getCopy } from '@i18n/index';
 import { webPageLd, breadcrumbLd } from '@lib/seo';
 
 const p = getCopy('en').philosophy;
+const home = getCopy('en').home;
 const path = '/philosophy';
 const principles = (await getCollection('principles')).map((x) => x.data).sort((a, b) => a.order - b.order);
 const jsonLd = [webPageLd({ name: p.seo.title, description: p.seo.description, path }), breadcrumbLd([{ name: 'The Operating Philosophy', path }])];
@@ -20,6 +22,7 @@ const jsonLd = [webPageLd({ name: p.seo.title, description: p.seo.description, p
     </ol>
   </EditorialHero>
 
+  <Framework copy={home.framework} />
   <section class="section g-ivory" id="principles">
     <div class="container">
       <ol class="pr" role="list">

@@ -50,7 +50,7 @@ export const en = {
     hero: {
       eyebrow: 'Dario Picardi',
       title: 'Born in Italy.|Shaped by the world.|Building from Miami.',
-      lede: 'International executive, entrepreneur and investor. Founder and President of BIZ & STYLE, the Miami-based ecosystem connecting commerce, advisory, investment, real estate and luxury.',
+      lede: 'International executive, entrepreneur, investor. Founder & President, BIZ & STYLE — Miami.',
       primary: { label: 'Discover the Story', href: '/story' },
       secondary: { label: 'Explore BIZ & STYLE', href: '/biz-and-style' },
       portraitAlt: 'Dario Picardi, Founder and President of BIZ & STYLE',
@@ -70,12 +70,12 @@ export const en = {
       eyebrow: 'The journey',
       title: 'Discipline became experience.|Experience became enterprise.|Enterprise is becoming <em>impact.</em>',
       stages: [
-        { id: 'roots', n: 'Italy', title: 'The <em>Roots.</em>', line: 'Born in the south of Italy. Family, discipline, an appreciation for things done properly — and the desire to build something that lasts.', more: { href: '/story#roots', label: 'Read the chapter' } },
-        { id: 'instinct', n: 'Calabria', title: 'The Merchant <em>Instinct.</em>', line: 'Commerce was never simply an industry. It was an instinct: recognizing value, connecting supply with demand, turning an idea into a result.', more: { href: '/story#instinct', label: 'Read the chapter' } },
-        { id: 'discipline', n: 'Calabria · Valencia', title: 'The <em>Discipline.</em>', line: 'A perfect final score at school. Two degrees in Management, both summa cum laude. Not trophies — evidence of how he works.', more: { href: '/story#discipline', label: 'Read the chapter' } },
-        { id: 'executive', n: 'Milan · New York · São Paulo · Dubai · Singapore', title: 'The Global <em>Executive.</em>', line: 'Fifteen years entering markets, not visiting them: brands led across two continents, an international division built from zero to more than ten affiliates.', more: { href: '/global-career', label: 'Explore the career' } },
-        { id: 'entrepreneur', n: 'Miami · 2016', title: 'The Entrepreneur and <em>Investor.</em>', line: 'Arriving in Miami on an executive assignment, he recognized a gap between strategy and execution — and founded BIZ & STYLE to close it.', more: { href: '/biz-and-style', label: 'Explore BIZ & STYLE' } },
-        { id: 'person', n: 'Miami Beach', title: 'The <em>Person.</em>', line: 'Husband, father, friend. The table and the sea are where he brings people together — and where ambition finds its purpose.', more: { href: '/story#family', label: 'The life behind the work' } },
+        { id: 'roots', n: 'Italy', title: 'The <em>Roots.</em>', line: 'Family, discipline, and the desire to build something that lasts.', more: { href: '/story#roots', label: 'The story' } },
+        { id: 'instinct', n: 'Calabria', title: 'The Merchant <em>Instinct.</em>', line: 'Commerce was never simply an industry. It was an instinct.', more: { href: '/story#instinct', label: 'The story' } },
+        { id: 'discipline', n: 'Calabria · Valencia', title: 'The <em>Discipline.</em>', line: '100/100 at school. Two degrees, both summa cum laude.', more: { href: '/story#discipline', label: 'The story' } },
+        { id: 'executive', n: 'Milan · New York · São Paulo · Dubai · Singapore', title: 'The Global <em>Executive.</em>', line: 'Fifteen years entering markets, not visiting them.', more: { href: '/global-career', label: 'The career' } },
+        { id: 'entrepreneur', n: 'Miami · 2016', title: 'The Entrepreneur and <em>Investor.</em>', line: 'A gap between strategy and execution. BIZ & STYLE was founded to close it.', more: { href: '/biz-and-style', label: 'BIZ & STYLE' } },
+        { id: 'person', n: 'Miami Beach', title: 'The <em>Person.</em>', line: 'Husband, father, friend.', more: { href: '/story#family', label: 'The life behind the work' } },
       ],
       chapters: [
         { n: '01', title: 'The Roots', line: 'Italy: family, discipline, quality, and the desire to build something that lasts.', href: '/story#roots' },
@@ -132,6 +132,14 @@ export const en = {
       title: 'Every meaningful opportunity begins with a <em>conversation.</em>',
       body: 'International expansion, strategic partnerships, investment opportunities, business development, luxury real estate — or simply an introduction.',
       cta: { label: 'Connect with Dario', href: '/connect' },
+    },
+    frames: {
+      journey: [
+        { id: 'business', text: 'Business', label: 'Enter, operate, grow.' },
+        { id: 'wealth', text: 'Wealth', label: 'Capital finds a home.' },
+        { id: 'lifestyle', text: 'Lifestyle', label: 'A life that opens the next opportunity.' },
+      ],
+      bizStyle: { text: 'BIZ & STYLE is not separate from the story.|It is the <em>culmination</em> of it.', label: 'Founded in Miami, 2017. Commerce · Advisory · Luxury.', cta: { href: '/biz-and-style', label: 'Explore BIZ & STYLE' } },
     },
   },
 

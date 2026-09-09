@@ -4,7 +4,7 @@
 
 One continuous journey runs through the site: from Calabria, through the markets where the career was built, to Miami. The signature interaction is the **stage frame** (`components/cinematic/StageScroller.astro`): a full-viewport world map pinned to the screen while the reader scrolls. The camera travels across the map — Italy close, then Europe, the Atlantic, the whole world, then Miami close — routes draw between the places of each stage, and each stage's copy enters like a scene. Scrolling is not turning pages of a book; it is moving through stations of the journey. The same engine carries the six stages of the homepage journey, the nine chapters of the Story, and the five phases of the Global Career, so the Italy → world → Miami → Latin America → New York geography is constantly present.
 
-Depth is not lost, it is folded: the full chapter narrative and the complete career record sit in `<details>` accordions below each stage sequence, open on demand. The cinematic layer stays clean; the curriculum is one click away. Everything else is typography, photography, rules and space.
+The homepage is a sequence of frames rather than a page: hero, ticker, six map stages, four numbers, six words, one photograph, Business → Wealth → Lifestyle, one invitation — a few hundred words in total. Depth is not lost, it is folded: the full chapter narrative and the complete career record sit in `<details>` accordions below each stage sequence, open on demand. The cinematic layer stays clean; the curriculum is one click away. Everything else is typography, photography, rules and space.
 
 The narrative progression is fixed and appears in the same order everywhere:
 Italian Roots → Merchant Instinct → Academic Discipline → Global Executive → Miami → Entrepreneurship & Investment → BIZ & STYLE → Business, Wealth & Lifestyle → Family, Purpose & Legacy.
@@ -49,8 +49,8 @@ Authentic only. Warm, low-saturation grade (`.media--warm`) or monochrome (`.med
 |---|---|
 | Layout | `Header`, `Footer`, `Seo`, `ConsentBanner`, `BaseLayout` |
 | Editorial | `EditorialHero`, `Statement`, `Stats`, `PullQuote`, `ImageNarrative`, `CtaBand`, `Breadcrumbs`, `LegalPage` |
-| Cinematic | `StageScroller` (the stage frame; stage data in `src/data/stages.ts`) |
-| Home | `Hero`, `Instinct`, `GlobalStrip`, `Framework`, `BizStyleIntro`, `Personal` |
+| Cinematic | `StageScroller` (map stages; data in `src/data/stages.ts`), `KineticFrames` (pinned number / word / step / statement frames), `PhotoFrame` (full-bleed photograph with scroll-driven drift), `Ticker` (continuous line of places) |
+| Home | `Hero` only — the rest of the homepage is frames. `Instinct` lives on the Story page, `Framework` on the Philosophy page |
 | Career | `Timeline` (inside the “full record” accordion), `PlacesList`, `Organizations` |
 | Perspectives | `Index` (categories, search, pagination, empty state), `ArticleCard`, `Share`, `AuthorCard` |
 | Connect | `ContactForm` |
